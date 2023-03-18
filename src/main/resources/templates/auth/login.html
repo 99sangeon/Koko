@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <title>홈화면</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<header th:replace="/nav :: navFragment(${userId})"></header>
+
+<main>
+  <div class="login_main_div">
+    <div class="login_sub_div">
+      <div class="content_title_div">
+        <h2 class="content_title">로그인</h2>
+      </div>
+      <form class="login_form" th:action="@{/doLogin}" th:object="${login}" th:method="post">
+        <div>
+          <input class="login_text" type="text" th:field="*{userId}" placeholder="아이디">
+        </div>
+        <div>
+          <input class="login_text" type="password" th:field="*{password}" placeholder="비밀번호">
+        </div>
+        <div>
+          <button class="login_submit" type="submit">로그인</button>
+        </div>
+
+        <div class="between_div">
+          <div><a class="login_a" href="/join">회원가입</a></div>
+          <div>
+            <a style="padding-right: 0.6rem; border-right: 0.05rem solid #5F5F5F;" class="login_a" href="#">아이디 찾기</a>
+            <a style="padding-left: 0.4rem;" class="login_a" href="#">비밀번호 찾기</a>
+          </div>
+        </div>
+      </form>
+
+      <div>
+        <div class="content_title_div">
+          <h2 class="content_title">SNS 로그인</h2>
+        </div>
+
+        <div>
+          <a href="/oauth2/authorization/google"><img style="border: 0.04rem solid silver;" class="sns_login_img" src="/image/btn_google_signin_light_normal_web@2x.png"></a>
+          <a href="/oauth2/authorization/naver"><img class="sns_login_img" src="/image/kakao_login_large_wide.png"></a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<footer th:replace="/footer :: footFragment"></footer>
+
+
+</body>
+</html>

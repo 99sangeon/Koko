@@ -1,0 +1,288 @@
+* {
+    margin: 0;
+    padding: 0;
+
+}
+
+nav {
+    position:sticky;
+    top:0;
+    background: rgba(255, 255, 255, 0.8);
+    box-sizing: border-box;
+     width: 100%;
+     display: flex;
+     flex-direction: row;
+     justify-content: space-around;
+
+ }
+ nav h1 {
+     margin: 0.7rem 0;
+ }
+ nav ul {
+     list-style-type: none;
+     display: flex;
+     flex-direction: row;
+ }
+
+ nav li {
+ }
+
+ .nav_title_a {
+     text-decoration: none;
+     color: rgb(31, 31, 31);
+     font-size: 1.2rem;
+     font-weight: 600;
+     margin: 0.8rem 0;
+ }
+ .nav_a_black {
+     margin: 0 0.3rem;
+    text-decoration: none;
+    padding: 0.875rem 1rem;
+    border-radius: 1.5rem;
+    color: rgb(31, 31, 31);
+    line-height: 1.25rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.nav_a_red {
+    margin: 0 0.3rem;
+    text-decoration: none;
+    padding: 0.875rem 1rem;
+    border-radius: 1.5rem;
+    color: red;
+    line-height: 1.25rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+ .nav_a_red:hover {
+    background-color: #f2f2f2;
+}
+.nav_a_black:hover {
+    background-color: #f2f2f2;
+}
+
+.div_items_center {
+    display: flex;
+    align-items: center;
+    margin: 0;
+}
+
+.main_img {
+    width: 100%; /* 가로 폭 100% */
+    height: auto; /* 원본 비율 유지 */
+}
+
+
+.footer_main_div {
+    margin-top: 5rem;
+    display: flex;
+    justify-content: center;
+    background: rgb(245, 245, 245);
+}
+.footer_info_div {
+    padding: 3rem 0;
+    width: 50rem;
+}
+.footer_info_p {
+    font-weight: 400;
+    font-size: 0.9rem;
+    line-height: 1.25rem;
+    letter-spacing: -0.01875rem;
+    color: rgb(117, 117, 117);
+    margin-bottom: 0.5rem;
+}
+
+.content_div {
+    display: flex;
+    justify-content: center;
+}
+.content_main_div
+{
+    margin: 5rem 0;
+    width: 55rem;
+}
+
+.content_explain {
+    padding-bottom: 2.2rem;
+    font-size: 2.5rem;
+    font-weight: 600;
+
+}
+
+.content_div_position {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.content_imgAndExplain_div {
+    overflow: hidden;
+    border-radius: 1.5rem;
+    width: 25rem;
+}
+
+.content_img {
+    height: 25rem;
+    width: 25rem;
+}
+
+.content_img:hover {
+    transform:scale(1.2);
+}
+
+.content_a_div {
+    padding-top: 0.7rem;
+}
+
+.content_a {
+    padding-top: 1.5rem;
+    text-decoration: none;
+    color: rgb(31, 31, 31);
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.login_main_div {
+    display: flex;
+    justify-content: center;
+
+}
+
+.login_sub_div {
+    margin: 7rem 0;
+    width: 25rem;
+    height: auto;
+
+}
+
+.login_form {
+
+}
+
+.login_text {
+    margin-top: 1rem;
+    height: 4rem;
+    width: 24rem;
+    border-radius: 0.2rem;
+    font-size: 1.1rem;
+    border: 0.05rem solid silver;
+    padding-left: 1rem;
+}
+
+.login_submit {
+    border:none;
+    margin-top: 1.5rem;
+    height: 4.1rem;
+    width: 25.1rem;
+    border-radius: 0.2rem;
+    font-size: 1.1rem;
+    background-color: #000;
+    color: #fff;
+}
+.login_submit:hover{
+    cursor: pointer;
+}
+
+.login_text:focus {
+    outline: 0.075rem solid black;
+}
+
+.content_title_div {
+    display: flex;
+    justify-content: center;
+    border-bottom: 0.05rem solid #5F5F5F;
+    margin-top: 4rem;
+    margin-bottom: 0.5rem;
+}
+
+.content_title {
+    padding: 0.5rem 0;
+    font-weight: 500;
+    font-size: 1.5rem;
+}
+
+.between_div {
+    margin: 1rem 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.login_a {
+    text-decoration: none;
+    color : #5F5F5F;
+    font-size: 0.9rem;
+    font-weight: 450;
+}
+
+.sns_login_img {
+    width: 25rem;
+    height: 3.5rem;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+
+}
+.sns_login_img :hover {
+    cursor: pointer;
+}
+
+.join_main_div {
+    display: flex;
+    justify-content: center;
+
+}
+
+.join_sub_div {
+    margin: 7rem 0;
+    width: 25rem;
+    height: auto;
+
+}
+
+.join_label_div {
+    padding-top: 1.3rem;
+    padding-bottom: 0.5rem;
+}
+
+.join_text {
+    height: 3rem;
+    width: 24rem;
+    border-radius: 0.2rem;
+    font-size: 1rem;
+    border: 0.05rem solid silver;
+    padding-left: 1rem;
+}
+
+.join_submit {
+    border:none;
+    margin-top: 1.5rem;
+    height: 3.1rem;
+    width: 25.1rem;
+    border-radius: 0.2rem;
+    font-size: 1rem;
+    background-color: #000;
+    color: #fff;
+}
+
+.join_cancel {
+    border:none;
+    margin-top: 1rem;
+    height: 3.1rem;
+    width: 25.1rem;
+    border-radius: 0.2rem;
+    font-size: 1rem;
+    background-color: #f05650;
+    color: #fff;
+}
+
+.join_text:focus {
+    outline: 0.075rem solid black;
+}
+
+.field-error {
+    padding-top: 0.4rem;
+    color: #dc3545;
+    font-size: 0.9rem;
+
+}

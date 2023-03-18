@@ -1,0 +1,24 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+
+<header>
+  <nav th:fragment="navFragment(userId)" >
+    <div class="div_items_center">
+      <a class="nav_title_a" href="/"><h1>Koko</h1></a>
+    </div>
+
+    <div th:if="${userId == anonymousUser}" class="div_items_center">
+      <ul>
+        <li><a class="nav_a_black" href="/login">로그인</a></li>
+        <li><a class="nav_a_black" href="#">내정보</a></li>
+      </ul>
+    </div>
+
+    <div th:unless="${userId == anonymousUser}" class="div_items_center">
+      <ul>
+        <li><a class="nav_a_black" href="#" th:text="${userId} + '님 어서오세요'"></a></li>
+        <li><a class="nav_a_black" href="/logout">로그아웃</a></li>
+      </ul>
+    </div>
+  </nav>
+</header>
