@@ -151,7 +151,7 @@ nav {
 }
 
 .login_sub_div {
-    margin: 7rem 0;
+    margin: 2rem 0;
     width: 25rem;
     height: auto;
 
@@ -217,8 +217,8 @@ nav {
 }
 
 .sns_login_img {
-    width: 25rem;
-    height: 3.5rem;
+    width: 3rem;
+    height: auto;
     border-radius: 0.5rem;
     margin-top: 1rem;
 
@@ -234,7 +234,7 @@ nav {
 }
 
 .join_sub_div {
-    margin: 7rem 0;
+    margin: 2rem 0;
     width: 25rem;
     height: auto;
 

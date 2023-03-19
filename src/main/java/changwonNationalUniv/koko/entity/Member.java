@@ -24,7 +24,7 @@ public class Member{
     @Column(length = 100)
     private String password;
 
-    @Column(nullable = false, length = 100)
+    @Column(length = 20)
     private String mobile;
 
     @Enumerated(EnumType.STRING)

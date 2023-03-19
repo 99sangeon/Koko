@@ -29,13 +29,14 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         /* OAuth2 서비스 id 구분코드 ( 구글, 카카오, 네이버 ) */
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
-
+        log.info("*************registrationId = {}",registrationId);
         /* OAuth2 로그인 진행시 키가 되는 필드 값 (PK) (구글의 기본 코드는 "sub") */
         String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
 
         /* OAuth2UserService */
         OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
-
+        log.info("*************oAuth2User.getAttributes() = {}",oAuth2User.getAttributes());
+        log.info("*************attributes = {}",attributes);
         Member member = saveOrUpdate(attributes);
         /* 세션 정보를 저장하는 직렬화된 dto 클래스*/
 
