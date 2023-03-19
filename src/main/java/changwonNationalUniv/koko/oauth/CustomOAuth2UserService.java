@@ -1,4 +1,4 @@
-package changwonNationalUniv.koko.outh;
+package changwonNationalUniv.koko.oauth;
 
 import changwonNationalUniv.koko.entity.Member;
 import changwonNationalUniv.koko.repository.MemberRepository;

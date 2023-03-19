@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>홈화면</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+    <style>
+        #waveform {
+            height: 100px;
+            width: 100%;
+            background-color: #f0f0f0;
+            position: relative;
+            margin-top: 10px;
+        }
+        #waveform .line {
+            position: absolute;
+            height: 100%;
+            width: 1px;
+            background-color: #000;
+        }
+    </style>
+</head>
+<body>
+
+<header th:replace="/nav :: navFragment(${userId})"></header>
+
+<main>
+
+    <h1>음성 녹음 업로드</h1>
+    <div>
+        <button id="record-btn" onclick="toggleRecording()">녹음</button>
+    </div>
+    <div>
+        <audio id="audio-player" controls></audio>
+    </div>
+    <div id="waveform"></div>
+    <script src="/js/recording.js"></script>
+
+</main>
+
+<footer th:replace="/footer :: footFragment"></footer>
+
+
+</body>
+</html>

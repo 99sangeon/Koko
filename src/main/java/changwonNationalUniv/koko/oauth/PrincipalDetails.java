@@ -1,9 +1,8 @@
-package changwonNationalUniv.koko.outh;
+package changwonNationalUniv.koko.oauth;
 
 import changwonNationalUniv.koko.entity.Member;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.ArrayList;

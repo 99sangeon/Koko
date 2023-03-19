@@ -1,7 +1,6 @@
-package changwonNationalUniv.koko.outh;
+package changwonNationalUniv.koko.oauth;
 
 import changwonNationalUniv.koko.entity.Member;
-import changwonNationalUniv.koko.entity.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
