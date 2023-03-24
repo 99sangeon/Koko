@@ -1,40 +1,75 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
     <meta charset="UTF-8">
     <title>홈화면</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
-    <style>
-        #waveform {
-            height: 100px;
-            width: 100%;
-            background-color: #f0f0f0;
-            position: relative;
-            margin-top: 10px;
-        }
-        #waveform .line {
-            position: absolute;
-            height: 100%;
-            width: 1px;
-            background-color: #000;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/recordingLoading.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/button.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
 
 <header th:replace="/nav :: navFragment(${userId})"></header>
 
-<main>
+<main class="main_div">
+    <div class="main_sub_div">
+        <div class="content_ex_div">
+            <h2 class="content_title">Lv.1</h2>
+        </div>
 
-    <h1>음성 녹음 업로드</h1>
-    <div>
-        <button id="record-btn" onclick="toggleRecording()">녹음</button>
+        <div style="border-bottom: 0.05rem solid #5F5F5F;" class="sentence_and_audio_div">
+
+            <div style="display: flex; align-items: center; justify-content: center">
+                <button id="standard_play_btn" class="play_img_button"><img id="standard_play_btn_img" class="play_img" src="/image/play.jpeg"></button>
+                <p class="sentence_ko_text" th:text="${sentence}">테스트 문장</p>
+            </div>
+            <div>
+                <p class="sentence_en_text">Hello?</p>
+            </div>
+
+            <div id="loading_div" class="loading_div1">
+                <div class="spinner-box">
+                    <div class="leo-border-1">
+                        <div class="leo-core-1"></div>
+                    </div>
+                    <div class="leo-border-2">
+                        <div class="leo-core-2"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="audio_and_visual_div" style="display: none; margin-top: 4rem;">
+                <div style="display: flex; align-items: center; justify-content: center">
+                    <div style="display: none;">
+                        <audio id="record_audio"  style="margin-right: 2rem" controls></audio>
+                    </div>
+                    <button id="my_play_btn" class="play_img_button"><img id="my_play_btn_img" class="play_img" src="/image/play.jpeg"></button>
+                    <canvas id="visualizer"></canvas>
+                </div>
+                <div>
+                    <button id="uploadButton" class="record_button">제출</button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="record_button_div">
+            <button id="record_control_btn" class="record_img_button">
+                <img id="record_btn_img" class="record_img" src="/image/mic_on.jpg">
+            </button>
+
+        </div>
+        <script th:src="@{/js/recording1.js}"></script>
+
     </div>
-    <div>
-        <audio id="audio-player" controls></audio>
-    </div>
-    <div id="waveform"></div>
-    <script src="/js/recording.js"></script>
+
+
+
+
+
+
 
 </main>
 
@@ -43,3 +78,6 @@
 
 </body>
 </html>
+
+
+

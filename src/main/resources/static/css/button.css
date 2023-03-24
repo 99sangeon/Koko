@@ -1,0 +1,82 @@
+.record_button{
+  background:#1AAB8A;
+  color:#fff;
+  border:none;
+  position:relative;
+  height:2.2rem;
+  width: 5.5rem;
+  font-size:0.9em;
+  padding:0 2em;
+  cursor:pointer;
+  transition:800ms ease all;
+  outline:none;
+}
+.record_button:hover{
+  background:#fff;
+  color:#1AAB8A;
+}
+.record_button:before,.record_button:after{
+  content:'';
+  position:absolute;
+  top:0;
+  right:0;
+  height:2px;
+  width:0;
+  background: #1AAB8A;
+  transition:400ms ease all;
+}
+.record_button:after{
+  right:inherit;
+  top:inherit;
+  left:0;
+  bottom:0;
+}
+.record_button:hover:before,.record_button:hover:after{
+  width:100%;
+  transition:800ms ease all;
+}
+
+
+.record_button_red{
+  background:#f05650;
+  color:#fff;
+  border:none;
+  position:relative;
+  height:60px;
+  font-size:1.6em;
+  padding:0 2em;
+  cursor:pointer;
+  transition:800ms ease all;
+  outline:none;
+}
+.record_button_red:hover{
+  background:#fff;
+  color:#f05650;
+}
+.record_button_red:before,.record_button_red:after{
+  content:'';
+  position:absolute;
+  top:0;
+  right:0;
+  height:2px;
+  width:0;
+  background: #f05650;
+  transition:400ms ease all;
+}
+.record_button_red:after{
+  right:inherit;
+  top:inherit;
+  left:0;
+  bottom:0;
+}
+.record_button_red:hover:before,.record_button_red:hover:after{
+  width:100%;
+  transition:800ms ease all;
+}
+
+
+
+
+
+
+

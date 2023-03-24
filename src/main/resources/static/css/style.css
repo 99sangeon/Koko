@@ -4,6 +4,20 @@
 
 }
 
+.main_div {
+    margin:6rem 0;
+    display: flex;
+    justify-content: center;
+}
+
+.main_sub_div {
+    width: 60rem;
+    height: auto;
+}
+
+.margin_bottom {
+    margin-bottom: 3rem;
+}
 nav {
     position:sticky;
     top:0;
@@ -126,6 +140,7 @@ nav {
 .content_img {
     height: 25rem;
     width: 25rem;
+    transition:800ms ease all;
 }
 
 .content_img:hover {
@@ -198,8 +213,8 @@ nav {
 }
 
 .content_title {
-    padding: 0.5rem 0;
-    font-weight: 500;
+    padding: 0.8rem 0;
+    font-weight: 600;
     font-size: 1.5rem;
 }
 
@@ -243,6 +258,7 @@ nav {
 .join_label_div {
     padding-top: 1.3rem;
     padding-bottom: 0.5rem;
+
 }
 
 .join_text {
@@ -252,6 +268,7 @@ nav {
     font-size: 1rem;
     border: 0.05rem solid silver;
     padding-left: 1rem;
+    margin-bottom: 1rem;
 }
 
 .join_submit {
@@ -285,4 +302,79 @@ nav {
     color: #dc3545;
     font-size: 0.9rem;
 
+}
+
+.loading_div1 {
+    display: none;
+    margin-top: 10rem;
+}
+
+.audio_and_visual_div1 {
+    display: none;
+}
+
+.content_ex_div {
+    display: flex;
+    width: 60rem;
+    justify-content: center;
+    border-bottom: 0.05rem solid #5F5F5F;
+}
+
+.sentence_and_audio_div {
+    padding: 10rem;
+    text-align: center;
+
+}
+
+.sentence_ko_text {
+    font-weight: 500;
+    font-size: 2rem;
+}
+
+.sentence_en_text {
+    margin-top: 2rem;
+    font-weight: 500;
+    font-size: 1.4rem;
+}
+
+.record_button_div {
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.record_img_button{
+     border: none;
+     border-radius: 50%;
+     transition:800ms ease all;
+ }
+
+.record_img_button:hover{
+    transform: scale(1.2);
+}
+
+.record_img {
+    -webkit-user-drag: none;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+}
+
+.play_img_button{
+
+    margin-right: 1rem;
+    border: none;
+    border-radius: 50%;
+    transition:800ms ease all;
+}
+
+.play_img_button:hover{
+    transform: scale(1.2);
+}
+
+.play_img {
+    -webkit-user-drag: none;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
 }

@@ -1,8 +1,10 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script type="text/javascript"></script>
 
 <header>
-  <nav th:fragment="navFragment(userId)" >
+  <nav th:fragment="navFragment(userId)" style="border-bottom: 0.05rem solid silver">
     <div class="div_items_center">
       <a class="nav_title_a" href="/"><h1>Koko</h1></a>
     </div>

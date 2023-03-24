@@ -39,8 +39,20 @@ spring:
             token-uri: https://kauth.kakao.com/oauth/token
             user-info-uri: https://kapi.kakao.com/v2/user/me
             user-name-attribute: id
+  servlet:
+    multipart:
+      max-file-size: 1000MB
+      max-request-size: 1000MB
 logging:
   level:
     org.hibernate.SQL: debug
     org.hibernate.type: trace
 
+
+ffmpeg:
+  mpeg: /opt/homebrew/bin/ffmpeg
+  probe: /opt/homebrew/bin/ffprobe
+  savePath: /Users/jeonsang-eon/Desktop/audio_store/
+
+file:
+  dir: /Users/jeonsang-eon/Desktop/audio_store/
