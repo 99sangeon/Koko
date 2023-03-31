@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+  <meta charset="UTF-8">
+  <title>홈화면</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{/css/recordingLoading.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{/css/button.css}">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+
+<header th:replace="/nav :: navFragment(${userId})"></header>
+
+<main class="main_div">
+  <div class="main_sub_div">
+
+    <div class="content_ex_div">
+      <h2 class="content_title">발음연습 등록하기</h2>
+    </div>
+
+    <form action="/" th:action th:method="post" th:object="${problemRequest}" enctype="multipart/form-data">
+      <div>
+        <div class="join_label_div"><label id="level">레벨</label></div>
+        <input class="join_text" type="text" th:field="*{level}" placeholder="level">
+        <div class="field-error" th:errors="*{level}">이름 오류</div>
+      </div>
+
+      <div style="width: 60rem">
+        <div class="join_label_div"><label id="korean">한글</label></div>
+        <input class="join_text" type="text" th:field="*{korean}" placeholder="text">
+        <div class="field-error" th:errors="*{korean}">이름 오류</div>
+      </div>
+
+      <div style="width: 60rem">
+        <div class="join_label_div"><label id="english">영어</label></div>
+        <input class="join_text" type="text" th:field="*{english}" placeholder="text">
+        <div class="field-error" th:errors="*{english}">이름 오류</div>
+      </div>
+
+      <div><input type="file" name="audioFile"></div>
+
+      <div>
+        <button class="join_submit" type="submit">등록하기</button>
+      </div>
+      <div>
+        <button class="join_cancel" onclick="location.href='/'">등록취소</button>
+      </div>
+    </form>
+
+  </div>
+</main>
+
+<footer th:replace="/footer :: footFragment"></footer>
+
+
+</body>
+</html>
+
+
+

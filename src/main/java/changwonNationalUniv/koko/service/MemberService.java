@@ -1,4 +1,4 @@
-package changwonNationalUniv.koko.service.member;
+package changwonNationalUniv.koko.service;
 
 import changwonNationalUniv.koko.controller.dto.MemberRequestDto;
 

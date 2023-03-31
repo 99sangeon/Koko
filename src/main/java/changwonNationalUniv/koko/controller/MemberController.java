@@ -1,7 +1,7 @@
 package changwonNationalUniv.koko.controller;
 
 import changwonNationalUniv.koko.controller.dto.MemberRequestDto;
-import changwonNationalUniv.koko.service.member.MemberService;
+import changwonNationalUniv.koko.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,7 +11,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @Controller

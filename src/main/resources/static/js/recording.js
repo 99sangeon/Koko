@@ -1,77 +1,74 @@
-let audioChunks = [];
-let mediaRecorder;
+// audio, button 태그 취득
+const $audioEl = document.querySelector('#record_audio');
+const $btn = document.querySelector("#record_control_btn");
+const $my_play_btn = document.querySelector("#my_play_btn");
+const loading_div = document.getElementById('loading_div');
+const audio_and_visual_div = document.getElementById('audio_and_visual_div');
+const visualizer = document.getElementById('visualizer');
+const uploadButton = document.getElementById('uploadButton');
+
+// 녹음 상태 체크용 변수
+let isRecording = false;
+let my_sound_playing = false;
+
+let mediaRecorder = null;
 let audioContext;
-let audioBuffer;
-let source;
 let canvasContext;
 let canvasWidth;
 let canvasHeight;
 
-const recordButton = document.getElementById('recordButton');
-const stopButton = document.getElementById('stopButton');
-const playButton = document.getElementById('playButton');
-const visualizer = document.getElementById('visualizer');
-const reRecordButton = document.getElementById('reRecordButton');
-const uploadButton = document.getElementById('uploadButton');
-
-recordButton.addEventListener('click', startRecording);
-stopButton.addEventListener('click', stopRecording);
-playButton.addEventListener('click', playRecording);
-reRecordButton.addEventListener('click', reRecord);
 uploadButton.addEventListener('click', upload);
 
-function startRecording() {
+// 녹음 데이터(Blob) 조각 저장 배열
+const audioArray = [];
 
-    audioChunks = [];
-    canvasContext.clearRect(0, 0, canvasWidth, canvasHeight);
-    recordButton.disabled = true;
-    stopButton.disabled = false;
-    playButton.disabled = true;
-    reRecordButton.disabled = true;
-    uploadButton.disabled = true;
-    recordButton.innerText ="녹음중";
+// 녹음 시작/종료 버튼 클릭 이벤트 처리
+$btn.onclick = async function (event) {
 
-    navigator.mediaDevices.getUserMedia({ audio: true })
-        .then(stream => {
-            mediaRecorder = new MediaRecorder(stream);
-            mediaRecorder.addEventListener('dataavailable', event => {
-                audioChunks.push(event.data);
-                drawWaveform(event.data);
+    // 녹음 중이 아닌 경우에만 녹음 시작 처리
+    if(!isRecording){
+        audioArray.splice(0); // 기존 오디오 데이터들은 모두 비워 초기화한다.
 
-            });
-            mediaRecorder.start();
-        })
-        .catch(error => console.log(error));
-}
+        // 마이크 mediaStream 생성: Promise를 반환하므로 async/await 사용
+        const mediaStream = await navigator.mediaDevices.getUserMedia({audio: true});
 
-function stopRecording() {
-    mediaRecorder.stop();
-    recordButton.innerText ="녹음시작";
-    recordButton.disabled = false;
-    stopButton.disabled = true;
-    playButton.disabled = false;
-    reRecordButton.disabled = false;
-    uploadButton.disabled = false;
-}
+        // MediaRecorder 생성: 마이크 MediaStream을 인자로 입력
+        mediaRecorder = new MediaRecorder(mediaStream);
 
-function playRecording() {
-    audioContext = new AudioContext();
-    const blob = new Blob(audioChunks, { type: 'audio/ogg; codecs=opus' });
-    const audioURL = URL.createObjectURL(blob);
-    const request = new XMLHttpRequest();
-    request.open('GET', audioURL, true);
-    request.responseType = 'arraybuffer';
-    request.onload = () => {
-        audioContext.decodeAudioData(request.response, buffer => {
-            audioBuffer = buffer;
-            source = audioContext.createBufferSource();
-            source.buffer = audioBuffer;
-            source.connect(audioContext.destination);
-            source.start();
-            drawWaveform(audioBuffer);
-        });
-    };
-    request.send();
+        // 이벤트핸들러: 녹음 데이터 취득 처리
+        mediaRecorder.ondataavailable = (event)=>{
+            audioArray.push(event.data); // 오디오 데이터가 취득될 때마다 배열에 담아둔다.
+            drawWaveform(event.data);
+        }
+
+        // 이벤트핸들러: 녹음 종료 처리 & 재생하기
+        mediaRecorder.onstop = (event)=>{
+
+            // 녹음이 종료되면, 배열에 담긴 오디오 데이터(Blob)들을 합친다: 코덱도 설정해준다.
+            const blob = new Blob(audioArray, {"type": "audio/ogg codecs=opus"});
+
+            // Blob 데이터에 접근할 수 있는 객체URL을 생성한다.
+            const blobURL = window.URL.createObjectURL(blob);
+
+            // audio엘리먼트로 재생한다.
+            $audioEl.src = blobURL;
+
+        }
+
+        // 녹음 시작
+        mediaRecorder.start();
+        isRecording = true;
+        loading_div.style.display = 'block';
+        audio_and_visual_div.style.display = 'none';
+        document.getElementById('record_btn_img').src = "/image/mic_off.jpg";
+    }else{
+        // 녹음 종료
+        mediaRecorder.stop();
+        isRecording = false;
+        loading_div.style.display = 'none';
+        audio_and_visual_div.style.display = 'block';
+        document.getElementById('record_btn_img').src = "/image/mic_on.jpg";
+    }
 }
 
 function drawWaveform(audioData) {
@@ -105,22 +102,53 @@ function drawWaveform(audioData) {
     reader.readAsArrayBuffer(audioData);
 }
 
+
+$my_play_btn.onclick = async function (event) {
+    if (my_sound_playing == false){
+        my_sound_playing = true;
+        $audioEl.play();
+        document.getElementById('my_play_btn_img').src = "/image/playing.jpeg";
+
+    }
+
+    else {
+        my_sound_playing = false;
+        $audioEl.pause();
+        document.getElementById('my_play_btn_img').src = "/image/play.jpeg";
+    }
+}
+
+document.getElementById('record_audio')
+    .addEventListener('ended', function () {
+        my_sound_playing = false;
+
+        document.getElementById('my_play_btn_img').src = "/image/play.jpeg";
+    });
+
+
 function upload() {
     const formData = new FormData();
-    const blob = new Blob(audioChunks, { type: 'audio/ogg; codecs=opus' });
-    formData.append('audio', blob, 'recording.ogg');
-    fetch('/upload', {
-        method: 'POST',
-        body: formData
-    })
-        .then(response => {
-            if (response.ok) {
-                console.log('Upload successful');
-            } else {
-                console.log('Upload failed');
-            }
-        })
-        .catch(error => console.log(error));
+    const blob = new Blob(audioArray, { type : 'audio/ogg codecs=opus' });
+    formData.append('audio', blob);
+
+    $.ajax({
+        type: 'post',
+        url : '/content/problem/1',
+        data: formData,
+
+        timeout: 60000,
+        processData: false, // 데이터 처리 방식 (파일 전송 시 false로 설정)
+        contentType: false, // 컨텐츠 타입 (파일 전송 시 false로 설정)
+        success: function(response) {
+            // 성공적으로 전송되었을 때의 콜백 함수
+            console.log(response);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            // 전송 중 에러가 발생했을 때의 콜백 함수
+            console.log(textStatus, errorThrown);
+        }
+    });
+
 }
 
 function setupVisualizer() {
@@ -136,4 +164,6 @@ function setupVisualizer() {
     canvasContext.lineTo(canvasWidth, canvasHeight / 2);
     canvasContext.stroke();
 }
+
 setupVisualizer();
+
