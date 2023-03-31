@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Setter
 @Entity
 @NoArgsConstructor
-public class Member{
+public class Member extends BaseTimeEntity{
 
     @Id @GeneratedValue
     @Column(name = "member_id")
@@ -33,8 +33,6 @@ public class Member{
     @Column(nullable = false, length = 100)
     private String email;
 
-    @Embedded
-    private Time time = new Time();
 
     @Builder
     public Member(String name, String userId, String password, String mobile, String email) {

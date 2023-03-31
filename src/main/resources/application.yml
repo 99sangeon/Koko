@@ -56,4 +56,5 @@ ffmpeg:
   savePath: /Users/jeonsang-eon/Desktop/audio_store/
 
 file:
-  dir: /Users/jeonsang-eon/Desktop/audio_store/
+  #dir: /Users/jeonsang-eon/Desktop/audio_store/
+  dir: C:\Users\tkd02\OneDrive\바탕 화면\audio\

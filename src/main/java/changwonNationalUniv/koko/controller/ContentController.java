@@ -1,5 +1,6 @@
 package changwonNationalUniv.koko.controller;
 
+import changwonNationalUniv.koko.controller.dto.ProblemResponse;
 import changwonNationalUniv.koko.service.ContentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -18,9 +20,10 @@ public class ContentController {
     private final ContentService contentService;
 
     @GetMapping("/problem/{problemId}")
-    public String problemPage(@PathVariable Long problemId, Model model) {
+    public String problem(@PathVariable Long problemId, Model model) {
 
-        model.addAttribute("sentence", "안녕하세요?");
+        ProblemResponse problem = contentService.findProblem(problemId);
+        model.addAttribute("problem", problem);
 
         return "/content/problem";
     }
@@ -38,11 +41,20 @@ public class ContentController {
     }
 
     @GetMapping("/step")
-    public String stepPage(Model model) {
+    public String step(Model model) {
 
-        return "/content/step";
+            return "/content/step";
     }
 
+    @GetMapping("/step/{level}")
+    public String problemList(@PathVariable int level ,Model model) {
+
+        List<ProblemResponse> problems = contentService.findProblems(level);
+        model.addAttribute("problems", problems);
+
+        return "/content/problemList";
+
+    }
 
 }
 

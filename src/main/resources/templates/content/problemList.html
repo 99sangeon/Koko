@@ -11,7 +11,7 @@
 </head>
 <body>
 
-<header th:replace="/nav :: navFragment(${userId})"></header>
+<header th:replace="/nav :: navFragment"></header>
 
 <main class="main_div">
     <div class="main_sub_div">
@@ -19,6 +19,28 @@
         <div class="content_ex_div">
             <h2 class="content_title">문제 목록</h2>
         </div>
+
+        <table>
+            <thead>
+            <tr>
+                <td>번호</td>
+                <td>문제 번호</td>
+                <td>제목</td>
+                <td>완료한 사람</td>
+                <td>도전한 사람</td>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="problem, problemStat : ${problems}">
+                <td th:text="${problemStat.count}">count</td>
+                <td th:text="${problem.id}">id</td>
+                <td><a th:text="${problem.korean}" href="/" th:href="@{/content/problem/{problemId}(problemId=${problem.id})}">title</a></td>
+                <td th:text="${problem.challengeCnt}">challengeCnt</td>
+                <td th:text="${problem.clearCnt}">clearCnt</td>
+            </tr>
+            </tbody>
+        </table>
 
     </div>
 </main>

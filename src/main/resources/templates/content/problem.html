@@ -11,7 +11,7 @@
 </head>
 <body>
 
-<header th:replace="/nav :: navFragment(${userId})"></header>
+<header th:replace="/nav :: navFragment"></header>
 
 <main class="main_div">
     <div class="main_sub_div">
@@ -23,10 +23,10 @@
 
             <div style="display: flex; align-items: center; justify-content: center">
                 <button id="standard_play_btn" class="play_img_button"><img id="standard_play_btn_img" class="play_img" src="/image/play.jpeg"></button>
-                <p class="sentence_ko_text" th:text="${sentence}">테스트 문장</p>
+                <p class="sentence_ko_text" th:text="${problem.korean}">한글</p>
             </div>
             <div>
-                <p class="sentence_en_text">Hello?</p>
+                <p class="sentence_en_text" th:text="${problem.english}">영어</p>
             </div>
 
             <div id="loading_div" class="loading_div1">

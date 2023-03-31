@@ -1,12 +1,15 @@
 package changwonNationalUniv.koko.service;
 
+import changwonNationalUniv.koko.controller.dto.ProblemResponse;
+import changwonNationalUniv.koko.entity.Problem;
+import changwonNationalUniv.koko.repository.ProblemRepository;
+import lombok.RequiredArgsConstructor;
 import net.bramp.ffmpeg.FFmpeg;
 import net.bramp.ffmpeg.FFmpegExecutor;
 import net.bramp.ffmpeg.FFprobe;
 import net.bramp.ffmpeg.builder.FFmpegBuilder;
 import net.bramp.ffmpeg.probe.FFmpegProbeResult;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,13 +17,40 @@ import javax.transaction.Transactional;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
+@RequiredArgsConstructor
 @Transactional
 public class ContentServiceImpl implements ContentService{
 
+    private final ProblemRepository problemRepository;
+
     @Value("${file.dir}")
     private String fileDir;
+
+    @Override
+    public List<ProblemResponse> findProblems(int level) {
+
+        List<Problem> problems = problemRepository.findByLevel(level);
+        List<ProblemResponse> problemResponses = new ArrayList<>();
+
+        for (Problem problem: problems) {
+            problemResponses.add(ProblemResponse.of(problem));
+        }
+
+        return problemResponses;
+    }
+
+    @Override
+    public ProblemResponse findProblem(Long id) {
+
+        Problem problem= problemRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
+
+        return ProblemResponse.of(problem);
+    }
 
     @Override
     public void evaluate(Long id, MultipartFile audio) throws IOException {

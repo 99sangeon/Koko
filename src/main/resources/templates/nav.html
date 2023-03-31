@@ -4,21 +4,22 @@
 <script type="text/javascript"></script>
 
 <header>
-  <nav th:fragment="navFragment(userId)" style="border-bottom: 0.05rem solid silver">
+  <nav th:fragment="navFragment" style="border-bottom: 0.05rem solid silver">
     <div class="div_items_center">
       <a class="nav_title_a" href="/"><h1>Koko</h1></a>
     </div>
 
-    <div th:if="${userId == anonymousUser}" class="div_items_center">
+    <div th:if="${#authentication.getName() == 'anonymousUser'}" class="div_items_center">
       <ul>
         <li><a class="nav_a_black" href="/login">로그인</a></li>
         <li><a class="nav_a_black" href="#">내정보</a></li>
       </ul>
     </div>
 
-    <div th:unless="${userId == anonymousUser}" class="div_items_center">
+    <div th:unless="${#authentication.getName() == 'anonymousUser'}" class="div_items_center">
       <ul>
-        <li><a class="nav_a_black" href="#" th:text="${userId} + '님 어서오세요'"></a></li>
+        <li><a class="nav_a_black" href="#" th:text="${#authentication.getName()} + '님 어서오세요'"></a></li>
+        <li sec:authorize="hasRole('ROLE_ADMIN')"><a class="nav_a_black" href="/admin/adminPage">관리자페이지</a></li>
         <li><a class="nav_a_black" href="/logout">로그아웃</a></li>
       </ul>
     </div>

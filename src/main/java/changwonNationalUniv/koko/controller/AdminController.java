@@ -45,6 +45,6 @@ public class AdminController {
 
         adminService.saveProblem(problemRequest);
 
-        return "redirect:/";
+        return "redirect:/admin/adminPage";
     }
 }
