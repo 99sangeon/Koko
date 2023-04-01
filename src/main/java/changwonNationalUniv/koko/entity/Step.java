@@ -1,5 +1,6 @@
 package changwonNationalUniv.koko.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -27,4 +28,10 @@ public class Step extends BaseTimeEntity{
     @Column(nullable = false)
     private String description;
 
+    @Builder
+    public Step(Integer level, String title, String description) {
+        this.level = level;
+        this.title = title;
+        this.description = description;
+    }
 }

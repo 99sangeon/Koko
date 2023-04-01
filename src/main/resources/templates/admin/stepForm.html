@@ -20,7 +20,7 @@
       <h2 class="content_title">발음연습 등록하기</h2>
     </div>
 
-    <form action="/" th:action th:method="post" th:object="${problemRequest}" enctype="multipart/form-data">
+    <form action="/" th:action th:method="post" th:object="${stepRequest}">
       <div>
         <div class="join_label_div"><label id="level">레벨</label></div>
         <input class="join_text" type="text" th:field="*{level}" placeholder="level">
@@ -28,18 +28,16 @@
       </div>
 
       <div style="width: 60rem">
-        <div class="join_label_div"><label id="korean">한글</label></div>
-        <input class="join_text" type="text" th:field="*{korean}" placeholder="text">
-        <div class="field-error" th:errors="*{korean}">이름 오류</div>
+        <div class="join_label_div"><label id="title">제목</label></div>
+        <input class="join_text" type="text" th:field="*{title}" placeholder="title">
+        <div class="field-error" th:errors="*{title}">이름 오류</div>
       </div>
 
       <div style="width: 60rem">
-        <div class="join_label_div"><label id="english">영어</label></div>
-        <input class="join_text" type="text" th:field="*{english}" placeholder="text">
-        <div class="field-error" th:errors="*{english}">이름 오류</div>
+        <div class="join_label_div"><label id="description">설명</label></div>
+        <input class="join_text" type="text" th:field="*{description}" placeholder="description">
+        <div class="field-error" th:errors="*{description}">이름 오류</div>
       </div>
-
-      <div><input type="file" name="audioFile"></div>
 
       <div>
         <button class="join_submit" type="submit">등록하기</button>

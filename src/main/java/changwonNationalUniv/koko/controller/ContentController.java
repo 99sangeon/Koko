@@ -1,6 +1,7 @@
 package changwonNationalUniv.koko.controller;
 
 import changwonNationalUniv.koko.controller.dto.ProblemResponse;
+import changwonNationalUniv.koko.controller.dto.StepResponse;
 import changwonNationalUniv.koko.service.ContentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +44,10 @@ public class ContentController {
     @GetMapping("/step")
     public String step(Model model) {
 
-            return "/content/step";
+        List<StepResponse> steps = contentService.findSteps();
+        model.addAttribute("steps", steps);
+
+        return "/content/step";
     }
 
     @GetMapping("/step/{level}")

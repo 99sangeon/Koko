@@ -18,11 +18,31 @@
         <div class="content_ex_div">
             <h2 class="content_title">단계별 연습</h2>
         </div>
+
+        <div class="content_table_div">
+            <table class="content_table">
+                <thead>
+                <tr>
+                    <td style="width: 5rem">단계</td>
+                    <td style="width: 20rem">제목</td>
+                    <td style="width: 35rem">설명</td>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="step : ${steps}">
+                    <td th:text="'Lv.' + ${step.level}">level</td>
+                    <td><a th:text="${step.title}" href="/" th:href="@{/content/step/{level}(level=${step.level})}">title</a></td>
+                    <td th:text="${step.description}">description</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
 </main>
 
-<footer th:replace="/footer :: footFragment"></footer>
+<div class="footer_bottom0"><footer th:replace="/footer :: footFragment"></footer></div>
 
 
 </body>

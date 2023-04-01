@@ -20,32 +20,33 @@
             <h2 class="content_title">문제 목록</h2>
         </div>
 
-        <table>
-            <thead>
-            <tr>
-                <td>번호</td>
-                <td>문제 번호</td>
-                <td>제목</td>
-                <td>완료한 사람</td>
-                <td>도전한 사람</td>
-            </tr>
-            </thead>
+        <div class="content_table_div">
+            <table class="content_table">
+                <thead>
+                <tr>
+                    <td>번호</td>
+                    <td>문제 번호</td>
+                    <td>제목</td>
+                    <td>완료한 사람</td>
+                    <td>도전한 사람</td>
+                </tr>
+                </thead>
 
-            <tbody>
-            <tr th:each="problem, problemStat : ${problems}">
-                <td th:text="${problemStat.count}">count</td>
-                <td th:text="${problem.id}">id</td>
-                <td><a th:text="${problem.korean}" href="/" th:href="@{/content/problem/{problemId}(problemId=${problem.id})}">title</a></td>
-                <td th:text="${problem.challengeCnt}">challengeCnt</td>
-                <td th:text="${problem.clearCnt}">clearCnt</td>
-            </tr>
-            </tbody>
-        </table>
-
+                <tbody>
+                <tr th:each="problem, problemStat : ${problems}">
+                    <td th:text="${problemStat.count} + '번'">count</td>
+                    <td th:text="${problem.id}">id</td>
+                    <td><a th:text="${problem.korean}" href="/" th:href="@{/content/problem/{problemId}(problemId=${problem.id})}">title</a></td>
+                    <td th:text="${problem.challengeCnt} + '명'">challengeCnt</td>
+                    <td th:text="${problem.clearCnt} + '명'">clearCnt</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </main>
 
-<footer th:replace="/footer :: footFragment"></footer>
+<div class="footer_bottom0"><footer th:replace="/footer :: footFragment"></footer></div>
 
 
 </body>

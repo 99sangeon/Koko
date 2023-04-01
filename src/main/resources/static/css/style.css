@@ -4,6 +4,10 @@
 
 }
 
+a {
+    text-decoration: none;
+}
+
 .main_div {
     margin:6rem 0;
     display: flex;
@@ -90,13 +94,21 @@ nav {
 
 
 .footer_main_div {
+    height: 15rem;
+    align-items: center;
     margin-top: 5rem;
     display: flex;
     justify-content: center;
     background: rgb(245, 245, 245);
 }
+
+.footer_bottom0 {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
 .footer_info_div {
-    padding: 3rem 0;
     width: 50rem;
 }
 .footer_info_p {
@@ -360,7 +372,6 @@ nav {
 }
 
 .play_img_button{
-
     margin-right: 1rem;
     border: none;
     border-radius: 50%;
@@ -376,4 +387,47 @@ nav {
     width: 2rem;
     height: 2rem;
     border-radius: 50%;
+}
+
+.content_table_div {
+    margin-top: 2rem;
+    border: 1px solid silver;
+    border-radius: 0.5rem;
+}
+
+.content_table {
+    border-collapse: collapse;
+    width: 60rem;
+}
+
+.content_table thead tr {
+    height: 2.6rem;
+}
+
+.content_table tbody tr {
+    border-top: 1px solid silver;
+    height: 3.5rem;
+}
+
+.content_table td {
+    vertical-align: middle;
+    text-align: center;
+}
+
+.content_table thead td {
+    color: #666666;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.content_table tbody td {
+    color: black;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.content_table tbody a{
+    color: #4169E1;
+    font-size: 0.9rem;
+    font-weight: 600;
 }

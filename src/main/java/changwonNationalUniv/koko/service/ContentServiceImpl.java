@@ -1,8 +1,11 @@
 package changwonNationalUniv.koko.service;
 
 import changwonNationalUniv.koko.controller.dto.ProblemResponse;
+import changwonNationalUniv.koko.controller.dto.StepResponse;
 import changwonNationalUniv.koko.entity.Problem;
+import changwonNationalUniv.koko.entity.Step;
 import changwonNationalUniv.koko.repository.ProblemRepository;
+import changwonNationalUniv.koko.repository.StepRepository;
 import lombok.RequiredArgsConstructor;
 import net.bramp.ffmpeg.FFmpeg;
 import net.bramp.ffmpeg.FFmpegExecutor;
@@ -27,6 +30,7 @@ import java.util.NoSuchElementException;
 public class ContentServiceImpl implements ContentService{
 
     private final ProblemRepository problemRepository;
+    private final StepRepository stepRepository;
 
     @Value("${file.dir}")
     private String fileDir;
@@ -50,6 +54,18 @@ public class ContentServiceImpl implements ContentService{
         Problem problem= problemRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
 
         return ProblemResponse.of(problem);
+    }
+
+    @Override
+    public List<StepResponse> findSteps() {
+        List<Step> steps = stepRepository.findAllByOrderByLevelAsc();
+        List<StepResponse> stepResponses = new ArrayList<>();
+
+        for (Step step: steps) {
+            stepResponses.add(StepResponse.of(step));
+        }
+
+        return stepResponses;
     }
 
     @Override

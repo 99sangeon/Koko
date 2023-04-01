@@ -1,6 +1,7 @@
 package changwonNationalUniv.koko.service;
 
 import changwonNationalUniv.koko.controller.dto.ProblemResponse;
+import changwonNationalUniv.koko.controller.dto.StepResponse;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -12,4 +13,6 @@ public interface ContentService {
     List<ProblemResponse> findProblems(int level);
 
     ProblemResponse findProblem(Long id);
+
+    List<StepResponse> findSteps();
 }

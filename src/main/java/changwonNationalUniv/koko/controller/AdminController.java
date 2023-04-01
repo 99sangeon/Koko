@@ -1,6 +1,7 @@
 package changwonNationalUniv.koko.controller;
 
 import changwonNationalUniv.koko.controller.dto.ProblemRequest;
+import changwonNationalUniv.koko.controller.dto.StepRequest;
 import changwonNationalUniv.koko.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,26 @@ public class AdminController {
         return "/admin/adminPage";
     }
 
+    @GetMapping("/stepForm")
+    public String saveStepForm(Model model) {
+
+        model.addAttribute("stepRequest", new StepRequest());
+
+        return "/admin/stepForm";
+    }
+
+    @PostMapping("/stepForm")
+    public String saveStep(@Validated @ModelAttribute StepRequest stepRequest
+            , BindingResult bindingResult) {
+
+        if(bindingResult.hasErrors()) {
+            return "/admin/stepForm";
+        }
+
+        Long id = adminService.saveStep(stepRequest);
+
+        return "redirect:/admin/adminPage";
+    }
 
     @GetMapping("/problemForm")
     public String saveProblemForm(Model model) {
