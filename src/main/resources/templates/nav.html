@@ -4,7 +4,7 @@
 <script type="text/javascript"></script>
 
 <header>
-  <nav th:fragment="navFragment" style="border-bottom: 0.05rem solid silver">
+  <nav th:fragment="navFragment" style="border-bottom: 0.05rem solid silver; height: 6rem">
     <div class="div_items_center">
       <a class="nav_title_a" href="/"><h1>Koko</h1></a>
     </div>
@@ -12,6 +12,13 @@
     <div th:if="${#authentication.getName() == 'anonymousUser'}" class="div_items_center">
       <ul>
         <li><a class="nav_a_black" href="/login">로그인</a></li>
+        <li style="position: relative"><a class="nav_a_admin" href="/admin/adminPage">관리자 </a><div class="speech-bubble">
+          <ul>
+            <li><a>회원관리</a></li>
+            <li><a href="/admin/stepForm">단계관리</a></li>
+            <li><a href="/admin/problemForm">문제관리</a></li>
+          </ul>
+        </div></li>
         <li><a class="nav_a_black" href="#">내정보</a></li>
       </ul>
     </div>
@@ -19,7 +26,11 @@
     <div th:unless="${#authentication.getName() == 'anonymousUser'}" class="div_items_center">
       <ul>
         <li><a class="nav_a_black" href="#" th:text="${#authentication.getName()} + '님 어서오세요'"></a></li>
-        <li sec:authorize="hasRole('ROLE_ADMIN')"><a class="nav_a_black" href="/admin/adminPage">관리자페이지</a></li>
+        <li sec:authorize="hasRole('ROLE_ADMIN')" style="position: relative"><a class="nav_a_red" href="/admin/adminPage">관리자 </a><div class="speech-bubble">
+          <p>메뉴1</p>
+          <p>메뉴2</p>
+          <p>메뉴3</p>
+        </div></li>
         <li><a class="nav_a_black" href="/logout">로그아웃</a></li>
       </ul>
     </div>
