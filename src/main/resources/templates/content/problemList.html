@@ -29,6 +29,7 @@
                     <th>제목</th>
                     <th>완료한 사람</th>
                     <th>도전한 사람</th>
+                    <th sec:authorize="hasRole('ROLE_ADMIN')">삭제</th>
                 </tr>
                 </thead>
 
@@ -39,6 +40,7 @@
                     <td><a th:text="${problem.korean}" href="/" th:href="@{/content/problem/{problemId}(problemId=${problem.id})}">title</a></td>
                     <td th:text="${problem.challengeCnt} + '명'">challengeCnt</td>
                     <td th:text="${problem.clearCnt} + '명'">clearCnt</td>
+                    <td sec:authorize="hasRole('ROLE_ADMIN')"><button type="button" class="delete_btn" th:onclick="|location.href='@{/admin/deleteProblem/{id}(id=${problem.id})}'|">삭제</button></td>
                 </tr>
                 </tbody>
             </table>

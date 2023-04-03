@@ -1,5 +1,7 @@
 // audio, button 태그 취득
 const $audioEl = document.querySelector('#record_audio');
+const $standard_AudioEl = document.querySelector('#audio-player');
+const $standard_btn = document.querySelector("#standard_play_btn");
 const $btn = document.querySelector("#record_control_btn");
 const $my_play_btn = document.querySelector("#my_play_btn");
 const loading_div = document.getElementById('loading_div');
@@ -10,6 +12,7 @@ const uploadButton = document.getElementById('uploadButton');
 // 녹음 상태 체크용 변수
 let isRecording = false;
 let my_sound_playing = false;
+let standard_sound_playing = false;
 
 let mediaRecorder = null;
 let audioContext;
@@ -102,6 +105,27 @@ function drawWaveform(audioData) {
     reader.readAsArrayBuffer(audioData);
 }
 
+$standard_btn.onclick = async function (event) {
+    if (standard_sound_playing == false){
+        standard_sound_playing = true;
+        $standard_AudioEl.play();
+        document.getElementById('standard_play_btn_img').src = "/image/playing.jpeg";
+
+    }
+
+    else {
+        standard_sound_playing = false;
+        $standard_AudioEl.pause();
+        document.getElementById('standard_play_btn_img').src = "/image/play.jpeg";
+    }
+}
+
+document.getElementById('audio-player')
+    .addEventListener('ended', function () {
+        standard_sound_playing = false;
+
+        document.getElementById('standard_play_btn_img').src = "/image/play.jpeg";
+    });
 
 $my_play_btn.onclick = async function (event) {
     if (my_sound_playing == false){

@@ -35,14 +35,23 @@
         </div>
       </form>
 
-      <div>
+      <div style="margin-top: 5rem">
         <div class="content_title_div">
           <h2 class="content_title">SNS 로그인</h2>
         </div>
 
-        <div style="display: flex; justify-content: space-around">
-            <div><a href="/oauth2/authorization/google"><img class="sns_login_img" src="/image/google_login_button.png"></a></div>
-            <div><a href="/oauth2/authorization/kakao"><img class="sns_login_img" src="/image/kakao_login_button.png"></a></div>
+        <div>
+            <div style="margin: 1rem 0;">
+              <a href="/oauth2/authorization/google" style="background-color: #eeeeee; border-radius: 0.5rem;border: 0.05rem solid silver; width: 24.9rem; display: flex; text-decoration: none; font-size: 1.18rem; color:rgba(0, 0, 0, .6); font-weight: bold">
+               <img class="sns_login_img_google" src="/image/google_login_button.png">
+                <div style="height: 3.4rem; padding-left: 6.4rem; width: 100%; display: flex; align-items: center"><div>구글 로그인</div></div>
+             </a>
+            </div>
+            <div>
+              <a href="/oauth2/authorization/kakao">
+                <img class="sns_login_img" src="/image/kakao_login_button.png">
+              </a>
+            </div>
         </div>
       </div>
 

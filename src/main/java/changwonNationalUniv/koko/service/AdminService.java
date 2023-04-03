@@ -4,6 +4,7 @@ import changwonNationalUniv.koko.controller.dto.ProblemRequest;
 import changwonNationalUniv.koko.controller.dto.StepRequest;
 
 import java.io.IOException;
+import java.util.List;
 
 public interface AdminService {
 
@@ -11,4 +12,10 @@ public interface AdminService {
 
     Long saveStep(StepRequest stepRequest);
 
+    List<Integer> getLevels();
+
+    int deleteProblem(Long id);
+
+
+    void deleteStep(Long id);
 }

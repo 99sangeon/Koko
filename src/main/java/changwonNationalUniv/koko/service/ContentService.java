@@ -15,4 +15,6 @@ public interface ContentService {
     ProblemResponse findProblem(Long id);
 
     List<StepResponse> findSteps();
+
+    String findFilename(Long id);
 }

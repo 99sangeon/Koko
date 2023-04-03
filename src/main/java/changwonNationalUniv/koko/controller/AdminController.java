@@ -8,12 +8,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
@@ -67,5 +66,33 @@ public class AdminController {
         adminService.saveProblem(problemRequest);
 
         return "redirect:/admin/adminPage";
+    }
+
+    @RequestMapping ("/deleteProblem/{id}")
+    public String deleteProblem(@PathVariable Long id) {
+
+        int level = adminService.deleteProblem(id);
+
+        return "redirect:/content/step/" + level;
+    }
+
+    @RequestMapping ("/deleteStep/{id}")
+    public String deleteStep(@PathVariable Long id) {
+
+        adminService.deleteStep(id);
+
+        return "redirect:/content/step";
+    }
+
+    @ModelAttribute("levels")
+    public List<Integer> levels() {
+
+        List<Integer> levels = adminService.getLevels();
+
+        if(levels != null) {
+            return levels;
+        }
+
+        return new ArrayList<>();
     }
 }

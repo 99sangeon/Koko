@@ -4,14 +4,17 @@
 
 }
 
+main {
+    min-height: calc(100vh - 21rem);
+}
 
 .main_div {
-    margin:6rem 0;
     display: flex;
     justify-content: center;
 }
 
 .main_sub_div {
+    margin:6rem 0;
     width: 60rem;
     height: auto;
 }
@@ -24,10 +27,12 @@ nav {
     top:0;
     background: rgba(255, 255, 255, 0.8);
     box-sizing: border-box;
-     width: 100%;
-     display: flex;
-     flex-direction: row;
-     justify-content: space-around;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    border-bottom: 0.05rem solid silver;
+    height: 6rem;
 
  }
  nav h1 {
@@ -93,17 +98,11 @@ nav {
 .footer_main_div {
     height: 15rem;
     align-items: center;
-    margin-top: 5rem;
     display: flex;
     justify-content: center;
     background: rgb(245, 245, 245);
 }
 
-.footer_bottom0 {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-}
 
 .footer_info_div {
     width: 50rem;
@@ -175,7 +174,7 @@ nav {
 }
 
 .login_sub_div {
-    margin: 2rem 0;
+    margin: 6rem 0;
     width: 25rem;
     height: auto;
 
@@ -217,12 +216,11 @@ nav {
     display: flex;
     justify-content: center;
     border-bottom: 0.05rem solid #5F5F5F;
-    margin-top: 4rem;
     margin-bottom: 0.5rem;
 }
 
 .content_title {
-    padding: 0.8rem 0;
+    padding: 1rem 0;
     font-weight: 600;
     font-size: 1.5rem;
 }
@@ -241,14 +239,19 @@ nav {
 }
 
 .sns_login_img {
-    width: 3rem;
-    height: auto;
+    width: 25rem;
+    height: 3.5rem;
     border-radius: 0.5rem;
-    margin-top: 1rem;
 
 }
-.sns_login_img :hover {
+.sns_login_img :hover, sns_login_img_google :hover {
     cursor: pointer;
+}
+
+.sns_login_img_google {
+    width: auto;
+    height: 3.5rem;
+    border-radius: 0.5rem;
 }
 
 .join_main_div {
@@ -258,7 +261,7 @@ nav {
 }
 
 .join_sub_div {
-    margin: 2rem 0;
+    margin: 6rem 0;
     width: 25rem;
     height: auto;
 
@@ -276,8 +279,50 @@ nav {
     font-size: 1rem;
     border: 0.05rem solid silver;
     padding-left: 1rem;
-    margin-bottom: 1rem;
 }
+
+.lv_input {
+    height: 3rem;
+    width: 3rem;
+    border-radius: 0.2rem;
+    font-size: 1rem;
+    border: 0.05rem solid silver;
+    padding-left: 1rem;
+}
+
+.ds_input {
+    height: 3rem;
+    width: 58.9rem;
+    border-radius: 0.2rem;
+    font-size: 1rem;
+    border: 0.05rem solid silver;
+    padding-left: 1rem;
+}
+
+.ko_input {
+    height: 3.5rem;
+    width: 35rem;
+    border-radius: 0.2rem;
+    font-size: 1.5rem;
+    border: 0.05rem solid silver;
+    padding-left: 1rem;
+    margin-bottom: 2rem;
+}
+
+.en_input {
+    height: 3rem;
+    width: 20rem;
+    border-radius: 0.2rem;
+    font-size: 1rem;
+    border: 0.05rem solid silver;
+    padding-left: 1rem;
+    margin-bottom: 2rem;
+}
+
+.join_text:focus, .lv_input:focus, .ds_input:focus, .ko_input:focus, .en_input:focus {
+    outline: 0.075rem solid black;
+}
+
 
 .join_submit {
     border:none;
@@ -286,7 +331,7 @@ nav {
     width: 25.1rem;
     border-radius: 0.2rem;
     font-size: 1rem;
-    background-color: #000;
+    background-color: rgba(0,0,0,.8);
     color: #fff;
 }
 
@@ -301,9 +346,46 @@ nav {
     color: #fff;
 }
 
-.join_text:focus {
-    outline: 0.075rem solid black;
+.submit_btn {
+    margin-right: 1rem;
+    border:none;
+    margin-top: 1rem;
+    height: 2.5rem;
+    width: 6rem;
+    border-radius: 0.2rem;
+    font-size: 0.8rem;
+    font-weight: bold;
+    background-color: rgba(0,0,0,.8);
+    color: #fff;
 }
+
+.cancel_btn {
+    border:none;
+    margin-top: 1rem;
+    height: 2.5rem;
+    width: 6rem;
+    border-radius: 0.2rem;
+    font-size: 0.8rem;
+    font-weight: bold;
+    background-color: #f05650;
+    color: #fff;
+}
+
+.delete_btn {
+    border:none;
+    height: 1.5rem;
+    width: 2.0rem;
+    border-radius: 0.2rem;
+    font-size: 0.5rem;
+    font-weight: bold;
+    background-color: #f05650;
+    color: #fff;
+}
+
+.join_submit:hover, .join_cancel:hover, .submit_btn:hover, .cancel_btn:hover, .delete_btn:hover  {
+    cursor: pointer;
+}
+
 
 .field-error {
     padding-top: 0.4rem;
@@ -436,7 +518,7 @@ nav {
     border: 0.07rem solid silver;
     position: absolute;
     left: -0.8rem;
-    bottom: -8.3rem;
+    bottom: -7.8rem;
     text-align: left;
     width: auto;
     height: auto;
@@ -499,7 +581,7 @@ nav {
     display: block;
 }
 
-.speech-bubble:hover + .speech-bubble {
+.speech-bubble:hover {
     display: block;
 }
 

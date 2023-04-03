@@ -26,6 +26,7 @@
                     <th>단계</th>
                     <th>제목</th>
                     <th>설명</th>
+                    <th sec:authorize="hasRole('ROLE_ADMIN')">삭제</th>
                 </tr>
                 </thead>
 
@@ -34,6 +35,7 @@
                     <td th:text="'Lv.' + ${step.level}">level</td>
                     <td><a th:text="${step.title}" href="/" th:href="@{/content/step/{level}(level=${step.level})}">title</a></td>
                     <td th:text="${step.description}">description</td>
+                    <td sec:authorize="hasRole('ROLE_ADMIN')"><button type="button" class="delete_btn" th:onclick="|location.href='@{/admin/deleteStep/{id}(id=${step.id})}'|">삭제</button></td>
                 </tr>
                 </tbody>
             </table>
@@ -43,13 +45,12 @@
     </div>
 
 </main>
-
-
-
 <footer th:replace="/footer :: footFragment"></footer>
-
-
 </body>
+
+
+
+
 </html>
 
 

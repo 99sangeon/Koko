@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -38,5 +41,25 @@ public class AdminServiceImpl implements AdminService{
     public Long saveStep(StepRequest stepRequest) {
         Step step = stepRepository.save(stepRequest.toEntity());
         return step.getId();
+    }
+
+    @Override
+    public List<Integer> getLevels() {
+        return stepRepository.findLevelsSortedAsc();
+    }
+
+    @Override
+    public int deleteProblem(Long id) {
+        Problem problem= problemRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
+        int level = problem.getLevel();
+        problemRepository.delete(problem);
+
+        return level;
+    }
+
+    @Override
+    public void deleteStep(Long id) {
+        Step step = stepRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
+        stepRepository.delete(step);
     }
 }

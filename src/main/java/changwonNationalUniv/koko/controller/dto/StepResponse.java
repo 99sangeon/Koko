@@ -13,6 +13,8 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class StepResponse {
 
+    private Long id;
+
     private Integer level;
 
     private String title;
@@ -20,7 +22,8 @@ public class StepResponse {
     private String description;
 
     @Builder
-    public StepResponse(Integer level, String title, String description) {
+    public StepResponse(Long id, Integer level, String title, String description) {
+        this.id = id;
         this.level = level;
         this.title = title;
         this.description = description;
@@ -29,6 +32,7 @@ public class StepResponse {
     public static StepResponse of(Step step) {
         return StepResponse
                 .builder()
+                .id(step.getId())
                 .level(step.getLevel())
                 .title(step.getTitle())
                 .description(step.getDescription())

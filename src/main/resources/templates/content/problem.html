@@ -22,6 +22,9 @@
         <div style="border-bottom: 0.05rem solid #5F5F5F;" class="sentence_and_audio_div">
 
             <div style="display: flex; align-items: center; justify-content: center">
+                <audio id="audio-player" style="display:none;">
+                    <source th:src="@{/content/audio/{id}(id=${problem.id})}" type="audio/wav">
+                </audio>
                 <button id="standard_play_btn" class="play_img_button"><img id="standard_play_btn_img" class="play_img" src="/image/play.jpeg"></button>
                 <p class="sentence_ko_text" th:text="${problem.korean}">한글</p>
             </div>

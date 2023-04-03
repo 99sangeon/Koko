@@ -69,6 +69,11 @@ public class ContentServiceImpl implements ContentService{
     }
 
     @Override
+    public String findFilename(Long id) {
+        return problemRepository.findFilename(id).orElseThrow(() -> new NoSuchElementException());
+    }
+
+    @Override
     public void evaluate(Long id, MultipartFile audio) throws IOException {
 
         saveMultipartFileToWavFile(audio);

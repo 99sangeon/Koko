@@ -5,9 +5,7 @@
   <meta charset="UTF-8">
   <title>홈화면</title>
   <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
-  <link rel="stylesheet" type="text/css" th:href="@{/css/recordingLoading.css}">
-  <link rel="stylesheet" type="text/css" th:href="@{/css/button.css}">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
 </head>
 <body>
 
@@ -16,40 +14,39 @@
 <main class="main_div">
   <div class="main_sub_div">
 
-    <div class="content_ex_div">
-      <h2 class="content_title">발음연습 등록하기</h2>
-    </div>
-
-    <form action="/" th:action th:method="post" th:object="${problemRequest}" enctype="multipart/form-data">
-      <div>
-        <div class="join_label_div"><label id="level">레벨</label></div>
-        <input class="join_text" type="text" th:field="*{level}" placeholder="level">
-        <div class="field-error" th:errors="*{level}">이름 오류</div>
+    <form th:action method="post"  enctype="multipart/form-data">
+      <div class="content_ex_div">
+        <h2 class="content_title">Lv.</h2>
+        <select style="font-size: 1.1rem; width:4rem; height: 2rem; margin-top: 1rem; margin-left: 0.7rem;" th:field="${problemRequest.level}" class="form-select">
+          <option value="">선택</option>
+          <option th:each="level : ${levels}" th:value="${level}" th:text="${level}">1</option>
+        </select>
       </div>
 
-      <div style="width: 60rem">
-        <div class="join_label_div"><label id="korean">한글</label></div>
-        <input class="join_text" type="text" th:field="*{korean}" placeholder="text">
-        <div class="field-error" th:errors="*{korean}">이름 오류</div>
+      <div style="border-bottom: 0.05rem solid #5F5F5F;" class="sentence_and_audio_div">
+
+        <div style="display: flex; align-items: center; justify-content: center">
+          <input class="ko_input" type="text" th:field="${problemRequest.korean}" placeholder="한글">
+        </div>
+        <div>
+          <input class="en_input" type="text" th:field="${problemRequest.english}" placeholder="영어(번역)">
+        </div>
+
+        <input type="file" name="audioFile">
       </div>
 
-      <div style="width: 60rem">
-        <div class="join_label_div"><label id="english">영어</label></div>
-        <input class="join_text" type="text" th:field="*{english}" placeholder="text">
-        <div class="field-error" th:errors="*{english}">이름 오류</div>
+      <div style="display: flex; justify-content: center">
+        <div>
+          <button class="submit_btn" type="submit">등록</button>
+        </div>
+        <div>
+          <button type="button" class="cancel_btn" onclick="location.href='/'">취소</button>
+        </div>
       </div>
 
-      <div><input type="file" name="audioFile"></div>
-
-      <div>
-        <button class="join_submit" type="submit">등록하기</button>
-      </div>
-      <div>
-        <button class="join_cancel" onclick="location.href='/'">등록취소</button>
-      </div>
     </form>
-
   </div>
+
 </main>
 
 <footer th:replace="/footer :: footFragment"></footer>

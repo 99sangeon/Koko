@@ -3,7 +3,10 @@ package changwonNationalUniv.koko.controller;
 import changwonNationalUniv.koko.controller.dto.ProblemResponse;
 import changwonNationalUniv.koko.controller.dto.StepResponse;
 import changwonNationalUniv.koko.service.ContentService;
+import changwonNationalUniv.koko.util.file.FileStore;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.net.MalformedURLException;
 import java.util.List;
 
 @Controller
@@ -19,6 +23,7 @@ import java.util.List;
 public class ContentController {
 
     private final ContentService contentService;
+    private final FileStore fileStore;
 
     @GetMapping("/problem/{problemId}")
     public String problem(@PathVariable Long problemId, Model model) {
@@ -58,6 +63,15 @@ public class ContentController {
 
         return "/content/problemList";
 
+    }
+
+    @ResponseBody
+    @GetMapping("/audio/{id}")
+    public Resource audio(@PathVariable Long id) throws MalformedURLException {
+
+        String filename = contentService.findFilename(id);
+
+        return new UrlResource("file:" + fileStore.getFullPath(filename));
     }
 
 }
