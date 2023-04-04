@@ -44,6 +44,20 @@ public class AdminServiceImpl implements AdminService{
     }
 
     @Override
+    public StepRequest findStepRequest(Long id) {
+        Step step = stepRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
+        return StepRequest.of(step);
+    }
+
+    @Override
+    public void updateStep(Long id, StepRequest stepRequest) {
+        Step step = stepRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
+        step.setLevel(stepRequest.getLevel());
+        step.setTitle(stepRequest.getTitle());
+        step.setDescription(stepRequest.getDescription());
+    }
+
+    @Override
     public List<Integer> getLevels() {
         return stepRepository.findLevelsSortedAsc();
     }
@@ -61,5 +75,10 @@ public class AdminServiceImpl implements AdminService{
     public void deleteStep(Long id) {
         Step step = stepRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
         stepRepository.delete(step);
+    }
+
+    @Override
+    public void updateProblem(Long id, ProblemRequest problemRequest) {
+
     }
 }

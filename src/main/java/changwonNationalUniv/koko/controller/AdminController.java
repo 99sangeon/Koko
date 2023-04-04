@@ -44,7 +44,53 @@ public class AdminController {
 
         Long id = adminService.saveStep(stepRequest);
 
-        return "redirect:/admin/adminPage";
+        return "redirect:/content/step";
+    }
+
+    @GetMapping("/updateStep/{id}")
+    public String updateStepForm(Model model, @PathVariable Long id) {
+
+        StepRequest stepRequest = adminService.findStepRequest(id);
+
+        model.addAttribute("stepRequest", stepRequest);
+
+        return "/admin/updateStepForm";
+    }
+
+    @PostMapping("/updateStep/{id}")
+    public String updateStep(@Validated @ModelAttribute StepRequest stepRequest
+            , BindingResult bindingResult, @PathVariable Long id) {
+
+        if(bindingResult.hasErrors()) {
+            return "/admin/updateStepForm";
+        }
+
+        adminService.updateStep(id, stepRequest);
+
+        return "redirect:/content/step";
+    }
+
+    @GetMapping("/updateProblem/{id}")
+    public String updateProblemForm(Model model, @PathVariable Long id) {
+
+        StepRequest stepRequest = adminService.findStepRequest(id);
+
+        model.addAttribute("stepRequest", stepRequest);
+
+        return "/admin/updateProblemForm";
+    }
+
+    @PostMapping("/updateProblem/{id}")
+    public String updateProblem(@Validated @ModelAttribute ProblemRequest problemRequest
+            , BindingResult bindingResult, @PathVariable Long id) {
+
+        if(bindingResult.hasErrors()) {
+            return "/admin/updateProblemForm";
+        }
+
+        adminService.updateProblem(id, problemRequest);
+
+        return "redirect:/content/problem/" + id;
     }
 
     @GetMapping("/problemForm")
@@ -63,9 +109,9 @@ public class AdminController {
             return "/admin/problemForm";
         }
 
-        adminService.saveProblem(problemRequest);
+        Long id = adminService.saveProblem(problemRequest);
 
-        return "redirect:/admin/adminPage";
+        return "redirect:/content/problem/" + id;
     }
 
     @RequestMapping ("/deleteProblem/{id}")

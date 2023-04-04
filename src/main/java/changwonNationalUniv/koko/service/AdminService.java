@@ -12,10 +12,15 @@ public interface AdminService {
 
     Long saveStep(StepRequest stepRequest);
 
+    StepRequest findStepRequest(Long id);
+
+    void updateStep(Long id, StepRequest stepRequest);
+
     List<Integer> getLevels();
 
     int deleteProblem(Long id);
 
-
     void deleteStep(Long id);
+
+    void updateProblem(Long id, ProblemRequest problemRequest);
 }

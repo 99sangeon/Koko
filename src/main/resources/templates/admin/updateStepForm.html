@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <title>홈화면</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/recordingLoading.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/button.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+
+<header th:replace="/nav :: navFragment"></header>
+
+<main class="main_div">
+    <div class="main_sub_div">
+
+        <div class="content_ex_div">
+            <h2 class="content_title">단계 등록하기</h2>
+        </div>
+
+        <form action="/" th:action th:method="post" th:object="${stepRequest}">
+            <div>
+                <div class="join_label_div"><label id="level">레벨</label></div>
+                <input class="lv_input" type="text" th:field="*{level}" placeholder=LV>
+                <div class="field-error" th:errors="*{level}">이름 오류</div>
+            </div>
+
+            <div style="width: 60rem">
+                <div class="join_label_div"><label id="title">제목</label></div>
+                <input class="join_text" type="text" th:field="*{title}" placeholder="제목">
+                <div class="field-error" th:errors="*{title}">이름 오류</div>
+            </div>
+
+            <div style="width: 60rem">
+                <div class="join_label_div"><label id="description">설명</label></div>
+                <input class="ds_input" type="text" th:field="*{description}" placeholder="설명">
+                <div class="field-error" th:errors="*{description}">이름 오류</div>
+            </div>
+
+            <hr style="margin-top: 1.5rem; height: 0.003rem; background-color: #5F5F5F;">
+
+            <div style="display: flex; justify-content: center">
+                <div>
+                    <button class="submit_btn" type="submit">등록</button>
+                </div>
+                <div>
+                    <button type="button" class="cancel_btn" onclick="location.href='/'">취소</button>
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+
+</main>
+
+<footer th:replace="/footer :: footFragment"></footer>
+
+
+</body>
+</html>
+
+
+

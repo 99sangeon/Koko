@@ -371,7 +371,7 @@ nav {
     color: #fff;
 }
 
-.delete_btn {
+.update_delete_btn {
     border:none;
     height: 1.5rem;
     width: 2.0rem;
@@ -382,7 +382,7 @@ nav {
     color: #fff;
 }
 
-.join_submit:hover, .join_cancel:hover, .submit_btn:hover, .cancel_btn:hover, .delete_btn:hover  {
+.join_submit:hover, .join_cancel:hover, .submit_btn:hover, .cancel_btn:hover, .update_delete_btn:hover  {
     cursor: pointer;
 }
 
