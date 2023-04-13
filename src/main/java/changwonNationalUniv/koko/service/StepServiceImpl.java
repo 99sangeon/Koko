@@ -1,41 +1,24 @@
 package changwonNationalUniv.koko.service;
 
-import changwonNationalUniv.koko.controller.dto.ProblemRequest;
-import changwonNationalUniv.koko.controller.dto.StepRequest;
-import changwonNationalUniv.koko.controller.dto.UploadFile;
-import changwonNationalUniv.koko.entity.Problem;
+import changwonNationalUniv.koko.dto.request.StepRequest;
+import changwonNationalUniv.koko.dto.response.StepResponse;
 import changwonNationalUniv.koko.entity.Step;
-import changwonNationalUniv.koko.repository.ProblemRepository;
 import changwonNationalUniv.koko.repository.StepRepository;
-import changwonNationalUniv.koko.util.file.FileStore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class AdminServiceImpl implements AdminService{
+public class StepServiceImpl implements StepService{
 
-    private final FileStore fileStore;
-    private final ProblemRepository problemRepository;
     private final StepRepository stepRepository;
 
-    @Override
-    public Long saveProblem(ProblemRequest problemRequest) throws IOException {
-
-        UploadFile uploadFile = fileStore.storeFile(problemRequest.getAudioFile());
-        problemRequest.setUploadFile(uploadFile);
-
-        Problem problem = problemRepository.save(problemRequest.toEntity());
-
-        return problem.getId();
-    }
 
     @Override
     public Long saveStep(StepRequest stepRequest) {
@@ -44,9 +27,9 @@ public class AdminServiceImpl implements AdminService{
     }
 
     @Override
-    public StepRequest findStepRequest(Long id) {
+    public StepResponse findStep(Long id) {
         Step step = stepRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
-        return StepRequest.of(step);
+        return StepResponse.of(step);
     }
 
     @Override
@@ -63,22 +46,21 @@ public class AdminServiceImpl implements AdminService{
     }
 
     @Override
-    public int deleteProblem(Long id) {
-        Problem problem= problemRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
-        int level = problem.getLevel();
-        problemRepository.delete(problem);
-
-        return level;
-    }
-
-    @Override
     public void deleteStep(Long id) {
         Step step = stepRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
         stepRepository.delete(step);
     }
 
     @Override
-    public void updateProblem(Long id, ProblemRequest problemRequest) {
+    public List<StepResponse> findSteps() {
+        List<Step> steps = stepRepository.findAllByOrderByLevelAsc();
+        List<StepResponse> stepResponses = new ArrayList<>();
 
+        for (Step step: steps) {
+            stepResponses.add(StepResponse.of(step));
+        }
+
+        return stepResponses;
     }
+
 }

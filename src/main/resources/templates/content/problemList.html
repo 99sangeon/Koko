@@ -38,7 +38,9 @@
                 <tr th:each="problem, problemStat : ${problems}">
                     <td th:text="${problemStat.count} + '번'">count</td>
                     <td th:text="${problem.id}">id</td>
-                    <td><a th:text="${problem.korean}" href="/" th:href="@{/content/problem/{problemId}(problemId=${problem.id})}">title</a></td>
+                    <td style="width: 25rem; overflow: hidden; text-overflow: ellipsis;">
+                        <a style="display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 25rem; " th:text="${problem.korean}" href="/" th:href="@{/content/problem/{problemId}(problemId=${problem.id})}">title</a>
+                    </td>
                     <td th:text="${problem.challengeCnt} + '명'">challengeCnt</td>
                     <td th:text="${problem.clearCnt} + '명'">clearCnt</td>
                     <td sec:authorize="hasRole('ROLE_ADMIN')"><button type="button" style="background-color: rgb(0,102,204);" class="update_delete_btn" th:onclick="|location.href='@{/admin/updateProblem/{id}(id=${problem.id})}'|">수정</button></td>

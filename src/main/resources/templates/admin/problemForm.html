@@ -14,7 +14,8 @@
 <main class="main_div">
   <div class="main_sub_div">
 
-    <form th:action method="post"  enctype="multipart/form-data">
+    <form th:action method="post"  enctype="multipart/form-data"  th:object="${problemRequest}">
+      <div class="field-error" th:errors="*{level}">레벨 오류</div>
       <div class="content_ex_div">
         <h2 class="content_title">Lv.</h2>
         <select style="font-size: 1.1rem; width:4rem; height: 2rem; margin-top: 1rem; margin-left: 0.7rem;" th:field="${problemRequest.level}" class="form-select">
@@ -24,15 +25,18 @@
       </div>
 
       <div style="border-bottom: 0.05rem solid #5F5F5F;" class="sentence_and_audio_div">
-
+        <div class="field-error" th:errors="*{korean}">한글 오류</div>
         <div style="display: flex; align-items: center; justify-content: center">
-          <input class="ko_input" type="text" th:field="${problemRequest.korean}" placeholder="한글">
+          <input class="ko_input" type="text" th:field="*{korean}" placeholder="한글">
         </div>
+        <div class="field-error" th:errors="*{english}">영어(번역) 오류</div>
         <div>
-          <input class="en_input" type="text" th:field="${problemRequest.english}" placeholder="영어(번역)">
+          <input class="en_input" type="text" th:field="*{english}" placeholder="영어(번역)">
         </div>
 
+        <div class="field-error" th:errors="*{audioFile}">파일 오류</div>
         <input type="file" name="audioFile">
+
       </div>
 
       <div style="display: flex; justify-content: center">

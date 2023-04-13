@@ -1,4 +1,4 @@
-package changwonNationalUniv.koko.controller.dto;
+package changwonNationalUniv.koko.dto.request;
 
 import changwonNationalUniv.koko.entity.Step;
 import lombok.Builder;

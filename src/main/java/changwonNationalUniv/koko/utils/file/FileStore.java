@@ -1,6 +1,6 @@
-package changwonNationalUniv.koko.util.file;
+package changwonNationalUniv.koko.utils.file;
 
-import changwonNationalUniv.koko.controller.dto.UploadFile;
+import changwonNationalUniv.koko.dto.request.UploadFile;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;

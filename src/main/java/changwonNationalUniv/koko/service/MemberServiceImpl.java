@@ -1,6 +1,6 @@
 package changwonNationalUniv.koko.service;
 
-import changwonNationalUniv.koko.controller.dto.MemberRequestDto;
+import changwonNationalUniv.koko.dto.request.MemberRequest;
 import changwonNationalUniv.koko.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,7 +16,7 @@ public class MemberServiceImpl implements MemberService{
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
-    public void save(MemberRequestDto form) {
+    public void save(MemberRequest form) {
         String rawPassword = bCryptPasswordEncoder.encode(form.getPassword());
         form.setPassword(rawPassword);
         memberRepository.save(form.toEntity());

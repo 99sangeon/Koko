@@ -1,9 +1,9 @@
 package changwonNationalUniv.koko.service;
 
-import changwonNationalUniv.koko.controller.dto.MemberRequestDto;
+import changwonNationalUniv.koko.dto.request.MemberRequest;
 
 public interface MemberService {
 
-    void save(MemberRequestDto form);
+    void save(MemberRequest form);
 
 }

@@ -1,4 +1,4 @@
-package changwonNationalUniv.koko.controller.dto;
+package changwonNationalUniv.koko.dto.response;
 
 import changwonNationalUniv.koko.entity.Problem;
 import lombok.Builder;
@@ -9,7 +9,6 @@ import lombok.Setter;
 
 @NoArgsConstructor
 @Getter
-@Setter
 public class ProblemResponse {
 
     private Long id;

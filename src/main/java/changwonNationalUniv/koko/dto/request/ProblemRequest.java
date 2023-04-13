@@ -1,4 +1,4 @@
-package changwonNationalUniv.koko.controller.dto;
+package changwonNationalUniv.koko.dto.request;
 
 import changwonNationalUniv.koko.entity.Problem;
 import lombok.Builder;
@@ -15,13 +15,13 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class ProblemRequest {
 
-    @NotNull
+    @NotNull(message = "레벨을 선택해주세요.")
     private Integer level;
 
-    @NotEmpty
+    @NotEmpty(message = "한글을 입력해주세요.")
     private String korean;
 
-    @NotEmpty
+    @NotEmpty(message = "영어(번역)을 입력해주세요.")
     private String english;
 
     private MultipartFile audioFile;
@@ -42,8 +42,7 @@ public class ProblemRequest {
                 .level(level)
                 .korean(korean)
                 .english(english)
-                .storeFileName(uploadFile.getStoreFileName())
-                .uploadFileName(uploadFile.getUploadFileName())
+                .uploadFile(uploadFile)
                 .build();
     }
 }

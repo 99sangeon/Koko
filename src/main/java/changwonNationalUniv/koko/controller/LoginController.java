@@ -1,7 +1,7 @@
 package changwonNationalUniv.koko.controller;
 
 
-import changwonNationalUniv.koko.controller.dto.LoginDto;
+import changwonNationalUniv.koko.dto.LoginDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

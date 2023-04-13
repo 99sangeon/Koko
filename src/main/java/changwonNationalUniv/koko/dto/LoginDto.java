@@ -1,4 +1,4 @@
-package changwonNationalUniv.koko.controller.dto;
+package changwonNationalUniv.koko.dto;
 
 import lombok.Getter;
 import lombok.Setter;

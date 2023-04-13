@@ -1,8 +1,15 @@
-package changwonNationalUniv.koko.controller.dto;
+package changwonNationalUniv.koko.dto.request;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+import javax.persistence.Embeddable;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@Embeddable
 public class UploadFile {
     private String uploadFileName;
     private String storeFileName;

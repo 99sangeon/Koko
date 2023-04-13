@@ -5,10 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -30,10 +28,18 @@ public class Step extends BaseTimeEntity{
     @Column(nullable = false)
     private String description;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "step")
+    private List<Problem> problem;
+
     @Builder
     public Step(Integer level, String title, String description) {
         this.level = level;
         this.title = title;
         this.description = description;
+    }
+
+    public void addProblem(Problem problem){
+        this.getProblem().add(problem);
+        problem.setStep(this);
     }
 }

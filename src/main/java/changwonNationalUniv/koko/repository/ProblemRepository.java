@@ -12,7 +12,7 @@ public interface ProblemRepository extends JpaRepository<Problem, Long> {
 
     List<Problem> findByLevel(int level);
 
-    @Query("SELECT p.storeFileName FROM Problem p WHERE p.id = :id")
+    @Query("SELECT p.uploadFile.storeFileName FROM Problem p WHERE p.id = :id")
     Optional<String> findFilename(Long id);
 
 }

@@ -1,16 +1,12 @@
-package changwonNationalUniv.koko.controller.dto;
+package changwonNationalUniv.koko.dto.response;
 
 import changwonNationalUniv.koko.entity.Step;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-
 
 @Getter
-@Setter
 public class StepResponse {
 
     private Long id;

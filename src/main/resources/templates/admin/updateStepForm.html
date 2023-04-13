@@ -20,7 +20,7 @@
             <h2 class="content_title">단계 등록하기</h2>
         </div>
 
-        <form action="/" th:action th:method="post" th:object="${stepRequest}">
+        <form action="/" th:action th:method="post" th:object="${step}">
             <div>
                 <div class="join_label_div"><label id="level">레벨</label></div>
                 <input class="lv_input" type="text" th:field="*{level}" placeholder=LV>

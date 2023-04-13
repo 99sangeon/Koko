@@ -1,11 +1,13 @@
 package changwonNationalUniv.koko.service;
 
-import changwonNationalUniv.koko.controller.dto.ProblemResponse;
-import changwonNationalUniv.koko.controller.dto.StepResponse;
+import changwonNationalUniv.koko.dto.request.ProblemRequest;
+import changwonNationalUniv.koko.dto.request.UploadFile;
+import changwonNationalUniv.koko.dto.response.ProblemResponse;
 import changwonNationalUniv.koko.entity.Problem;
 import changwonNationalUniv.koko.entity.Step;
 import changwonNationalUniv.koko.repository.ProblemRepository;
 import changwonNationalUniv.koko.repository.StepRepository;
+import changwonNationalUniv.koko.utils.file.FileStore;
 import lombok.RequiredArgsConstructor;
 import net.bramp.ffmpeg.FFmpeg;
 import net.bramp.ffmpeg.FFmpegExecutor;
@@ -25,15 +27,70 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
-@RequiredArgsConstructor
 @Transactional
-public class ContentServiceImpl implements ContentService{
-
-    private final ProblemRepository problemRepository;
-    private final StepRepository stepRepository;
+@RequiredArgsConstructor
+public class ProblemServiceImpl implements ProblemService{
 
     @Value("${file.dir}")
     private String fileDir;
+
+    private final ProblemRepository problemRepository;
+    private final StepRepository stepRepository;
+    private final FileStore fileStore;
+
+    @Override
+    public Long saveProblem(ProblemRequest problemRequest) throws IOException {
+
+        if(problemRequest.getAudioFile() != null) {
+            UploadFile uploadFile = fileStore.storeFile(problemRequest.getAudioFile());
+            problemRequest.setUploadFile(uploadFile);
+        }
+
+        Step step = stepRepository.findOneByLevel(problemRequest.getLevel())
+                .orElseThrow(() -> new NoSuchElementException());
+
+        Problem problem = problemRequest.toEntity();
+        step.addProblem(problem);
+
+        problemRepository.save(problem);
+
+        return problem.getId();
+    }
+
+    @Override
+    public int deleteProblem(Long id) {
+        Problem problem= problemRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
+        int level = problem.getLevel();
+        problemRepository.delete(problem);
+
+        return level;
+    }
+
+    @Override
+    public void updateProblem(Long id, ProblemRequest problemRequest) throws IOException {
+        Problem problem= problemRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
+
+        problem.setLevel(problemRequest.getLevel());
+        problem.setKorean(problemRequest.getKorean());
+        problem.setEnglish(problemRequest.getEnglish());
+
+        if(problemRequest.getAudioFile() != null) {
+            updateFile(problemRequest, problem);
+
+        }
+    }
+
+    private void updateFile(ProblemRequest problemRequest, Problem problem) throws IOException {
+
+        if(problem.getUploadFile() != null) {
+            File file = new File(fileStore.getFullPath(problem.getUploadFile().getStoreFileName()));
+            file.delete();
+        }
+
+        UploadFile uploadFile = fileStore.storeFile(problemRequest.getAudioFile());
+        problem.setUploadFile(uploadFile);
+
+    }
 
     @Override
     public List<ProblemResponse> findProblems(int level) {
@@ -54,18 +111,6 @@ public class ContentServiceImpl implements ContentService{
         Problem problem= problemRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
 
         return ProblemResponse.of(problem);
-    }
-
-    @Override
-    public List<StepResponse> findSteps() {
-        List<Step> steps = stepRepository.findAllByOrderByLevelAsc();
-        List<StepResponse> stepResponses = new ArrayList<>();
-
-        for (Step step: steps) {
-            stepResponses.add(StepResponse.of(step));
-        }
-
-        return stepResponses;
     }
 
     @Override
@@ -119,4 +164,5 @@ public class ContentServiceImpl implements ContentService{
         }
         return convertedFile;
     }
+
 }

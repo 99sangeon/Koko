@@ -1,4 +1,4 @@
-package changwonNationalUniv.koko.controller.dto;
+package changwonNationalUniv.koko.dto.request;
 
 import changwonNationalUniv.koko.entity.Member;
 import lombok.Getter;
@@ -10,7 +10,7 @@ import javax.validation.constraints.NotEmpty;
 
 @Getter
 @Setter
-public class MemberRequestDto {
+public class MemberRequest {
 
     @NotEmpty(message = "이름은 필수항목입니다.")
     @Length(min = 0, max = 30, message = "이름은 30글자 이내로 입력해주세요.")

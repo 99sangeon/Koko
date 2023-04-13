@@ -1,6 +1,6 @@
 package changwonNationalUniv.koko.controller;
 
-import changwonNationalUniv.koko.controller.dto.MemberRequestDto;
+import changwonNationalUniv.koko.dto.request.MemberRequest;
 import changwonNationalUniv.koko.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -21,12 +21,12 @@ public class MemberController {
 
     @GetMapping("/join")
     public String joinForm(Model model) {
-        model.addAttribute("member", new MemberRequestDto());
+        model.addAttribute("member", new MemberRequest());
         return "/member/join";
     }
 
     @PostMapping("/join")
-    public String join(@Validated @ModelAttribute("member") MemberRequestDto form, BindingResult bindingResult) {
+    public String join(@Validated @ModelAttribute("member") MemberRequest form, BindingResult bindingResult) {
 
         checkingPassword(form, bindingResult);
 
@@ -40,7 +40,7 @@ public class MemberController {
         return "redirect:/";
     }
 
-    private static void checkingPassword(MemberRequestDto form, BindingResult bindingResult) {
+    private static void checkingPassword(MemberRequest form, BindingResult bindingResult) {
         if(!form.getPassword().equals(form.getCheckingPassword())) {
             bindingResult.addError(new FieldError("MemberRequestDto", "checkingPassword", "입력하신 비밀번호가 일치하지 않습니다."));
         }

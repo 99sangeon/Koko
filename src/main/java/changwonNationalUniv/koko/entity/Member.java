@@ -1,9 +1,9 @@
 package changwonNationalUniv.koko.entity;
 
+import changwonNationalUniv.koko.enums.Role;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -42,5 +42,7 @@ public class Member extends BaseTimeEntity{
         this.mobile = mobile;
         this.email = email;
     }
+
+
 
 }

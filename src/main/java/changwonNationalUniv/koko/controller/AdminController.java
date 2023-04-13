@@ -1,8 +1,11 @@
 package changwonNationalUniv.koko.controller;
 
-import changwonNationalUniv.koko.controller.dto.ProblemRequest;
-import changwonNationalUniv.koko.controller.dto.StepRequest;
-import changwonNationalUniv.koko.service.AdminService;
+import changwonNationalUniv.koko.dto.request.ProblemRequest;
+import changwonNationalUniv.koko.dto.request.StepRequest;
+import changwonNationalUniv.koko.dto.response.ProblemResponse;
+import changwonNationalUniv.koko.dto.response.StepResponse;
+import changwonNationalUniv.koko.service.ProblemService;
+import changwonNationalUniv.koko.service.StepService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +22,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminController {
 
-    private final AdminService adminService;
+    private final ProblemService problemService;
+    private final StepService stepService;
 
     @GetMapping("/adminPage")
     public String adminPage() {
@@ -42,7 +46,7 @@ public class AdminController {
             return "/admin/stepForm";
         }
 
-        Long id = adminService.saveStep(stepRequest);
+        Long id = stepService.saveStep(stepRequest);
 
         return "redirect:/content/step";
     }
@@ -50,22 +54,22 @@ public class AdminController {
     @GetMapping("/updateStep/{id}")
     public String updateStepForm(Model model, @PathVariable Long id) {
 
-        StepRequest stepRequest = adminService.findStepRequest(id);
+        StepResponse stepResponse = stepService.findStep(id);
 
-        model.addAttribute("stepRequest", stepRequest);
+        model.addAttribute("step", stepResponse);
 
         return "/admin/updateStepForm";
     }
 
     @PostMapping("/updateStep/{id}")
-    public String updateStep(@Validated @ModelAttribute StepRequest stepRequest
+    public String updateStep(@Validated @ModelAttribute("step") StepRequest stepRequest
             , BindingResult bindingResult, @PathVariable Long id) {
 
         if(bindingResult.hasErrors()) {
             return "/admin/updateStepForm";
         }
 
-        adminService.updateStep(id, stepRequest);
+        stepService.updateStep(id, stepRequest);
 
         return "redirect:/content/step";
     }
@@ -73,22 +77,21 @@ public class AdminController {
     @GetMapping("/updateProblem/{id}")
     public String updateProblemForm(Model model, @PathVariable Long id) {
 
-        StepRequest stepRequest = adminService.findStepRequest(id);
-
-        model.addAttribute("stepRequest", stepRequest);
+        ProblemResponse problem = problemService.findProblem(id);
+        model.addAttribute("problem", problem);
 
         return "/admin/updateProblemForm";
     }
 
     @PostMapping("/updateProblem/{id}")
     public String updateProblem(@Validated @ModelAttribute ProblemRequest problemRequest
-            , BindingResult bindingResult, @PathVariable Long id) {
+            , BindingResult bindingResult, @PathVariable Long id) throws IOException {
 
         if(bindingResult.hasErrors()) {
             return "/admin/updateProblemForm";
         }
 
-        adminService.updateProblem(id, problemRequest);
+        problemService.updateProblem(id, problemRequest);
 
         return "redirect:/content/problem/" + id;
     }
@@ -109,7 +112,7 @@ public class AdminController {
             return "/admin/problemForm";
         }
 
-        Long id = adminService.saveProblem(problemRequest);
+        Long id = problemService.saveProblem(problemRequest);
 
         return "redirect:/content/problem/" + id;
     }
@@ -117,7 +120,7 @@ public class AdminController {
     @RequestMapping ("/deleteProblem/{id}")
     public String deleteProblem(@PathVariable Long id) {
 
-        int level = adminService.deleteProblem(id);
+        int level = problemService.deleteProblem(id);
 
         return "redirect:/content/step/" + level;
     }
@@ -125,7 +128,7 @@ public class AdminController {
     @RequestMapping ("/deleteStep/{id}")
     public String deleteStep(@PathVariable Long id) {
 
-        adminService.deleteStep(id);
+        stepService.deleteStep(id);
 
         return "redirect:/content/step";
     }
@@ -133,7 +136,7 @@ public class AdminController {
     @ModelAttribute("levels")
     public List<Integer> levels() {
 
-        List<Integer> levels = adminService.getLevels();
+        List<Integer> levels = stepService.getLevels();
 
         if(levels != null) {
             return levels;

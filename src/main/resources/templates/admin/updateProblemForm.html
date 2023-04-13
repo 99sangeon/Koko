@@ -14,10 +14,10 @@ x<!DOCTYPE html>
 <main class="main_div">
   <div class="main_sub_div">
 
-    <form th:action method="post"  enctype="multipart/form-data">
+    <form th:action method="post"  enctype="multipart/form-data" th:object="${problem}">
       <div class="content_ex_div">
         <h2 class="content_title">Lv.</h2>
-        <select style="font-size: 1.1rem; width:4rem; height: 2rem; margin-top: 1rem; margin-left: 0.7rem;" th:field="${problemRequest.level}" class="form-select">
+        <select style="font-size: 1.1rem; width:4rem; height: 2rem; margin-top: 1rem; margin-left: 0.7rem;" th:field="*{level}" class="form-select">
           <option value="">선택</option>
           <option th:each="level : ${levels}" th:value="${level}" th:text="${level}">1</option>
         </select>
@@ -26,13 +26,13 @@ x<!DOCTYPE html>
       <div style="border-bottom: 0.05rem solid #5F5F5F;" class="sentence_and_audio_div">
 
         <div style="display: flex; align-items: center; justify-content: center">
-          <input class="ko_input" type="text" th:field="${problemRequest.korean}" placeholder="한글">
+          <input class="ko_input" type="text" th:field="*{korean}" placeholder="한글">
         </div>
         <div>
-          <input class="en_input" type="text" th:field="${problemRequest.english}" placeholder="영어(번역)">
+          <input class="en_input" type="text" th:field="*{english}" placeholder="영어(번역)">
         </div>
 
-        <input type="file" name="audioFile">
+        <input type="file" name="audioFile" value="파일이름.wav">
       </div>
 
       <div style="display: flex; justify-content: center">
