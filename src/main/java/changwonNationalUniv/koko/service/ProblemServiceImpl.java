@@ -2,11 +2,11 @@ package changwonNationalUniv.koko.service;
 
 import changwonNationalUniv.koko.dto.request.ProblemRequest;
 import changwonNationalUniv.koko.dto.request.UploadFile;
+import changwonNationalUniv.koko.dto.response.ChallengedProblemHistoryResponse;
 import changwonNationalUniv.koko.dto.response.ProblemResponse;
-import changwonNationalUniv.koko.entity.Problem;
-import changwonNationalUniv.koko.entity.Step;
-import changwonNationalUniv.koko.repository.ProblemRepository;
-import changwonNationalUniv.koko.repository.StepRepository;
+import changwonNationalUniv.koko.entity.*;
+import changwonNationalUniv.koko.enums.ClearState;
+import changwonNationalUniv.koko.repository.*;
 import changwonNationalUniv.koko.utils.file.FileStore;
 import lombok.RequiredArgsConstructor;
 import net.bramp.ffmpeg.FFmpeg;
@@ -33,10 +33,15 @@ public class ProblemServiceImpl implements ProblemService{
 
     @Value("${file.dir}")
     private String fileDir;
-
+    
+    private final MemberService memberService;
     private final ProblemRepository problemRepository;
+    private final SecurityService securityService;
+    private final ChallengedProblemRepository challengedProblemRepository;
+    private final ChallengedProblemHistoryRepository challengedProblemHistoryRepository;
     private final StepRepository stepRepository;
     private final FileStore fileStore;
+    private final RestTemplateService restTemplateService;
 
     @Override
     public Long saveProblem(ProblemRequest problemRequest) throws IOException {
@@ -95,13 +100,18 @@ public class ProblemServiceImpl implements ProblemService{
     @Override
     public List<ProblemResponse> findProblems(int level) {
 
-        List<Problem> problems = problemRepository.findByLevel(level);
         List<ProblemResponse> problemResponses = new ArrayList<>();
 
-        for (Problem problem: problems) {
-            problemResponses.add(ProblemResponse.of(problem));
+        if(securityService.isAuthenticated()) {
+            Member member = memberService.getCurrentMember();
+            problemResponses = problemRepository.findWithCpByMemberAndLevel(member, level);
         }
-
+        else{
+            List<Problem> problems = problemRepository.findByLevel(level);
+            for (Problem p : problems) {
+                problemResponses.add(ProblemResponse.of(p));
+            }
+        }
         return problemResponses;
     }
 
@@ -119,13 +129,78 @@ public class ProblemServiceImpl implements ProblemService{
     }
 
     @Override
-    public void evaluate(Long id, MultipartFile audio) throws IOException {
+    public ChallengedProblemHistoryResponse evaluate(Long problem_id, MultipartFile audio) throws IOException {
 
-        saveMultipartFileToWavFile(audio);
+            Member member = memberService.getCurrentMember();
+            Problem problem = problemRepository.findById(problem_id).orElseThrow(() -> new NoSuchElementException());
+            ChallengedProblem challengedProblem = challengedProblemRepository
+                                                    .findChallengedProblemByMemberAndProblem(member, problem)
+                                                    .orElseGet(() -> challengedProblemRepository.save(
+                                                            ChallengedProblem
+                                                            .builder()
+                                                            .member(member)
+                                                            .problem(problem)
+                                                            .build()));
+
+            File wavFile = saveMultipartFileToWavFile(audio);
+
+            ChallengedProblemHistoryResponse challengedProblemHistoryResponse = runDenoiseAndAsrModel(wavFile);
+
+            ChallengedProblemHistory challengedProblemHistory = ChallengedProblemHistory
+                    .builder()
+                    .score(challengedProblemHistoryResponse.getScore())
+                    .korean(challengedProblemHistoryResponse.getKorean())
+                    .feedback("잘하셨어요!")
+                    .build();
+
+            problem.increaseChallengeCnt();  //문제 도전 횟수 1회증가
+            member.increaseChallengeCnt();   //사용자 도전 횟수 1회증가
+
+            //기존의 한글과 출력된 한글이 일치하면 문제 정답 처리, 일치하지 않으면 정답 처리X 및 피드백 제공
+            if(problem.getKorean().equals(challengedProblemHistoryResponse.getKorean())) {
+
+                problem.increaseClearCnt();
+                member.increaseSuccessCnt();
+                challengedProblemHistory.setClearState(ClearState.Y);
+
+                //최초 클리어
+                if(challengedProblem.getClearState() == null || challengedProblem.getClearState().equals(ClearState.N)) {
+
+                    if(challengedProblem.getClearState() != null && challengedProblem.getClearState().equals(ClearState.N)) {
+                        member.decreaseFailureProblemCnt();
+                    }
+
+                    member.increaseCumulativeExp(problem.getExp());
+                    member.increaseSuccessProblemCnt();
+                    challengedProblem.setClearState(ClearState.Y);
+                }
+            }
+
+            else {
+
+                member.increaseFailureCnt();
+                challengedProblemHistory.setClearState(ClearState.N);
+
+                //최초 실패
+                if(challengedProblem.getClearState() == null) {
+                    member.increaseFailureProblemCnt();
+                    challengedProblem.setClearState(ClearState.N);
+                }
+
+            }
+
+            challengedProblem.addChallengedProblemHistory(challengedProblemHistory);
+
+            return ChallengedProblemHistoryResponse
+                    .of(challengedProblemHistoryRepository.save(challengedProblemHistory));
 
     }
 
-    private void saveMultipartFileToWavFile(MultipartFile audio) throws IOException {
+    private ChallengedProblemHistoryResponse runDenoiseAndAsrModel(File wavFile) {
+        return restTemplateService.runModels(wavFile);
+    }
+
+    private File saveMultipartFileToWavFile(MultipartFile audio) throws IOException {
 
         File inputFile = convertMultiPartFileToFile(audio);
 
@@ -139,9 +214,9 @@ public class ProblemServiceImpl implements ProblemService{
                     .overrideOutputFiles(true)
                     .addOutput(outputFile.getAbsolutePath())
                     .setFormat("wav")
-                    .setAudioChannels(2)
+                    .setAudioChannels(1)
                     .setAudioCodec("pcm_s16le")
-                    .setAudioSampleRate(48000)
+                    .setAudioSampleRate(16000)
                     .done();
 
             FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
@@ -151,6 +226,8 @@ public class ProblemServiceImpl implements ProblemService{
         } catch (IOException e) {
             throw new RuntimeException("Error converting file to wav", e);
         }
+
+        return outputFile;
     }
 
     private File convertMultiPartFileToFile(MultipartFile file) {
@@ -164,5 +241,6 @@ public class ProblemServiceImpl implements ProblemService{
         }
         return convertedFile;
     }
+
 
 }

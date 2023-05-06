@@ -34,6 +34,10 @@
           <input class="en_input" type="text" th:field="*{english}" placeholder="영어(번역)">
         </div>
 
+        <div>
+          <input class="en_input" type="text" th:field="*{exp}" placeholder="경험치(정수 or 실수)">
+        </div>
+
         <div class="field-error" th:errors="*{audioFile}">파일 오류</div>
         <input type="file" name="audioFile">
 

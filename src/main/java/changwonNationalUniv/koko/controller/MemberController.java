@@ -1,6 +1,8 @@
 package changwonNationalUniv.koko.controller;
 
 import changwonNationalUniv.koko.dto.request.MemberRequest;
+import changwonNationalUniv.koko.dto.response.MemberResponse;
+import changwonNationalUniv.koko.entity.Member;
 import changwonNationalUniv.koko.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -38,6 +40,19 @@ public class MemberController {
         memberService.save(form);
 
         return "redirect:/";
+    }
+
+    @GetMapping("/member/myPage")
+    public String myPage(Model model) {
+
+        Member member = memberService.getCurrentMember();
+        MemberResponse memberResponse = MemberResponse.of(member);
+        memberResponse.setRank(memberService.getMyRank(member.getUserId()));
+
+        model.addAttribute("memberResponse", memberResponse);
+        
+        return "/member/myPage";
+
     }
 
     private static void checkingPassword(MemberRequest form, BindingResult bindingResult) {

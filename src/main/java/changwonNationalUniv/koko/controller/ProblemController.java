@@ -1,5 +1,6 @@
 package changwonNationalUniv.koko.controller;
 
+import changwonNationalUniv.koko.dto.response.ChallengedProblemHistoryResponse;
 import changwonNationalUniv.koko.dto.response.ProblemResponse;
 import changwonNationalUniv.koko.service.ProblemService;
 import changwonNationalUniv.koko.utils.file.FileStore;
@@ -34,15 +35,14 @@ public class ProblemController {
     }
 
     @PostMapping("/problem/{problemId}")
-    public ResponseEntity<String> problemEvaluation(@PathVariable Long problemId,
-                                                    @RequestParam("audio") MultipartFile audio) throws IOException {
+    public ResponseEntity<ChallengedProblemHistoryResponse> problemEvaluation(@PathVariable Long problemId,
+                                                                              @RequestParam("audio") MultipartFile audio) throws IOException {
 
-
-        //받은 아이디와 오디로데이터를 채점 서비스로 넘겨줌 -> 채점서비는 해당 아디의 원래문자와 해당 오디오파일을 AI api에 돌린 후
+        //받은 아이디와 오디오데이터를 채점 서비스로 넘겨줌 -> 채점서비는 해당 아디의 원래문자와 해당 오디오파일을 AI api에 돌린 후
         //원래 오디오파일의 텍스트와 정답여부등등을 보내줌.
-        problemService.evaluate(problemId, audio);
+        ChallengedProblemHistoryResponse evaluateResult = problemService.evaluate(problemId, audio);
 
-        return ResponseEntity.ok("ㅎㅇ");
+        return ResponseEntity.ok(evaluateResult);
     }
 
 

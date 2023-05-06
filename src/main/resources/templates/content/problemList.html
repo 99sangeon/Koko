@@ -24,11 +24,12 @@
             <table class="content_table">
                 <thead>
                 <tr>
+                    <th>상태</th>
                     <th>번호</th>
                     <th>문제 번호</th>
                     <th>제목</th>
-                    <th>완료한 사람</th>
                     <th>도전한 사람</th>
+                    <th>완료한 사람</th>
                     <th sec:authorize="hasRole('ROLE_ADMIN')">수정</th>
                     <th sec:authorize="hasRole('ROLE_ADMIN')">삭제</th>
                 </tr>
@@ -36,6 +37,11 @@
 
                 <tbody>
                 <tr th:each="problem, problemStat : ${problems}">
+                    <td th:if="${problem.clearState != null}">
+                        <a th:if="${problem.clearState.getName() == '성공'}" style="color: white; background: #1AAB8A; padding: 0.1rem 0.1rem;">성공</a>
+                        <a th:if="${problem.clearState.getName() == '실패'}" style="color: white; background: #f05650; padding: 0.1rem 0.1rem;">실패</a>
+                    </td>
+                    <td th:unless="${problem.clearState != null}"></td>
                     <td th:text="${problemStat.count} + '번'">count</td>
                     <td th:text="${problem.id}">id</td>
                     <td style="width: 25rem; overflow: hidden; text-overflow: ellipsis;">

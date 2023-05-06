@@ -18,6 +18,9 @@ public class ProblemRequest {
     @NotNull(message = "레벨을 선택해주세요.")
     private Integer level;
 
+    @NotNull(message = "경험치를 입력해주세요.")
+    private Float exp;
+
     @NotEmpty(message = "한글을 입력해주세요.")
     private String korean;
 
@@ -29,8 +32,9 @@ public class ProblemRequest {
     private UploadFile uploadFile;
 
     @Builder
-    public ProblemRequest(int level, String korean, String english, MultipartFile audioFile) {
+    public ProblemRequest(int level, Float exp, String korean, String english, MultipartFile audioFile) {
         this.level = level;
+        this.exp = exp;
         this.korean = korean;
         this.english = english;
         this.audioFile = audioFile;
@@ -40,6 +44,7 @@ public class ProblemRequest {
         return Problem
                 .builder()
                 .level(level)
+                .exp(exp)
                 .korean(korean)
                 .english(english)
                 .uploadFile(uploadFile)

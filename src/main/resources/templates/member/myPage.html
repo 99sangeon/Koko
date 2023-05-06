@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <title>홈화면</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<header th:replace="/nav :: navFragment"></header>
+
+<main class="main_div">
+    <div class="main_sub_div" style="display: flex; justify-content: space-between;">
+        <div style="width: 13rem;">
+            <table class="myInfo_table1">
+                <tr>
+                    <th>랭킹</th>
+                    <td><a th:text="${memberResponse.rank} + 위"></a></td>
+                </tr>
+                <tr class="myInfo_div">
+                    <th>도전</th>
+                    <td><a th:text="${memberResponse.challengeCnt}"></a></td>
+                </tr>
+                <tr class="myInfo_div">
+                    <th>성공</th>
+                    <td><a th:text="${memberResponse.successCnt}"></a></td>
+                </tr>
+                <tr class="myInfo_div">
+                    <th>실패</th>
+                    <td><a th:text="${memberResponse.failureCnt}"></a></td>
+                </tr>
+                <tr class="myInfo_div">
+                    <th>성공한 문제</th>
+                    <td><a th:text="${memberResponse.successProblemCnt}"></a></td>
+                </tr>
+                <tr class="myInfo_div">
+                    <th>실패한 문제</th>
+                    <td><a th:text="${memberResponse.failureProblemCnt}"></a></td>
+                </tr>
+            </table>
+        </div>
+
+        <div style="width: 43rem;">
+            <table class="myInfo_table2">
+                <tr>
+                    <th>이름</th>
+                    <td th:text="${memberResponse.name}"></td>
+                </tr>
+                <tr>
+                    <th>아이디</th>
+                    <td th:text="${memberResponse.userId}"></td>
+                </tr>
+                <tr>
+                    <th>비밀번호</th>
+                    <td th:text="${memberResponse.password}"></td>
+                </tr>
+                <tr>
+                    <th>전화번호</th>
+                    <td th:text="${memberResponse.mobile}"></td>
+                </tr>
+                <tr>
+                    <th style="border: none;">이메일</th>
+                    <td style="border: none;" th:text="${memberResponse.email}"></td>
+                </tr>
+            </table>
+            <div style="text-align: right;">
+                <button style="background-color:#00AAFF;" class="cancel_btn" onclick="location.href='/'">수정하기</button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="/footer :: footFragment"></footer>
+
+
+</body>
+</html>
+
+
+

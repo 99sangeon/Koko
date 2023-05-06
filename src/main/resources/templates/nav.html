@@ -17,14 +17,14 @@
 
     <div th:unless="${#authentication.getName() == 'anonymousUser'}" class="div_items_center">
       <ul>
-        <li><a class="nav_a_black" href="#" th:text="${#authentication.getName()} + '님 어서오세요'"></a></li>
+        <li><a class="nav_a_black" href="/member/myPage" th:text="${#authentication.getName()} + '님 어서오세요'"></a></li>
         <li sec:authorize="hasRole('ROLE_ADMIN')" style="position: relative">
           <a class="nav_a_admin" href="/admin/adminPage">관리자 </a>
           <div class="speech-bubble">
             <ul>
               <li><a>회원관리</a></li>
-              <li><a href="/admin/stepForm">단계관리</a></li>
-              <li><a href="/admin/problemForm">문제관리</a></li>
+              <li><a href="/admin/stepForm">단계등록</a></li>
+              <li><a href="/admin/problemForm">문제등록</a></li>
             </ul>
           </div>
         </li>

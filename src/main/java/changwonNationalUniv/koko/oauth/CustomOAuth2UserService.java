@@ -11,6 +11,7 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 
 
 @Slf4j
@@ -45,7 +46,16 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     /* 소셜로그인시 기존 회원이 존재하면 수정날짜 정보만 업데이트해 기존의 데이터는 그대로 보존 */
     private Member saveOrUpdate(OAuthAttributes attributes) {
-        Member member = memberRepository.findByEmail(attributes.getEmail()).orElse(attributes.toEntity());
-        return memberRepository.save(member);
+        Optional<Member> memberWrapper = memberRepository.findByEmail(attributes.getEmail());
+
+        if(memberWrapper.isEmpty()) {
+
+            Member member = attributes.toEntity();
+            return memberRepository.save(member);
+        }
+
+        else {
+            return memberWrapper.get();
+        }
     }
 }

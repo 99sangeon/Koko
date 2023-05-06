@@ -1,14 +1,14 @@
 package changwonNationalUniv.koko.dto.response;
 
 import changwonNationalUniv.koko.entity.Problem;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import changwonNationalUniv.koko.enums.ClearState;
+import lombok.*;
 
-
-@NoArgsConstructor
 @Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ProblemResponse {
 
     private Long id;
@@ -23,18 +23,18 @@ public class ProblemResponse {
 
     private Integer challengeCnt;
 
-    @Builder
-    public ProblemResponse(Long id, Integer level, String korean, String english, Integer clearCnt, Integer challengeCnt) {
+    private ClearState clearState;
+
+    public ProblemResponse(Long id, String korean, Integer challengeCnt, Integer clearCnt, ClearState clearState) {
         this.id = id;
-        this.level = level;
         this.korean = korean;
-        this.english = english;
         this.clearCnt = clearCnt;
         this.challengeCnt = challengeCnt;
-
+        this.clearState = clearState;
     }
 
     public static ProblemResponse of(Problem problem) {
+
         return ProblemResponse
                 .builder()
                 .id(problem.getId())

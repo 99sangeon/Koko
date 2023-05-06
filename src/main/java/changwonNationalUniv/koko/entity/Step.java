@@ -12,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
+@Table(name = "step")
 public class Step extends BaseTimeEntity{
 
     @Id
@@ -31,6 +32,9 @@ public class Step extends BaseTimeEntity{
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "step")
     private List<Problem> problem;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "step")
+    private List<Exam> exams;
+
     @Builder
     public Step(Integer level, String title, String description) {
         this.level = level;
@@ -41,5 +45,10 @@ public class Step extends BaseTimeEntity{
     public void addProblem(Problem problem){
         this.getProblem().add(problem);
         problem.setStep(this);
+    }
+
+    public void addExam(Exam exam){
+        this.getExams().add(exam);
+        exam.setStep(this);
     }
 }

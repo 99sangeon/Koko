@@ -8,6 +8,12 @@ const loading_div = document.getElementById('loading_div');
 const audio_and_visual_div = document.getElementById('audio_and_visual_div');
 const visualizer = document.getElementById('visualizer');
 const uploadButton = document.getElementById('uploadButton');
+const uploadButton_div = document.getElementById('uploadButton_div');
+
+const evaluation = document.getElementById('evaluation_div');
+const score = document.getElementById('score_div');
+const outputKorean = document.getElementById('korean_div');
+const feedback = document.getElementById('feedback_div');
 
 // 녹음 상태 체크용 변수
 let isRecording = false;
@@ -19,8 +25,6 @@ let audioContext;
 let canvasContext;
 let canvasWidth;
 let canvasHeight;
-
-uploadButton.addEventListener('click', upload);
 
 // 녹음 데이터(Blob) 조각 저장 배열
 const audioArray = [];
@@ -63,6 +67,7 @@ $btn.onclick = async function (event) {
         isRecording = true;
         loading_div.style.display = 'block';
         audio_and_visual_div.style.display = 'none';
+        evaluation.style.display = 'none';
         document.getElementById('record_btn_img').src = "/image/mic_off.jpg";
     }else{
         // 녹음 종료
@@ -70,6 +75,7 @@ $btn.onclick = async function (event) {
         isRecording = false;
         loading_div.style.display = 'none';
         audio_and_visual_div.style.display = 'block';
+        uploadButton_div.style.display ='block';
         document.getElementById('record_btn_img').src = "/image/mic_on.jpg";
     }
 }
@@ -150,22 +156,27 @@ document.getElementById('record_audio')
     });
 
 
-function upload() {
+function upload(problemId) {
+    uploadButton_div.style.display ='none';
+
     const formData = new FormData();
     const blob = new Blob(audioArray, { type : 'audio/ogg codecs=opus' });
     formData.append('audio', blob);
 
     $.ajax({
         type: 'post',
-        url : '/content/problem/1',
+        url : '/content/problem/' + problemId,
         data: formData,
 
         timeout: 60000,
         processData: false, // 데이터 처리 방식 (파일 전송 시 false로 설정)
         contentType: false, // 컨텐츠 타입 (파일 전송 시 false로 설정)
         success: function(response) {
-            // 성공적으로 전송되었을 때의 콜백 함수
             console.log(response);
+            evaluation.style.display = 'block';
+            score.innerText = response["score"];
+            outputKorean.innerText = response["korean"];
+            feedback.innerText = response["feedback"];
         },
         error: function(jqXHR, textStatus, errorThrown) {
             // 전송 중 에러가 발생했을 때의 콜백 함수

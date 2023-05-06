@@ -4,11 +4,14 @@ import changwonNationalUniv.koko.enums.Role;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
 @Entity
 @NoArgsConstructor
+@Table(name = "member")
 public class Member extends BaseTimeEntity{
 
     @Id @GeneratedValue
@@ -28,14 +31,36 @@ public class Member extends BaseTimeEntity{
     private String mobile;
 
     @Enumerated(EnumType.STRING)
-    private Role role = Role.MEMBER;
+    private Role role;
 
     @Column(nullable = false, length = 100)
     private String email;
 
+    private Integer challengeCnt;
+
+    private Integer successCnt;
+
+    private Integer failureCnt;
+
+    private Integer successProblemCnt;
+
+    private Integer failureProblemCnt;
+
+    private Float cumulativeExp;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "member")
+    private List<ChallengedProblem> challengedProblems = new ArrayList<>();
+
 
     @Builder
     public Member(String name, String userId, String password, String mobile, String email) {
+        this.challengeCnt = 0;
+        this.successCnt = 0;
+        this.failureCnt = 0;
+        this.successProblemCnt = 0;
+        this.failureProblemCnt = 0;
+        this.cumulativeExp = 0f;
+        this.role = Role.MEMBER;
         this.name = name;
         this.userId = userId;
         this.password = password;
@@ -43,6 +68,35 @@ public class Member extends BaseTimeEntity{
         this.email = email;
     }
 
+    public void addChallengedProblem(ChallengedProblem challengedProblem) {
+        this.getChallengedProblems().add(challengedProblem);
+        challengedProblem.setMember(this);
+    }
 
+    public void increaseChallengeCnt() {
+        this.challengeCnt += 1;
+    }
 
+    public void increaseSuccessCnt() {
+        this.successCnt += 1;
+    }
+
+    public void increaseFailureCnt() {
+        this.failureCnt += 1;
+    }
+
+    public void increaseSuccessProblemCnt() {
+        this.successProblemCnt += 1;
+    }
+
+    public void increaseFailureProblemCnt() {
+        this.failureProblemCnt += 1;
+    }
+
+    public void decreaseFailureProblemCnt() {
+        this.failureProblemCnt -= 1;
+    }
+    public void increaseCumulativeExp(float exp) {
+        this.cumulativeExp += exp;
+    }
 }

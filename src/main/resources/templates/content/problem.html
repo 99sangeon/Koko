@@ -43,16 +43,34 @@
                 </div>
             </div>
 
-            <div id="audio_and_visual_div" style="display: none; margin-top: 4rem;">
+            <div id="audio_and_visual_div" style="display: none; margin-top: 4rem; ">
                 <div style="display: flex; align-items: center; justify-content: center">
                     <div style="display: none;">
                         <audio id="record_audio"  style="margin-right: 2rem" controls></audio>
                     </div>
                     <button id="my_play_btn" class="play_img_button"><img id="my_play_btn_img" class="play_img" src="/image/play.jpeg"></button>
                     <canvas id="visualizer"></canvas>
+
+                </div>
+
+                <div id="uploadButton_div">
+                    <button id="uploadButton" class="record_button" th:onclick="upload([[${problem.id}]]);">제출</button>
+                </div>
+
+            </div>
+
+            <div id="evaluation_div" style="display: none; margin-top: 3rem">
+                <div>
+                    <span class="evaluation_title">점수 : </span>
+                    <span class="evaluation_content" id="score_div"></span>
+                </div>
+                <div style="margin: 1rem 0">
+                    <span class="evaluation_title">발음 : </span>
+                    <span class="evaluation_content" id="korean_div"></span>
                 </div>
                 <div>
-                    <button id="uploadButton" class="record_button">제출</button>
+                    <span class="evaluation_title">피드백 : </span>
+                    <span class="evaluation_content" id="feedback_div"></span>
                 </div>
             </div>
 
