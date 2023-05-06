@@ -150,7 +150,6 @@ public class ProblemServiceImpl implements ProblemService{
                     .builder()
                     .score(challengedProblemHistoryResponse.getScore())
                     .korean(challengedProblemHistoryResponse.getKorean())
-                    .feedback("잘하셨어요!")
                     .build();
 
             problem.increaseChallengeCnt();  //문제 도전 횟수 1회증가
@@ -161,6 +160,7 @@ public class ProblemServiceImpl implements ProblemService{
 
                 problem.increaseClearCnt();
                 member.increaseSuccessCnt();
+                challengedProblemHistory.setFeedback("잘하셨어요!");
                 challengedProblemHistory.setClearState(ClearState.Y);
 
                 //최초 클리어
@@ -179,6 +179,7 @@ public class ProblemServiceImpl implements ProblemService{
             else {
 
                 member.increaseFailureCnt();
+                challengedProblemHistory.setFeedback("아쉽네요. 다시 한번 도전해보세요!");
                 challengedProblemHistory.setClearState(ClearState.N);
 
                 //최초 실패
@@ -204,8 +205,10 @@ public class ProblemServiceImpl implements ProblemService{
 
         File inputFile = convertMultiPartFileToFile(audio);
 
-        FFmpeg ffmpeg = new FFmpeg("/opt/homebrew/bin/ffmpeg"); // ffmpeg 실행 파일 경로
-        FFprobe ffprobe = new FFprobe("/opt/homebrew/bin/ffprobe"); // ffprobe 실행 파일 경로
+        //FFmpeg ffmpeg = new FFmpeg("/opt/homebrew/bin/ffmpeg"); // ffmpeg 실행 파일 경로
+        //FFprobe ffprobe = new FFprobe("/opt/homebrew/bin/ffprobe"); // ffprobe 실행 파일 경로
+        FFmpeg ffmpeg = new FFmpeg("C:/ffmpeg/bin/ffmpeg"); // ffmpeg 실행 파일 경로
+        FFprobe ffprobe = new FFprobe("C:/ffmpeg/bin//ffprobe"); // ffprobe 실행 파일 경로
         File outputFile = new File(fileDir+"/output.wav");
 
         try {
