@@ -2,8 +2,10 @@ package changwonNationalUniv.koko.controller;
 
 import changwonNationalUniv.koko.dto.request.MemberRequest;
 import changwonNationalUniv.koko.dto.response.MemberResponse;
+import changwonNationalUniv.koko.dto.response.SuccessCntResponse;
 import changwonNationalUniv.koko.entity.Member;
 import changwonNationalUniv.koko.service.MemberService;
+import changwonNationalUniv.koko.service.ProblemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,12 +16,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.List;
+
 
 @Controller
 @RequiredArgsConstructor
 public class MemberController {
 
     private final MemberService memberService;
+    private final ProblemService problemService;
 
     @GetMapping("/join")
     public String joinForm(Model model) {
@@ -53,6 +58,21 @@ public class MemberController {
         
         return "/member/myPage";
 
+    }
+
+    @GetMapping("/member/visualization")
+    public String visualization(Model model) {
+
+        Member member = memberService.getCurrentMember();
+        MemberResponse memberResponse = MemberResponse.of(member);
+        memberResponse.setRank(memberService.getMyRank(member.getUserId()));
+
+        List<SuccessCntResponse> successCnt= problemService.findSuccessCntForVisualChart(member);
+
+        model.addAttribute("memberResponse", memberResponse);
+        model.addAttribute("successCnt", successCnt);
+
+        return "/member/visualization";
     }
 
     private static void checkingPassword(MemberRequest form, BindingResult bindingResult) {

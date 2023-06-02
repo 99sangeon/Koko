@@ -31,13 +31,17 @@ public class ProblemRequest {
 
     private UploadFile uploadFile;
 
+    @NotEmpty(message = "발음표기를 입력해주세요.")
+    private String pronunciation;
+
     @Builder
-    public ProblemRequest(int level, Float exp, String korean, String english, MultipartFile audioFile) {
+    public ProblemRequest(int level, Float exp, String korean, String english, MultipartFile audioFile, String pronunciation) {
         this.level = level;
         this.exp = exp;
         this.korean = korean;
         this.english = english;
         this.audioFile = audioFile;
+        this.pronunciation = pronunciation;
     }
 
     public Problem toEntity() {
@@ -48,6 +52,7 @@ public class ProblemRequest {
                 .korean(korean)
                 .english(english)
                 .uploadFile(uploadFile)
+                .pronunciation(pronunciation)
                 .build();
     }
 }

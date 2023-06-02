@@ -4,6 +4,7 @@ import changwonNationalUniv.koko.enums.ClearState;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Table(name = "challenged_problem")
-public class ChallengedProblem {
+public class ChallengedProblem extends BaseTimeEntity{
 
     @Id
     @GeneratedValue

@@ -21,7 +21,7 @@ import java.nio.file.Files;
 public class RestTemplateService {
 
     // http://localhost:9090/api/server/hello 로 요청해서 response를 받아오기
-    public ChallengedProblemHistoryResponse runModels(File wavFile){
+    public ChallengedProblemHistoryResponse runModels(File wavFile, String sentence){
 
         RestTemplate restTemplate = new RestTemplate();
 
@@ -32,6 +32,7 @@ public class RestTemplateService {
 
         try {
             body.add("file", new UrlResource("file:" + wavFile.getAbsolutePath()));
+            body.add("sentence", sentence);
         }
         catch (Exception e) {
             body.add("wavFile", "error");

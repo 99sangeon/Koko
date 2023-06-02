@@ -3,6 +3,8 @@ package changwonNationalUniv.koko.service;
 import changwonNationalUniv.koko.dto.request.ProblemRequest;
 import changwonNationalUniv.koko.dto.response.ChallengedProblemHistoryResponse;
 import changwonNationalUniv.koko.dto.response.ProblemResponse;
+import changwonNationalUniv.koko.dto.response.SuccessCntResponse;
+import changwonNationalUniv.koko.entity.Member;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -23,4 +25,6 @@ public interface ProblemService {
     ProblemResponse findProblem(Long id);
 
     String findFilename(Long id);
+
+    List<SuccessCntResponse> findSuccessCntForVisualChart(Member member);
 }

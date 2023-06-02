@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <title>홈화면</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script th:inline="javascript">
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChallengedChart);
+        google.charts.setOnLoadCallback(drawProblemChart);
+        google.charts.setOnLoadCallback(drawSuccessCnt);
+
+        var chartData = /*[[${memberResponse}]]*/ [];
+        var successChartData = /*[[${successCnt}]]*/ [];
+
+        function drawChallengedChart() {
+
+            var data = google.visualization.arrayToDataTable([
+                ['Whether', 'cnt'],
+                ['성공', chartData.successCnt],
+                ['실패', chartData.failureCnt],
+            ]);
+
+            var options = {
+                title: '도전횟수',
+                is3D: true
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('piechart1'));
+
+            chart.draw(data, options);
+        }
+
+        function drawProblemChart() {
+
+            var data = google.visualization.arrayToDataTable([
+                ['Whether', 'cnt'],
+                ['성공한 문제', chartData.successProblemCnt],
+                ['실패한 문제', chartData.failureProblemCnt]
+            ]);
+
+            var options = {
+                title: '성공문제',
+                is3D: true
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('piechart2'));
+
+            chart.draw(data, options);
+        }
+
+        function drawSuccessCnt() {
+            // Some raw data (not necessarily accurate)
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', '시간');
+            data.addColumn('number', '성공 문제');
+
+
+            var options = {
+                title : '최근 일주일 성공한 문제',
+                vAxis: {title: '성공한 문제'},
+                hAxis: {title: '날짜'},
+                seriesType: 'bars',
+                series: {5: {type: 'line'}}
+            };
+
+            for (var i = 0; i < successChartData.length; i++) {
+                data.addRow([successChartData[i].dat, successChartData[i].cnt]);
+            }
+
+            var chart = new google.visualization.ComboChart(document.getElementById('successChart'));
+            chart.draw(data, options);
+        }
+    </script>
+
+</head>
+<body>
+
+<header th:replace="/nav :: navFragment"></header>
+
+<main class="main_div">
+    <div class="main_sub_div" style="display: flex; justify-content: space-between;">
+        <div style="width: 13rem;">
+            <table class="myInfo_table1">
+                <tr>
+                    <th>랭킹</th>
+                    <td><a th:text="${memberResponse.rank} + 위"></a></td>
+                </tr>
+                <tr class="myInfo_div">
+                    <th>도전</th>
+                    <td><a th:text="${memberResponse.challengeCnt}"></a></td>
+                </tr>
+                <tr class="myInfo_div">
+                    <th>성공</th>
+                    <td><a th:text="${memberResponse.successCnt}"></a></td>
+                </tr>
+                <tr class="myInfo_div">
+                    <th>실패</th>
+                    <td><a th:text="${memberResponse.failureCnt}"></a></td>
+                </tr>
+                <tr class="myInfo_div">
+                    <th>성공한 문제</th>
+                    <td><a th:text="${memberResponse.successProblemCnt}"></a></td>
+                </tr>
+                <tr class="myInfo_div">
+                    <th>실패한 문제</th>
+                    <td><a th:text="${memberResponse.failureProblemCnt}"></a></td>
+                </tr>
+            </table>
+        </div>
+        <div style="width: 43rem;">
+            <div style="width: 43rem; display: flex">
+                <div id="piechart1"></div>
+                <div id="piechart2"></div>
+            </div>
+
+            <div id="successChart" style="margin-top: 2rem; height: 30rem; width: 43rem;"></div>
+
+        </div>
+    </div>
+</main>
+
+<footer th:replace="/footer :: footFragment"></footer>
+
+
+</body>
+</html>
+
+
+
