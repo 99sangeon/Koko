@@ -164,7 +164,7 @@ public class ProblemServiceImpl implements ProblemService{
             member.increaseChallengeCnt();   //사용자 도전 횟수 1회증가
 
             //기존의 한글과 출력된 한글이 일치하면 문제 정답 처리, 일치하지 않으면 정답 처리X 및 피드백 제공
-            if(problem.getKorean().equals(challengedProblemHistoryResponse.getFeedback())) {
+            if(problem.getKorean().equals(challengedProblemHistoryResponse.getKorean())) {
 
                 problem.increaseClearCnt();
                 member.increaseSuccessCnt();
@@ -189,18 +189,18 @@ public class ProblemServiceImpl implements ProblemService{
                 member.increaseFailureCnt();
                 
                 String[] actualPronunciations = problem.getKorean().split(" ");
-                String[] userPronunciations = challengedProblemHistoryResponse.getFeedback().split(" ");
+                String[] userPronunciations = challengedProblemHistoryResponse.getKorean().split(" ");
                 String[] enPronunciations = problem.getPronunciation().split(" ");
                 
-                String feedBack = null;
+                String feedBack="";
                 
                 for(int i = 0; i < actualPronunciations.length; i++) {
                     if(!actualPronunciations[i].equals(userPronunciations[i])){
-                        feedBack.concat(actualPronunciations[i] + "를 " + enPronunciations + "로 발음해보세요.\n");
+                        feedBack += actualPronunciations[i] + "를 " + enPronunciations[i] + "로 발음해보세요.\n";
                     }
                 }
 
-                challengedProblemHistory.setFeedback("아쉽네요. 다시 한번 도전해보세요!");
+                challengedProblemHistory.setFeedback(feedBack);
                 challengedProblemHistory.setClearState(ClearState.N);
 
                 //최초 실패

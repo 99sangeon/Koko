@@ -7,6 +7,7 @@ const $my_play_btn = document.querySelector("#my_play_btn");
 const loading_div = document.getElementById('loading_div');
 const audio_and_visual_div = document.getElementById('audio_and_visual_div');
 const visualizer = document.getElementById('visualizer');
+const denoisevisualizer = document.getElementById('denoisevisualizer');
 const uploadButton = document.getElementById('uploadButton');
 const uploadButton_div = document.getElementById('uploadButton_div');
 
@@ -89,8 +90,8 @@ function drawWaveform(audioData) {
             const data = buffer.getChannelData(0);
             canvasContext.fillStyle = 'rgb(255, 255, 255)';
             canvasContext.fillRect(0, 0, canvasWidth, canvasHeight);
-            canvasContext.lineWidth = 2;
-            canvasContext.strokeStyle = 'rgb(0, 0, 0)';
+            canvasContext.lineWidth = 1;
+            canvasContext.strokeStyle = 'rgb(0,5,254)';
             canvasContext.beginPath();
             const sliceWidth = canvasWidth * 1.0 / data.length;
             let x = 0;
@@ -110,6 +111,8 @@ function drawWaveform(audioData) {
     };
     reader.readAsArrayBuffer(audioData);
 }
+
+
 
 $standard_btn.onclick = async function (event) {
     if (standard_sound_playing == false){
@@ -202,3 +205,18 @@ function setupVisualizer() {
 
 setupVisualizer();
 
+function setupDenoiseVisualizer() {
+    canvasContext = denoisevisualizer.getContext('2d');
+    canvasWidth = denoisevisualizer.width;
+    canvasHeight = denoisevisualizer.height;
+    canvasContext.fillStyle = 'rgb(255, 255, 255)';
+    canvasContext.fillRect(0, 0, canvasWidth, canvasHeight);
+    canvasContext.lineWidth = 2;
+    canvasContext.strokeStyle = 'rgb(0, 0, 0)';
+    canvasContext.beginPath();
+    canvasContext.moveTo(0, canvasHeight / 2);
+    canvasContext.lineTo(canvasWidth, canvasHeight / 2);
+    canvasContext.stroke();
+}
+
+setupDenoiseVisualizer();
