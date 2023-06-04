@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/recordingLoading.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/button.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/loading.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/loding.css}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
@@ -60,13 +60,7 @@
                 </div>
 
             </div>
-
-            <div id="eva_loading" class="loading-container" style="display: none; margin-top: 10rem;">
-                    <div class="loading"></div>
-                    <div id="loading-text">채점중</div>
-            </div>
-
-
+            
             <div id="audio_and_visual_div2" style="display: none; margin-top: 4rem; ">
                 <div style="display: flex; align-items: center; justify-content: center">
                     <button id="my_play_btn2" class="play_img_button"><img id="my_play_btn_img2" class="play_img" src="/image/play.jpeg"></button>
@@ -95,7 +89,6 @@
             <button id="record_control_btn" class="record_img_button">
                 <img id="record_btn_img" class="record_img" src="/image/mic_on.jpg">
             </button>
-
         </div>
         <script th:src="@{/js/recording.js}"></script>
     </div>

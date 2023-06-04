@@ -92,7 +92,7 @@ function drawWaveform(audioData) {
             canvasContext.fillStyle = 'rgb(255, 255, 255)';
             canvasContext.fillRect(0, 0, canvasWidth, canvasHeight);
             canvasContext.lineWidth = 1;
-            canvasContext.strokeStyle = 'rgb(0,5,254)';
+            canvasContext.strokeStyle = 'rgb(25,25,117)';
             canvasContext.beginPath();
             const sliceWidth = canvasWidth * 1.0 / data.length;
             let x = 0;
@@ -208,18 +208,4 @@ function setupVisualizer() {
 
 setupVisualizer();
 
-function setupDenoiseVisualizer() {
-    canvasContext = denoisevisualizer.getContext('2d');
-    canvasWidth = denoisevisualizer.width;
-    canvasHeight = denoisevisualizer.height;
-    canvasContext.fillStyle = 'rgb(255, 255, 255)';
-    canvasContext.fillRect(0, 0, canvasWidth, canvasHeight);
-    canvasContext.lineWidth = 2;
-    canvasContext.strokeStyle = 'rgb(0, 0, 0)';
-    canvasContext.beginPath();
-    canvasContext.moveTo(0, canvasHeight / 2);
-    canvasContext.lineTo(canvasWidth, canvasHeight / 2);
-    canvasContext.stroke();
-}
 
-setupDenoiseVisualizer();
