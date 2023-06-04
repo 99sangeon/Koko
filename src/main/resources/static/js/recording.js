@@ -11,12 +11,11 @@ const visualizer = document.getElementById('visualizer');
 const denoisevisualizer = document.getElementById('denoisevisualizer');
 const uploadButton = document.getElementById('uploadButton');
 const uploadButton_div = document.getElementById('uploadButton_div');
-ㅋ
 const evaluation = document.getElementById('evaluation_div');
 const score = document.getElementById('score_div');
 const outputKorean = document.getElementById('korean_div');
 const feedback = document.getElementById('feedback_div');
-
+ㅋ
 // 녹음 상태 체크용 변수
 let isRecording = false;
 let my_sound_playing = false;
