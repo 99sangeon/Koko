@@ -33,7 +33,10 @@ public class Problem extends BaseTimeEntity{
     private Float exp;
 
     @Column(nullable = false)
-    private String pronunciation;
+    private String koPronunciation;
+
+    @Column(nullable = false)
+    private String enPronunciation;
 
     private Integer clearCnt = 0;
 
@@ -50,13 +53,14 @@ public class Problem extends BaseTimeEntity{
     private List<ChallengedProblem> challengedProblems;
 
     @Builder
-    public Problem(Integer level, Float exp,String korean, String english, UploadFile uploadFile, String pronunciation) {
+    public Problem(Integer level, Float exp,String korean, String english, UploadFile uploadFile, String koPronunciation, String enPronunciation) {
         this.level = level;
         this.exp = exp;
         this.korean = korean;
         this.english = english;
         this.uploadFile = uploadFile;
-        this.pronunciation = pronunciation;
+        this.koPronunciation = koPronunciation;
+        this.enPronunciation = enPronunciation;
 
     }
 
