@@ -15,7 +15,10 @@ const evaluation = document.getElementById('evaluation_div');
 const score = document.getElementById('score_div');
 const outputKorean = document.getElementById('korean_div');
 const feedback = document.getElementById('feedback_div');
-ㅋ
+const deNoiseImgBtn = document.getElementById('deNoiseImgBtn');
+const deNoiseImgDiv = document.getElementById('deNoiseImgDiv');
+const noiseImg = document.getElementById('noiseImg');
+const deNoiseImg = document.getElementById('deNoiseImg');
 // 녹음 상태 체크용 변수
 let isRecording = false;
 let my_sound_playing = false;
@@ -26,6 +29,7 @@ let audioContext;
 let canvasContext;
 let canvasWidth;
 let canvasHeight;
+let deNoiseImageState = 0;
 
 // 녹음 데이터(Blob) 조각 저장 배열
 const audioArray = [];
@@ -69,6 +73,9 @@ $btn.onclick = async function (event) {
         loading_div.style.display = 'block';
         audio_and_visual_div.style.display = 'none';
         evaluation.style.display = 'none';
+        deNoiseImgBtn.style.display= 'none';
+        deNoiseImageState = 0;
+        deNoiseImgDiv.style.display = 'none';
         document.getElementById('record_btn_img').src = "/image/mic_off.jpg";
     }else{
         // 녹음 종료
@@ -179,9 +186,13 @@ function upload(problemId) {
             console.log(response);
             eva_loading.style.display = 'none';
             evaluation.style.display = 'block';
+            deNoiseImgBtn.style.display= 'block';
             score.innerText = response["score"];
             outputKorean.innerText = response["korean"];
             feedback.innerText = response["feedback"];
+            noiseImg.src = "/content/noise"
+            deNoiseImg.src = "/content/deNoise"
+
         },
         error: function(jqXHR, textStatus, errorThrown) {
             // 전송 중 에러가 발생했을 때의 콜백 함수
@@ -206,5 +217,20 @@ function setupVisualizer() {
 }
 
 setupVisualizer();
+
+
+function changeDeNoiseState() {
+
+    if(deNoiseImageState == 0) {
+        deNoiseImageState = 1;
+        deNoiseImgDiv.style.display = 'block';
+    }
+
+    else {
+        deNoiseImageState = 0;
+        deNoiseImgDiv.style.display = 'none';
+    }
+
+}
 
 

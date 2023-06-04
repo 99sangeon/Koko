@@ -411,7 +411,9 @@ nav {
 }
 
 .sentence_and_audio_div {
-    padding: 10rem;
+
+    width: 60rem;
+    padding: 10rem 0;
     text-align: center;
 
 }

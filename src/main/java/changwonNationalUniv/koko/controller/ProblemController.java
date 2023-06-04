@@ -63,4 +63,18 @@ public class ProblemController {
         return new UrlResource("file:" + fileStore.getFullPath(filename));
     }
 
+    @ResponseBody
+    @GetMapping("/noise")
+    public Resource noiseImg() throws MalformedURLException {
+
+        return new UrlResource("file:" + "C:\\Users\\User\\Desktop\\img\\Original.jpg");
+    }
+
+    @ResponseBody
+    @GetMapping("/deNoise")
+    public Resource deNoiseImg() throws MalformedURLException {
+
+        return new UrlResource("file:" + "C:\\Users\\User\\Desktop\\img\\Denoised.jpg");
+    }
+
 }
