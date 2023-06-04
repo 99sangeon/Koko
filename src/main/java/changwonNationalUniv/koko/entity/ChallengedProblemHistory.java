@@ -30,5 +30,6 @@ public class ChallengedProblemHistory extends BaseTimeEntity{
 
     private String korean;
 
+    @Column(length = 1000)
     private String feedback;
 }

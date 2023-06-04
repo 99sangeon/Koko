@@ -189,23 +189,35 @@ public class ProblemServiceImpl implements ProblemService{
                 member.increaseFailureCnt();
                 
                 String[] actualPronunciations = problem.getKorean().split(" ");
-                String[] userPronunciations = challengedProblemHistoryResponse.getFeedback().split(" ");
+                String[] userPronunciations = challengedProblemHistoryResponse.getKorean().split(" ");
                 String[] koPronunciations = problem.getKoPronunciation().split(" ");
                 String[] enPronunciations = problem.getEnPronunciation().split(" ");
                 
-                String feedBack = null;
-                
-                for(int i = 0; i < actualPronunciations.length; i++) {
+                String feedBack = "";
 
-                    if(i >= userPronunciations.length) break;
+                if(actualPronunciations.length != userPronunciations.length) {
 
-                    if(!actualPronunciations[i].equals(userPronunciations[i])){
-                        feedBack.concat(actualPronunciations[i] + "를 " +
-                                "(" + koPronunciations + ")" +enPronunciations + "로 발음해보세요.\n");
+                    for(int i = 0; i < actualPronunciations.length; i++) {
+
+                        feedBack +="\"" + actualPronunciations[i] + "\"" + "를(을) " +
+                                    "\"" + koPronunciations[i] +  "(" + enPronunciations[i] + ")" + "\"" + "(으)로 발음해보세요.\n";
                     }
                 }
 
-                challengedProblemHistory.setFeedback("아쉽네요. 다시 한번 도전해보세요!");
+                else {
+                    for(int i = 0; i < actualPronunciations.length; i++) {
+
+                        if(i >= userPronunciations.length) break;
+
+                        if(!actualPronunciations[i].equals(userPronunciations[i])){
+                            feedBack +="\"" + userPronunciations[i] + "\"" + "를(을) " +
+                                    "\"" + koPronunciations[i] +  "(" + enPronunciations[i] + ")" + "\"" + "(으)로 발음해보세요.\n";
+                        }
+                    }
+                }
+
+
+                challengedProblemHistory.setFeedback(feedBack);
                 challengedProblemHistory.setClearState(ClearState.N);
 
                 //최초 실패

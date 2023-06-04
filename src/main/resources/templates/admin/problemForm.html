@@ -30,7 +30,10 @@
           <input class="ko_input" type="text" th:field="*{korean}" placeholder="한글">
         </div>
         <div style="display: flex; align-items: center; justify-content: center">
-          <input class="ko_input" type="text" th:field="*{pronunciation}" placeholder="발음표기">
+          <input class="ko_input" type="text" th:field="*{koPronunciation}" placeholder="한글표기">
+        </div>
+        <div style="display: flex; align-items: center; justify-content: center">
+          <input class="ko_input" type="text" th:field="*{enPronunciation}" placeholder="영어표기">
         </div>
         <div class="field-error" th:errors="*{english}">영어(번역) 오류</div>
         <div>
