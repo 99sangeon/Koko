@@ -25,11 +25,22 @@
 
       <div style="border-bottom: 0.05rem solid #5F5F5F;" class="sentence_and_audio_div">
 
+        <div class="field-error" th:errors="*{korean}">한글 오류</div>
         <div style="display: flex; align-items: center; justify-content: center">
           <input class="ko_input" type="text" th:field="*{korean}" placeholder="한글">
         </div>
+        <div style="display: flex; align-items: center; justify-content: center">
+          <input class="ko_input" type="text" th:field="*{koPronunciation}" placeholder="한글표기">
+        </div>
+        <div class="field-error" th:errors="*{english}">영어(번역) 오류</div>
         <div>
           <input class="en_input" type="text" th:field="*{english}" placeholder="영어(번역)">
+        </div>
+        <div style="display: flex; align-items: center; justify-content: center">
+          <input class="en_input" type="text" th:field="*{enPronunciation}" placeholder="영어표기">
+        </div>
+        <div>
+          <input class="en_input" type="text" th:field="*{exp}" placeholder="경험치">
         </div>
 
         <input type="file" name="audioFile" value="파일이름.wav">

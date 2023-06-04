@@ -80,6 +80,9 @@ public class ProblemServiceImpl implements ProblemService{
         problem.setLevel(problemRequest.getLevel());
         problem.setKorean(problemRequest.getKorean());
         problem.setEnglish(problemRequest.getEnglish());
+        problem.setKoPronunciation(problemRequest.getKoPronunciation());
+        problem.setEnPronunciation(problemRequest.getEnPronunciation());
+        problem.setExp(problemRequest.getExp());
 
         if(problemRequest.getAudioFile() != null) {
             updateFile(problemRequest, problem);

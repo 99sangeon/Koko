@@ -32,16 +32,15 @@
         <div style="display: flex; align-items: center; justify-content: center">
           <input class="ko_input" type="text" th:field="*{koPronunciation}" placeholder="한글표기">
         </div>
-        <div style="display: flex; align-items: center; justify-content: center">
-          <input class="ko_input" type="text" th:field="*{enPronunciation}" placeholder="영어표기">
-        </div>
         <div class="field-error" th:errors="*{english}">영어(번역) 오류</div>
         <div>
           <input class="en_input" type="text" th:field="*{english}" placeholder="영어(번역)">
         </div>
-
+        <div style="display: flex; align-items: center; justify-content: center">
+          <input class="en_input" type="text" th:field="*{enPronunciation}" placeholder="영어표기">
+        </div>
         <div>
-          <input class="en_input" type="text" th:field="*{exp}" placeholder="경험치(정수 or 실수)">
+          <input class="en_input" type="text" th:field="*{exp}" placeholder="경험치">
         </div>
 
         <div class="field-error" th:errors="*{audioFile}">파일 오류</div>

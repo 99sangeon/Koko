@@ -5,6 +5,7 @@ const $standard_btn = document.querySelector("#standard_play_btn");
 const $btn = document.querySelector("#record_control_btn");
 const $my_play_btn = document.querySelector("#my_play_btn");
 const loading_div = document.getElementById('loading_div');
+const eva_loading = document.getElementById('eva_loading');
 const audio_and_visual_div = document.getElementById('audio_and_visual_div');
 const visualizer = document.getElementById('visualizer');
 const denoisevisualizer = document.getElementById('denoisevisualizer');
@@ -161,6 +162,7 @@ document.getElementById('record_audio')
 
 function upload(problemId) {
     uploadButton_div.style.display ='none';
+    eva_loading.style.display = 'block';
 
     const formData = new FormData();
     const blob = new Blob(audioArray, { type : 'audio/ogg codecs=opus' });
@@ -176,6 +178,7 @@ function upload(problemId) {
         contentType: false, // 컨텐츠 타입 (파일 전송 시 false로 설정)
         success: function(response) {
             console.log(response);
+            eva_loading.style.display = 'none';
             evaluation.style.display = 'block';
             score.innerText = response["score"];
             outputKorean.innerText = response["korean"];

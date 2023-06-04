@@ -4,6 +4,8 @@ import changwonNationalUniv.koko.entity.Problem;
 import changwonNationalUniv.koko.enums.ClearState;
 import lombok.*;
 
+import javax.validation.constraints.NotEmpty;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -25,6 +27,12 @@ public class ProblemResponse {
 
     private ClearState clearState;
 
+    private String koPronunciation;
+
+    private String enPronunciation;
+
+    private Float exp;
+
     public ProblemResponse(Long id, String korean, Integer challengeCnt, Integer clearCnt, ClearState clearState) {
         this.id = id;
         this.korean = korean;
@@ -43,6 +51,9 @@ public class ProblemResponse {
                 .english(problem.getEnglish())
                 .clearCnt(problem.getClearCnt())
                 .challengeCnt(problem.getChallengeCnt())
+                .koPronunciation(problem.getKoPronunciation())
+                .enPronunciation(problem.getEnPronunciation())
+                .exp(problem.getExp())
                 .build();
     }
 
