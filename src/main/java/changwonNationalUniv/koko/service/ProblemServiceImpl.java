@@ -164,11 +164,11 @@ public class ProblemServiceImpl implements ProblemService{
             member.increaseChallengeCnt();   //사용자 도전 횟수 1회증가
 
             //기존의 한글과 출력된 한글이 일치하면 문제 정답 처리, 일치하지 않으면 정답 처리X 및 피드백 제공
-            if(problem.getKorean().equals(challengedProblemHistoryResponse.getKorean())) {
+            if(problem.getKorean().equals(challengedProblemHistoryResponse.getFeedback())) {
 
                 problem.increaseClearCnt();
                 member.increaseSuccessCnt();
-                challengedProblemHistory.setFeedback("정답입니다. 잘 하셨어요!");
+                challengedProblemHistory.setFeedback("잘하셨어요!");
                 challengedProblemHistory.setClearState(ClearState.Y);
 
                 //최초 클리어
@@ -190,21 +190,17 @@ public class ProblemServiceImpl implements ProblemService{
                 
                 String[] actualPronunciations = problem.getKorean().split(" ");
                 String[] userPronunciations = challengedProblemHistoryResponse.getFeedback().split(" ");
-                String[] koPronunciations = problem.getKoPronunciation().split(" ");
-                String[] enPronunciations = problem.getEnPronunciation().split(" ");
+                String[] enPronunciations = problem.getPronunciation().split(" ");
                 
                 String feedBack = null;
                 
                 for(int i = 0; i < actualPronunciations.length; i++) {
-
-                    if(i >= enPronunciations.length) break;
-
                     if(!actualPronunciations[i].equals(userPronunciations[i])){
-                        feedBack.concat(actualPronunciations[i] + "를 " + koPronunciations[i] + "(" + enPronunciations[i] + ")" + "로 발음해보세요.\n");
+                        feedBack.concat(actualPronunciations[i] + "를 " + enPronunciations + "로 발음해보세요.\n");
                     }
                 }
 
-                challengedProblemHistory.setFeedback(feedBack);
+                challengedProblemHistory.setFeedback("아쉽네요. 다시 한번 도전해보세요!");
                 challengedProblemHistory.setClearState(ClearState.N);
 
                 //최초 실패

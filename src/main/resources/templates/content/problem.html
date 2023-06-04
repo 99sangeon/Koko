@@ -51,12 +51,20 @@
                     <button id="my_play_btn" class="play_img_button"><img id="my_play_btn_img" class="play_img" src="/image/play.jpeg"></button>
                     <canvas id="visualizer"></canvas>
 
+
                 </div>
 
                 <div id="uploadButton_div">
                     <button id="uploadButton" class="record_button" th:onclick="upload([[${problem.id}]]);">제출</button>
                 </div>
 
+            </div>
+
+            <div id="audio_and_visual_div2" style="display: none; margin-top: 4rem; ">
+                <div style="display: flex; align-items: center; justify-content: center">
+                    <button id="my_play_btn2" class="play_img_button"><img id="my_play_btn_img2" class="play_img" src="/image/play.jpeg"></button>
+                    <canvas id="denoisevisualizer"></canvas>
+                </div>
             </div>
 
             <div id="evaluation_div" style="display: none; margin-top: 3rem">
