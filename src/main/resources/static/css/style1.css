@@ -8,7 +8,7 @@
     --grey-light-color: #e0e0e0;
 
     /* Size */
-    --spacing: 20px;
+    --spacing: 18px;
     --spacing-small: 12px;
     --avatar-size: 36px;
 
@@ -47,6 +47,10 @@ ul {
     align-items: center;
 }
 
+.navigator .logo{
+    margin-left: 100px;
+}
+
 .navigator .logo .title{
     font-size: 40px;
     color: var(--black-color);
@@ -54,9 +58,16 @@ ul {
 
 .navigator .menu {
     display: flex;
+    margin-right: 80px;
 }
 
 .navigator .menu a {
-    padding: 100px;
+    padding: var(--spacing-small);
+    margin: 0 3px;
 }
+
+.navigator .menu a:hover {
+    border-bottom: 2px solid black;
+}
+
 
