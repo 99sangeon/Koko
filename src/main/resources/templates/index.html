@@ -6,27 +6,61 @@
     <title>Koko</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700&family=Roboto:ital@0;1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang&family=Nanum+Myeongjo:wght@400;700&family=Roboto:ital,wght@0,100;0,400;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" th:href="@{/css/style1.css}">
 </head>
-<body style="background-image: url('/image/main_img.jpg'); background-size: 100% auto; background-repeat: no-repeat">
+<body>
 
-  <nav class="navigator">
+  <header class="navigator">
     <div class="logo">
-      <span class="title">Koko</span>
+      <a href="/"><span class="title">Koko</span></a>
     </div>
     <ul class="menu">
       <li class="login">
-        <a href="/login">로그인</a>
+          <a href="/"><span>홈화면</span></a>
+      </li>
+      <li class="login">
+        <a href="/login"><span>로그인</span></a>
       </li>
       <li class="myPage">
-        <a>내정보</a>
+        <a><span>내정보</span></a>
       </li>
       <li class="admin">
-        <a>관리자</a>
+        <a><span>관리자</span></a>
       </li>
     </ul>
-  </nav>
+  </header>
+
+  <main>
+      <div class="mainImg">
+          <img src="/image/main_img.jpg">
+
+          <div class="mainPhrases">
+              <div class="firPhrase"><span>언제 어디서든 쉽게,</span></div>
+              <div class="sndPhrase"><span>Speaking Today With</span></div>
+              <div class="trdPhrase"><span>Koko</span></div>
+          </div>
+          <div class="step">
+
+          </div>
+      </div>
+  </main>
+
+  <div style="height: 10000px"></div>
+  <footer>
+      <div class="univInfo">
+          <span>Changwon National Univ</span>
+          <span class="department">Department of Information and Communication Engineering</span>
+      </div>
+      <div class="teamInfo">
+          <span>Team : Koko</span>
+          <span>Team Member : 박광현, 박연진, 전상언</span>
+          <span>Tel : 010-7307-4546</span>
+      </div>
+  </footer>
 
 
 </body>
