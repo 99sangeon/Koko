@@ -1,50 +1,38 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>홈화면</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+    <title>Koko</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style1.css}">
 </head>
 <body>
 
-<header th:replace="/nav :: navFragment"></header>
-
-<main>
-    <div>
-        <img class="main_img" src="/image/main_img.jpg">
+  <nav class="navigator">
+    <div class="logo">
+      <span class="title">Koko</span>
     </div>
+    <ul class="menu">
+      <li class="login">
+        <a href="/login">로그인</a>
+      </li>
+      <li class="myPage">
+        <a>내정보</a>
+      </li>
+      <li class="admin">
+        <a>관리자</a>
+      </li>
+    </ul>
+  </nav>
+  <section class="mainImg">
+    <img src="/image/main_img.jpg">
+  </section>
+  <section class="content">
 
-    <div class="content_div">
-        <div class="content_main_div">
-            <div>
-                <h2 class="content_explain">말하기 연습과 시험을 해보세요</h2>
-            </div>
+  </section>
 
-            <div class="content_div_position">
-                <div>
-                    <div class="content_imgAndExplain_div">
-                        <a href="/content/step"><img class="content_img" src="/image/language_ko.jpg"></a>
-                    </div>
-                    <div class="content_a_div">
-                        <a class="content_a" href="/content/step">단계별연습</a>
-                    </div>
-                </div>
-                <div>
-                    <div class="content_imgAndExplain_div">
-                        <a href="/member/visualization"><img class="content_img" src="/image/language_ko2.jpg"></a>
-                    </div>
-                    <div class="content_a_div">
-                        <a class="content_a" href="/member/visualization">나의정보</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-</main>
-
-<footer th:replace="/footer :: footFragment"></footer>
 </body>
-
-
 </html>
