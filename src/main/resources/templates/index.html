@@ -35,16 +35,29 @@
   </header>
 
   <main>
-      <div class="mainImg">
-          <img src="/image/main_img.jpg">
-
+      <div class="mainPhrasesAndGoStep" style="background-image: url('/image/main_img.jpg');">
           <div class="mainPhrases">
               <div class="firPhrase"><span>언제 어디서든 쉽게,</span></div>
               <div class="sndPhrase"><span>Speaking Today With</span></div>
               <div class="trdPhrase"><span>Koko</span></div>
           </div>
-          <div class="step">
+          <div class="goStep">
+              <div class="forScrollText">
+                  <span>Let's Speaking</span>
+              </div>
+              <button id="scrollButton" class="arrow-down">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+              </button>
+          </div>
+      </div>
 
+      <div class="step">
+          <div class="stepText">
+              <span>단계별로 연습해보세요</span>
+          </div>
+          <div>
           </div>
       </div>
   </main>
@@ -62,6 +75,7 @@
       </div>
   </footer>
 
-
+  <script th:src="@{/js/button.js}"></script>
 </body>
+
 </html>

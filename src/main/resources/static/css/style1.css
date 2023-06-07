@@ -40,6 +40,7 @@
 
 body {
     font-family: 'Roboto', sans-serif;
+    background-color: #57648C;
 }
 
 a {
@@ -53,6 +54,7 @@ ul {
 
 
 .navigator {
+    background-color: rgba(0, 0, 0, 0.05);
     position:fixed;
     top:0;
     display: flex;
@@ -93,24 +95,15 @@ ul {
     transition:700ms ease all;
 }
 
-.mainImg {
-    position: relative;
-    z-index: 0;
-}
-
-.mainImg img {
-    width: 100%;
-    height: auto;
-    min-width: 100rem;
-    min-height: 100vh;
-}
-
-.mainPhrases{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -80%);
+.mainPhrasesAndGoStep {
     min-width: 1000px;
+    min-height: 100vh;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.mainPhrases {
+    padding-top: 260px;
 }
 
 .mainPhrases div {
@@ -120,7 +113,7 @@ ul {
 }
 
 .firPhrase {
-    animation: fade-in-animation 1s ease-in-out forwards; /* 1초 동안 서서히 나타나도록 애니메이션 설정 */
+    animation: fade-in-animation 2s ease-in-out forwards; /* 1초 동안 서서히 나타나도록 애니메이션 설정 */
     font-family: 'Gowun Batang', serif;
     font-size: 30px;
 }
@@ -133,7 +126,7 @@ ul {
 }
 
 .trdPhrase {
-    animation: fade-in-animation 4.5s ease-in-out forwards; /* 1초 동안 서서히 나타나도록 애니메이션 설정 */
+    animation: fade-in-animation 4s ease-in-out forwards; /* 1초 동안 서서히 나타나도록 애니메이션 설정 */
     font-family: 'Righteous', cursive;
     font-size: 60px;
     margin-top: 15px;
@@ -141,6 +134,7 @@ ul {
 
 footer {
     width: 100%;
+    min-width: 1000px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -169,3 +163,77 @@ footer .teamInfo {
     font-size: var(--font-small);
 }
 
+.goStep {
+    text-align: center;
+    margin-top : 160px;
+}
+
+.goStep .forScrollText {
+    font-size: 30px;
+    font-weight: 300;
+    color: var(--white-color);
+}
+
+.arrow-down {
+    margin-top: 35px;
+    outline: none; /* 윤곽선 제거 */
+    background-color: transparent; /* 배경색 투명하게 설정 */
+    border: none; /* 테두리 제거 */
+    cursor: pointer; /* 커서를 포인터로 변경하여 클릭 가능한 상태 표시 */
+}
+
+.arrow-down span{
+    display: block;
+    width: 1.5em;
+    height: 1.5em;
+    border-bottom: 1px solid #fff;
+    border-right: 1px solid #fff;
+    transform: rotate(45deg);
+    margin: -10px 0;
+    animation: animate-arrows 2s infinite;
+}
+
+@keyframes animate-arrows{
+    0%{
+        opacity: 0;
+        transform: rotate(45deg) translate(-1.5em, -1.5em);
+    }
+    50%{
+        opacity: 1;
+    }
+    100%{
+        opacity: 0;
+        transform: rotate(45deg) translate(1.5em, 1.5em);
+    }
+}
+
+.arrow-down span:nth-child(1){
+    animation-delay: -0.2s;
+}
+.arrow-down span:nth-child(2){
+    animation-delay: -0.4s;
+}
+.arrow-down span:nth-child(3){
+    animation-delay: -0.6s;
+}
+
+.step {
+    margin-top: 200px;
+}
+
+.step .stepText {
+    font-size: 50px;
+    font-weight: 300;
+    text-align: center;
+    color: var(--white-color);
+}
+
+.step img{
+    width: 200px;
+    height: 200px;
+    border-radius: 10px;
+    transition:800ms ease all;
+}
+.step img:hover {
+    transform:scale(1.1);
+}
