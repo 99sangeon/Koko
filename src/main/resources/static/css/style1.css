@@ -21,6 +21,8 @@
 
     --header-height: 100px;
     --footer_heigth: 120px;
+
+    --stepInfo-width:700px;
 }
 
 @keyframes fade-in-animation {
@@ -40,7 +42,7 @@
 
 body {
     font-family: 'Roboto', sans-serif;
-    background-color: #57648C;
+    background-color: #57648C ;
 }
 
 a {
@@ -51,7 +53,6 @@ a {
 ul {
     list-style: none;
 }
-
 
 .navigator {
     background-color: rgba(0, 0, 0, 0.05);
@@ -65,7 +66,6 @@ ul {
     align-items: center;
     z-index: 1;
 }
-
 .navigator span {
     color: var(--white-color);
 }
@@ -103,7 +103,7 @@ ul {
 }
 
 .mainPhrases {
-    padding-top: 260px;
+    padding-top: 300px;
 }
 
 .mainPhrases div {
@@ -217,23 +217,85 @@ footer .teamInfo {
     animation-delay: -0.6s;
 }
 
-.step {
+.steps {
+    height: 800px;
+    padding-top: 130px;
+}
+
+.steps .step {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+}
+
+.steps .contentTitle {
+    font-weight: 400;
+    font-size: 36px;
+}
+
+.steps .contentSub {
+    margin-top: 10px;
+    font-weight: 200;
+    font-size: 20px;
+}
+
+
+.steps .stepInfo {
+    margin: 50px auto;
+    width: 1120px;
+    height: auto;
+    display: flex;
+    justify-content: space-between;
+}
+.steps .stepInfo > div{
+    background-repeat: no-repeat;
+    background-size: cover;
+
+}
+
+.steps .stepInfo > div{
+    border-radius: 10px;
+    box-shadow: 10px 10px 10px rgba(50, 50, 50, 0.3),
+    10px 10px 20px rgba(50, 50, 50, 0.2),
+    10px 10px 30px rgba(50, 50, 50, 0.1);
+    background-color: var(--white-color);
+    width: 250px;
+    height: 300px;
+    color: var(--black-color);
+    font-size: 20px;
+    font-weight: 200;
+    padding-left: 20px;
+    transition:800ms ease all;
+    color: white;
+}
+
+
+.steps .stepInfo > div:hover{
+    transform:scale(1.1);
+}
+
+
+.steps .level{
+    margin-top: 20px;
+    width: 53px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 17px;
+    font-weight: 700;
+    border-radius: 5px;
+}
+
+.steps .stepInfo .stepTitle{
     margin-top: 200px;
 }
 
-.step .stepText {
-    font-size: 50px;
-    font-weight: 300;
-    text-align: center;
-    color: var(--white-color);
+.steps .stepInfo .stepTitle span{
+    padding: 8px;
+    font-weight: 600;
+    font-size: 15px;
+    border-radius: 5px;
 }
 
-.step img{
-    width: 200px;
-    height: 200px;
-    border-radius: 10px;
-    transition:800ms ease all;
-}
-.step img:hover {
-    transform:scale(1.1);
-}

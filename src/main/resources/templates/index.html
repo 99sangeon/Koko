@@ -9,7 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700&family=Roboto:ital@0;1&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang&family=Nanum+Myeongjo:wght@400;700&family=Roboto:ital,wght@0,100;0,400;1,400&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" th:href="@{/css/style1.css}">
 </head>
 <body>
@@ -53,16 +52,32 @@
           </div>
       </div>
 
-      <div class="step">
-          <div class="stepText">
-              <span>단계별로 연습해보세요</span>
+      <div class="steps">
+          <div class="step">
+              <span class="contentTitle">단계별 연습</span>
+              <span class="contentSub">난이도에 따라 다양한 발음에 도전해 보세요</span>
           </div>
-          <div>
+          <div class="stepInfo">
+              <div style="background-image: url('/image/korea02.jpg')">
+                  <div class="level" style="background: cornflowerblue"><span>Lv.1</span></div>
+                  <div class="stepTitle"><span style="background: cornflowerblue">단어</span></div>
+              </div>
+              <div style="background-image: url('/image/korea01.jpg')">
+                  <div class="level" style="background: mediumseagreen"><span>Lv.2</span></div>
+                  <div class="stepTitle"><span style="background: mediumseagreen">쉬운 문장</span></div>
+              </div>
+              <div style="background-image: url('/image/korea03.jpg')">
+                  <div class="level" style="background: darkorange"><span>Lv.3</span></div>
+                  <div class="stepTitle"><span style="background: darkorange">어려운 문장</span></div>
+              </div>
+              <div style="background-image: url('/image/korea04.jpg')">
+                  <div class="level" style="background: indianred"><span>Lv.4</span></div>
+                  <div class="stepTitle"><span style="background: indianred">고난이도 문장</span></div>
+              </div>
           </div>
       </div>
   </main>
 
-  <div style="height: 10000px"></div>
   <footer>
       <div class="univInfo">
           <span>Changwon National Univ</span>

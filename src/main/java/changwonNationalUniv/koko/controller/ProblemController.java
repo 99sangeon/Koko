@@ -34,14 +34,16 @@ public class ProblemController {
         return "/content/problem";
     }
 
+    //매핑된 주소로 사용자가 녹음하여 음성데이터를 전송한다.
     @PostMapping("/problem/{problemId}")
-    public ResponseEntity<ChallengedProblemHistoryResponse> problemEvaluation(@PathVariable Long problemId,
-                                                                              @RequestParam("audio") MultipartFile audio) throws IOException {
+    public ResponseEntity<ChallengedProblemHistoryResponse> problemEvaluation
+            (@PathVariable Long problemId,
+             @RequestParam("audio") MultipartFile audio) throws IOException {
 
-        //받은 아이디와 오디오데이터를 채점 서비스로 넘겨줌 -> 채점서비는 해당 아디의 원래문자와 해당 오디오파일을 AI api에 돌린 후
-        //원래 오디오파일의 텍스트와 정답여부등등을 보내줌.
+        //사용자에게 받은 문제 아이디와 음성데이터를 채점API로 넘겨주고 점수와 피드백을 반환받는다.
         ChallengedProblemHistoryResponse evaluateResult = problemService.evaluate(problemId, audio);
 
+        //사용자에게 점수와 피드백을 전송한다.
         return ResponseEntity.ok(evaluateResult);
     }
 

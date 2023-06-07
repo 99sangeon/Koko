@@ -142,8 +142,8 @@ public class ProblemServiceImpl implements ProblemService{
     @Override
     public ChallengedProblemHistoryResponse evaluate(Long problem_id, MultipartFile audio) throws IOException {
 
-            Member member = memberService.getCurrentMember();
-            Problem problem = problemRepository.findById(problem_id).orElseThrow(() -> new NoSuchElementException());
+            Member member = memberService.getCurrentMember();  //현재 로그인 중인 사용자의 정보를 가져온다.
+            Problem problem = problemRepository.findById(problem_id).orElseThrow(() -> new NoSuchElementException()); //사용자가 체점을 요청한 문제의 정보를 가져온다.
             ChallengedProblem challengedProblem = challengedProblemRepository
                                                     .findChallengedProblemByMemberAndProblem(member, problem)
                                                     .orElseGet(() -> challengedProblemRepository.save(
@@ -151,11 +151,11 @@ public class ProblemServiceImpl implements ProblemService{
                                                             .builder()
                                                             .member(member)
                                                             .problem(problem)
-                                                            .build()));
+                                                            .build())); // 만약 사용자가 해당문제를 처음 도전했다면 도전기록 엔티티를 생성하여 DB에 저장한다
 
-            File wavFile = saveMultipartFileToWavFile(audio);
+            File wavFile = saveMultipartFileToWavFile(audio); //사용자로부터 받은 오디오파일을 인코딩여 WAV파일로 저장한다.
 
-            ChallengedProblemHistoryResponse challengedProblemHistoryResponse = runDenoiseAndAsrModel(wavFile, problem.getKorean());
+            ChallengedProblemHistoryResponse challengedProblemHistoryResponse = runDenoiseAndAsrModel(wavFile, problem.getKorean()); //WAV파일과 한글을 ASR 및 잡음제거 모델 API에 전송하고 점수와 피드백을 반환받는다.
 
             ChallengedProblemHistory challengedProblemHistory = ChallengedProblemHistory
                     .builder()
@@ -163,10 +163,10 @@ public class ProblemServiceImpl implements ProblemService{
                     .korean(challengedProblemHistoryResponse.getKorean())
                     .build();
 
-            problem.increaseChallengeCnt();  //문제 도전 횟수 1회증가
-            member.increaseChallengeCnt();   //사용자 도전 횟수 1회증가
+            problem.increaseChallengeCnt();  //문제 도전 횟수를 1회증가 시키고 DB에 업데이트한다.
+            member.increaseChallengeCnt();   //사용자 도전 횟수 1회증가 시키고 DB에 업데이트한다.
 
-            //기존의 한글과 출력된 한글이 일치하면 문제 정답 처리, 일치하지 않으면 정답 처리X 및 피드백 제공
+            //기존의 한글과 반환받은 한글이 일치하면 문제 정답 처리한다. 일치하지 않으면 정답 처리하지 않고 피드백을 반환한다.
             if(problem.getKorean().equals(challengedProblemHistoryResponse.getKorean())) {
 
                 problem.increaseClearCnt();
