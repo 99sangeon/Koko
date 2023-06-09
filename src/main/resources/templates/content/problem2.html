@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <title>홈화면</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/recordingLoading.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/button.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/loading.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+
+<header th:replace="/nav :: navFragment"></header>
+
+<main class="main_div">
+    <div class="main_sub_div">
+        <div class="content_ex_div">
+            <h2 class="content_title" th:text="'Lv.' + ${problem.level}"></h2>
+        </div>
+
+        <div style="border-bottom: 0.05rem solid #5F5F5F;" class="sentence_and_audio_div">
+
+            <div style="display: flex; align-items: center; justify-content: center">
+                <audio id="audio-player" style="display:none;">
+                    <source th:src="@{/content/audio/{id}(id=${problem.id})}" type="audio/wav">
+                </audio>
+                <button id="standard_play_btn" class="play_img_button"><img id="standard_play_btn_img" class="play_img" src="/image/play.jpeg"></button>
+                <p class="sentence_ko_text" th:text="${problem.korean}">한글</p>
+            </div>
+            <div>
+                <p class="sentence_en_text" th:text="${problem.english}">영어</p>
+            </div>
+
+            <div id="loading_div" class="loading_div1">
+                <div class="spinner-box">
+                    <div class="leo-border-1">
+                        <div class="leo-core-1"></div>
+                    </div>
+                    <div class="leo-border-2">
+                        <div class="leo-core-2"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="audio_and_visual_div" style="display: none; margin-top: 4rem; ">
+                <div style="display: flex; align-items: center; justify-content: center">
+                    <div style="display: none;">
+                        <audio id="record_audio"  style="margin-right: 2rem" controls></audio>
+                    </div>
+                    <button id="my_play_btn" class="play_img_button"><img id="my_play_btn_img" class="play_img" src="/image/play.jpeg"></button>
+                    <canvas id="visualizer"></canvas>
+                    <button id="deNoiseImgBtn" onclick="changeDeNoiseState();" style="margin-left: 2rem; display: none;">잡음제거이미지</button>
+                </div>
+
+                <div id="deNoiseImgDiv" style="display: none;">
+                    <div style="display: flex">
+                        <img id="noiseImg"th:src="@{/content/noise}" style="width: 30rem; height: 25rem;">
+                        <img id="deNoiseImg" th:src="@{/content/deNoise}" style="width: 30rem; height: 25rem;">
+                    </div>
+                </div>
+
+                <div id="uploadButton_div">
+                    <button id="uploadButton" class="record_button" th:onclick="upload([[${problem.id}]]);">제출</button>
+                </div>
+
+            </div>
+
+            <div id="eva_loading" class="loading-container" style="display: none; margin-top: 10rem;">
+                    <div class="loading"></div>
+                    <div id="loading-text">채점중</div>
+            </div>
+
+
+            <div id="audio_and_visual_div2" style="display: none; margin-top: 4rem; ">
+                <div style="display: flex; align-items: center; justify-content: center">
+                    <button id="my_play_btn2" class="play_img_button"><img id="my_play_btn_img2" class="play_img" src="/image/play.jpeg"></button>
+                    <canvas id="denoisevisualizer"></canvas>
+                </div>
+            </div>
+
+            <div id="evaluation_div" style="display: none; margin-top: 3rem">
+                <div>
+                    <span class="evaluation_title">점수 : </span>
+                    <span class="evaluation_content" id="score_div"></span>
+                </div>
+                <div style="margin: 1rem 0">
+                    <span class="evaluation_title">발음 : </span>
+                    <span class="evaluation_content" id="korean_div"></span>
+                </div>
+                <div>
+                    <span class="evaluation_title">피드백 : </span>
+                    <span class="evaluation_content" id="feedback_div"></span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="record_button_div">
+            <button id="record_control_btn" class="record_img_button">
+                <img id="record_btn_img" class="record_img" src="/image/mic_on.jpg">
+            </button>
+
+        </div>
+        <script th:src="@{/js/recording.js}"></script>
+    </div>
+
+</main>
+
+<footer th:replace="/footer :: footFragment"></footer>
+
+
+</body>
+</html>
+
+
+

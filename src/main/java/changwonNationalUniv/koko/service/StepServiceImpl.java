@@ -3,6 +3,7 @@ package changwonNationalUniv.koko.service;
 import changwonNationalUniv.koko.dto.request.StepRequest;
 import changwonNationalUniv.koko.dto.response.StepResponse;
 import changwonNationalUniv.koko.entity.Step;
+import changwonNationalUniv.koko.exception.StepNotFoundException;
 import changwonNationalUniv.koko.repository.StepRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,19 +29,19 @@ public class StepServiceImpl implements StepService{
 
     @Override
     public StepResponse findStep(Long id) {
-        Step step = stepRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
+        Step step = stepRepository.findById(id).orElseThrow(() -> new StepNotFoundException("해당 단계가 아직 설정되지 않았습니다."));
         return StepResponse.of(step);
     }
 
     @Override
     public StepResponse findStep(int level) {
-        Step step = stepRepository.findByLevel(level).orElseThrow(() -> new NoSuchElementException());
+        Step step = stepRepository.findByLevel(level).orElseThrow(() -> new StepNotFoundException("해당 단계가 아직 설정되지 않았습니다."));
         return StepResponse.of(step);
     }
 
     @Override
     public void updateStep(Long id, StepRequest stepRequest) {
-        Step step = stepRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
+        Step step = stepRepository.findById(id).orElseThrow(() -> new StepNotFoundException("해당 단계가 아직 설정되지 않았습니다."));
         step.setLevel(stepRequest.getLevel());
         step.setTitle(stepRequest.getTitle());
         step.setDescription(stepRequest.getDescription());
@@ -53,7 +54,7 @@ public class StepServiceImpl implements StepService{
 
     @Override
     public void deleteStep(Long id) {
-        Step step = stepRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
+        Step step = stepRepository.findById(id).orElseThrow(() -> new StepNotFoundException("해당 단계가 아직 설정되지 않았습니다."));
         stepRepository.delete(step);
     }
 

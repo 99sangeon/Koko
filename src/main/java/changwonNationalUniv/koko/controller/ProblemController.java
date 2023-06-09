@@ -3,6 +3,7 @@ package changwonNationalUniv.koko.controller;
 import changwonNationalUniv.koko.dto.response.ChallengedProblemHistoryResponse;
 import changwonNationalUniv.koko.dto.response.ProblemResponse;
 import changwonNationalUniv.koko.dto.response.StepResponse;
+import changwonNationalUniv.koko.exception.StepNotFoundException;
 import changwonNationalUniv.koko.service.ProblemService;
 import changwonNationalUniv.koko.service.StepService;
 import changwonNationalUniv.koko.utils.file.FileStore;
@@ -18,7 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Controller
 @RequiredArgsConstructor
@@ -55,19 +55,25 @@ public class ProblemController {
     @GetMapping("/step/{level}")
     public String problemList(@PathVariable int level ,Model model) {
 
-        StepResponse stepResponse = stepService.findStep(level);
-        List<ProblemResponse> problemsResponses = problemService.findProblemResponses(level);
 
-        model.addAttribute("step", stepResponse);
+
+        try {
+            StepResponse stepResponse = stepService.findStep(level);
+            model.addAttribute("step", stepResponse);
+        } catch (StepNotFoundException e) {
+            model.addAttribute("error", e.getMessage());
+        }
+
+        List<ProblemResponse> problemsResponses = problemService.findProblemResponses(level);
         model.addAttribute("problems", problemsResponses);
 
         return "/content/step";
     }
 
     @ResponseBody
-    @GetMapping("/audio/{id}")
-    public Resource audio(@PathVariable Long id) throws MalformedURLException {
-        String filename = problemService.findFilename(id);
+    @GetMapping("/problemActualAudio/{problemId}")
+    public Resource audio(@PathVariable Long problemId) throws MalformedURLException {
+        String filename = problemService.findFilename(problemId);
         return new UrlResource("file:" + fileStore.getFullPath(filename));
     }
 

@@ -60,8 +60,8 @@ ffmpeg:
   savePath: C:\Users\User\Desktop\audio
 
 file:
-  dir: C:\Users\User\Desktop\audio\
+  #dir: C:\Users\User\Desktop\audio\
   #dir: /Users/jeon-sangeon/Desktop/audio_store/
-  #dir: C:\Users\tkd02\OneDrive\바탕 화면\audio\
+  dir: C:\Users\tkd02\OneDrive\바탕 화면\audio\
 
 

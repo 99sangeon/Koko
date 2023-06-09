@@ -83,17 +83,17 @@ public class AdminController {
         return "/admin/updateProblemForm";
     }
 
-    @PostMapping("/updateProblem/{id}")
+    @PostMapping("/updateProblem/{problemId}")
     public String updateProblem(@Validated @ModelAttribute ProblemRequest problemRequest
-            , BindingResult bindingResult, @PathVariable Long id) throws IOException {
+            , BindingResult bindingResult, @PathVariable Long problemId) throws IOException {
 
         if(bindingResult.hasErrors()) {
             return "/admin/updateProblemForm";
         }
 
-        problemService.updateProblem(id, problemRequest);
+        problemService.updateProblem(problemId, problemRequest);
 
-        return "redirect:/content/problem/" + id;
+        return "redirect:/content/problem/" + problemId;
     }
 
     @GetMapping("/problemForm")
@@ -117,10 +117,10 @@ public class AdminController {
         return "redirect:/content/problem/" + id;
     }
 
-    @RequestMapping ("/deleteProblem/{id}")
-    public String deleteProblem(@PathVariable Long id) {
+    @RequestMapping ("/deleteProblem/{problemId}")
+    public String deleteProblem(@PathVariable Long problemId) {
 
-        int level = problemService.deleteProblem(id);
+        int level = problemService.deleteProblem(problemId);
 
         return "redirect:/content/step/" + level;
     }
