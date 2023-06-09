@@ -48,7 +48,7 @@ public class AdminController {
 
         Long id = stepService.saveStep(stepRequest);
 
-        return "redirect:/content/step";
+        return "redirect:/";
     }
 
     @GetMapping("/updateStep/{id}")

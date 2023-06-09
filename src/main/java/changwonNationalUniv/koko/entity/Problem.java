@@ -13,7 +13,6 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "problem")
 public class Problem extends BaseTimeEntity{
 
     @Id @GeneratedValue
@@ -40,7 +39,7 @@ public class Problem extends BaseTimeEntity{
 
     private Integer clearCnt = 0;
 
-    private Integer challengeCnt = 0;
+    private Integer challengedCnt = 0;
 
     @Embedded
     private UploadFile uploadFile;
@@ -73,7 +72,7 @@ public class Problem extends BaseTimeEntity{
         this.clearCnt += 1;
     }
 
-    public void increaseChallengeCnt() {
-        this.challengeCnt += 1;
+    public void increaseChallengedCnt() {
+        this.challengedCnt += 1;
     }
 }

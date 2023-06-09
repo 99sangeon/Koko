@@ -11,7 +11,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "challenged_problem_history")
 public class ChallengedProblemHistory extends BaseTimeEntity{
 
     @Id

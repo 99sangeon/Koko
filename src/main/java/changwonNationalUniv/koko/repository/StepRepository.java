@@ -9,11 +9,10 @@ import java.util.Optional;
 
 public interface StepRepository extends JpaRepository<Step, Long> {
 
-    Optional<Step> findOneByLevel(int level);
+    Optional<Step> findByLevel(int level);
 
     List<Step> findAllByOrderByLevelAsc();
 
     @Query("SELECT s.level FROM Step s ORDER BY s.level ASC")
     List<Integer> findLevelsSortedAsc();
-
 }

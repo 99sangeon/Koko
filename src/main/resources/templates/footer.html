@@ -1,11 +1,22 @@
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
-
-<footer th:fragment="footFragment" class="footer_main_div">
-    <div class="footer_info_div">
-      <p class="footer_info_p">Team : Koko</p>
-      <p class="footer_info_p">Team members : 박연진, 박광현, 전상언</p>
-      <p class="footer_info_p">tel : 010-7307-4546</p>
-      <p class="footer_info_p">창원대학교 정보통신공학과</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+  <footer th:fragment="footFragment">
+    <div class="univInfo">
+      <span>Changwon National Univ</span>
+      <span class="department">Department of Information and Communication Engineering</span>
     </div>
-</footer>
+    <div class="teamInfo">
+      <span>Team : Koko</span>
+      <span>Team Member : 박광현, 박연진, 전상언</span>
+      <span>Tel : 010-7307-4546</span>
+    </div>
+    <script th:src="@{/js/functions.js}"></script>
+  </footer>
+
+</body>
+</html>

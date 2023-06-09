@@ -2,7 +2,9 @@ package changwonNationalUniv.koko.controller;
 
 import changwonNationalUniv.koko.dto.response.ChallengedProblemHistoryResponse;
 import changwonNationalUniv.koko.dto.response.ProblemResponse;
+import changwonNationalUniv.koko.dto.response.StepResponse;
 import changwonNationalUniv.koko.service.ProblemService;
+import changwonNationalUniv.koko.service.StepService;
 import changwonNationalUniv.koko.utils.file.FileStore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
@@ -16,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Controller
 @RequiredArgsConstructor
@@ -24,6 +27,7 @@ public class ProblemController {
 
     private final FileStore fileStore;
     private final ProblemService problemService;
+    private final StepService stepService;
 
     @GetMapping("/problem/{problemId}")
     public String problem(@PathVariable Long problemId, Model model) {
@@ -51,11 +55,13 @@ public class ProblemController {
     @GetMapping("/step/{level}")
     public String problemList(@PathVariable int level ,Model model) {
 
-        List<ProblemResponse> problems = problemService.findProblems(level);
-        model.addAttribute("problems", problems);
+        StepResponse stepResponse = stepService.findStep(level);
+        List<ProblemResponse> problemsResponses = problemService.findProblemResponses(level);
 
-        return "/content/problemList";
+        model.addAttribute("step", stepResponse);
+        model.addAttribute("problems", problemsResponses);
 
+        return "/content/step";
     }
 
     @ResponseBody

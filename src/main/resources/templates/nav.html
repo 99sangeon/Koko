@@ -1,35 +1,40 @@
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script type="text/javascript"></script>
-
-<header>
-  <nav th:fragment="navFragment">
-    <div class="div_items_center">
-      <a class="nav_title_a" href="/"><h1>Koko</h1></a>
-    </div>
-
-    <div th:if="${#authentication.getName() == 'anonymousUser'}" class="div_items_center">
-      <ul>
-        <li><a class="nav_a_black" href="/login">로그인</a></li>
-      </ul>
-    </div>
-
-    <div th:unless="${#authentication.getName() == 'anonymousUser'}" class="div_items_center">
-      <ul>
-        <li><a class="nav_a_black" href="/member/myPage" th:text="${#authentication.getName()} + '님 어서오세요'"></a></li>
-        <li sec:authorize="hasRole('ROLE_ADMIN')" style="position: relative">
-          <a class="nav_a_admin" href="/admin/adminPage">관리자 </a>
-          <div class="speech-bubble">
-            <ul>
-              <li><a>회원관리</a></li>
-              <li><a href="/admin/stepForm">단계등록</a></li>
-              <li><a href="/admin/problemForm">문제등록</a></li>
-            </ul>
-          </div>
-        </li>
-        <li><a class="nav_a_black" href="/logout">로그아웃</a></li>
-      </ul>
-    </div>
-  </nav>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700&family=Roboto:ital@0;1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang&family=Nanum+Myeongjo:wght@400;700&family=Roboto:ital,wght@0,100;0,400;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style1.css}">
+</head>
+<body>
+<header th:fragment="navFragment" class="navigator">
+  <div class="logo">
+    <a href="/"><span class="title">Koko</span></a>
+  </div>
+  <ul class="menu">
+    <li class="login">
+      <a href="/"><span>홈화면</span></a>
+    </li>
+    <li th:if="${#authentication.getName() == 'anonymousUser'}" class="login">
+      <a href="/login"><span>로그인</span></a>
+    </li>
+    <li th:unless="${#authentication.getName() == 'anonymousUser'}" class="myPage">
+      <a href="/member/myPage"><span th:text="${#authentication.getName()} + '님 어서오세요'">마이페이지</span></a>
+    </li>
+    <li sec:authorize="hasRole('ROLE_ADMIN')" class="admin">
+      <a href="/admin/adminPage"><span>관리자</span></a>
+    </li>
+    <li th:if="${#authentication.getName() != 'anonymousUser'}" class="login">
+      <a href="/logout"><span>로그아웃</span></a>
+    </li>
+  </ul>
 </header>
+
+</body>
+</html>

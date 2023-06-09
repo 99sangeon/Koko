@@ -23,6 +23,13 @@
     --footer_heigth: 120px;
 
     --stepInfo-width:700px;
+
+    --title-top-margin:200px;
+    --title-font-weigth : 400;
+    --subTitle-font-weigth : 100;
+    --title-font-size : 36px;
+    --subTitle-font-size : 20px;
+    --between-title-subTitle : 10px;
 }
 
 @keyframes fade-in-animation {
@@ -41,8 +48,10 @@
 }
 
 body {
+    background: linear-gradient(45deg, #49a09d, #5f2c82);
     font-family: 'Roboto', sans-serif;
-    background-color: #57648C ;
+    background-size: cover;
+    background-attachment: fixed;
 }
 
 a {
@@ -55,7 +64,7 @@ ul {
 }
 
 .navigator {
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: rgba(0, 0, 0, 0.075);
     position:fixed;
     top:0;
     display: flex;
@@ -64,7 +73,6 @@ ul {
     min-width: 600px;
     height: var(--header-height);
     align-items: center;
-    z-index: 1;
 }
 .navigator span {
     color: var(--white-color);
@@ -92,7 +100,27 @@ ul {
 
 .navigator .menu a:hover {
     border-bottom: 2px solid var(--white-color);
-    transition:700ms ease all;
+    transition:300ms ease all;
+}
+
+
+.contentTitle {
+    margin-top: var(--title-top-margin);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+}
+
+.contentMainTitle {
+    font-weight: var(--title-font-weigth);
+    font-size: var(--title-font-size);
+}
+
+.contentSubTitle {
+    margin-top: var(--between-title-subTitle);
+    font-weight: var(--subTitle-font-weigth);
+    font-size: var(--subTitle-font-size);
 }
 
 .mainPhrasesAndGoStep {
@@ -141,6 +169,7 @@ footer {
     height: var(--footer_heigth);
     position: fixed;
     bottom: 0;
+    pointer-events: none;
 }
 
 footer div {
@@ -219,27 +248,12 @@ footer .teamInfo {
 
 .steps {
     height: 800px;
-    padding-top: 130px;
 }
 
-.steps .step {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    color: white;
+.steps .contentTitle{
+    padding-top: 150px;
+    margin-top: 0;
 }
-
-.steps .contentTitle {
-    font-weight: 400;
-    font-size: 36px;
-}
-
-.steps .contentSub {
-    margin-top: 10px;
-    font-weight: 200;
-    font-size: 20px;
-}
-
 
 .steps .stepInfo {
     margin: 50px auto;
@@ -265,14 +279,15 @@ footer .teamInfo {
     color: var(--black-color);
     font-size: 20px;
     font-weight: 200;
-    padding-left: 20px;
     transition:800ms ease all;
     color: white;
+    padding-left: 20px;
 }
 
 
 .steps .stepInfo > div:hover{
     transform:scale(1.1);
+    cursor: pointer;
 }
 
 
@@ -289,13 +304,68 @@ footer .teamInfo {
 }
 
 .steps .stepInfo .stepTitle{
+    display: flex;
+    justify-content: end;
+    align-items: end;
     margin-top: 200px;
 }
 
 .steps .stepInfo .stepTitle span{
+    margin-right: 20px;
     padding: 8px;
     font-weight: 600;
     font-size: 15px;
     border-radius: 5px;
 }
+
+.contentTable {
+    font-family: 'Roboto', sans-serif;
+    margin:30px auto;
+    width: 900px;
+    border-collapse: collapse;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+.contentTable th, td {
+    padding: 15px;
+    background-color: rgba(255,255,255,0.2);
+    color: white;
+}
+
+.contentTable th {
+    text-align: left;
+}
+
+.contentTable thead th {
+    font-weight: var(--title-font-weigth);
+    background-color: #55608f;
+}
+
+.contentTable tbody td{
+    font-weight: var(--subTitle-font-weigth);
+}
+
+.contentTable tbody tr:hover {
+    cursor: pointer;
+    background-color: rgba(255,255,255,0.3);
+}
+
+.contentTable tbody td .titleAndButton .clamp {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+}
+
+.contentTable tbody td .titleAndButton .moreBtn {
+    height: 100%;
+    transition: transform 300ms ease-in-out;
+}
+
+.contentTable tbody td .titleAndButton .moreBtn.clicked {
+    transform: rotate(180deg);
+}
+
+
 

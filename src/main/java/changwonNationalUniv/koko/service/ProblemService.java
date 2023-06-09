@@ -20,7 +20,7 @@ public interface ProblemService {
 
     ChallengedProblemHistoryResponse evaluate(Long problem_id, MultipartFile audio) throws IOException;
 
-    List<ProblemResponse> findProblems(int level);
+    List<ProblemResponse> findProblemResponses(int level);
 
     ProblemResponse findProblem(Long id);
 

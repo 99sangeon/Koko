@@ -11,6 +11,8 @@ public interface StepService {
 
     StepResponse findStep(Long id);
 
+    public StepResponse findStep(int level);
+
     void updateStep(Long id, StepRequest stepRequest);
 
     List<Integer> getLevels();

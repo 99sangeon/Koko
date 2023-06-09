@@ -4,50 +4,58 @@
 <head>
     <meta charset="UTF-8">
     <title>홈화면</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/recordingLoading.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/button.css}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700&family=Roboto:ital@0;1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang&family=Nanum+Myeongjo:wght@400;700&family=Roboto:ital,wght@0,100;0,400;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style1.css}">
 </head>
 <body>
 
-<header th:replace="/nav :: navFragment"></header>
+    <header th:replace="/nav :: navFragment"></header>
 
-<main class="main_div">
-    <div class="main_sub_div">
-        <div class="content_ex_div">
-            <h2 class="content_title">단계별 연습</h2>
+    <main>
+        <div class="contentTitle">
+            <span th:text="${step.title}" class="contentMainTitle">단어</span>
+            <span th:text="${step.description}" class="contentSubTitle">단어 연습으로 한국어 입문해 보세요</span>
         </div>
 
-        <div class="content_table_div">
-            <table class="content_table">
-                <thead>
+        <table class="contentTable">
+            <thead>
                 <tr>
-                    <th>단계</th>
-                    <th>제목</th>
-                    <th>설명</th>
-                    <th sec:authorize="hasRole('ROLE_ADMIN')">수정</th>
-                    <th sec:authorize="hasRole('ROLE_ADMIN')">삭제</th>
+                    <th style="width: 3%;"></th>
+                    <th style="width: 10%;">번호</th>
+                    <th style="width: 55%;">발음</th>
+                    <th style="width: 10%;">정답</th>
+                    <th style="width: 10%;">도전</th>
+                    <th style="width: 12%;">성공률</th>
                 </tr>
-                </thead>
-
-                <tbody>
-                <tr th:each="step : ${steps}">
-                    <td th:text="'Lv.' + ${step.level}">level</td>
-                    <td><a th:text="${step.title}" href="/" th:href="@{/content/step/{level}(level=${step.level})}">title</a></td>
-                    <td th:text="${step.description}">description</td>
-                    <td sec:authorize="hasRole('ROLE_ADMIN')"><button type="button" style="background-color: rgba(0,102,204)" class="update_delete_btn" th:onclick="|location.href='@{/admin/updateStep/{id}(id=${step.id})}'|">수정</button></td>
-                    <td sec:authorize="hasRole('ROLE_ADMIN')"><button type="button" class="update_delete_btn" th:onclick="|location.href='@{/admin/deleteStep/{id}(id=${step.id})}'|">삭제</button></td>
+            </thead>
+            <tbody>
+                <tr th:each="problem, problemStat: ${problems}" id="problem" th:onclick="redirectToProblem([[${problem.id}]])">
+                    <td th:if="${problem.clearState == null}">
+                    </td>
+                    <td th:unless="${problem.clearState == null}">
+                        <span th:if="${problem.clearState.getName() == '성공'}" style="color: white; background: #1AAB8A; padding: 0.1rem 0.1rem;">성공</span>
+                        <span th:if="${problem.clearState.getName() == '실패'}" style="color: white; background: #f05650; padding: 0.1rem 0.1rem;">실패</span>
+                    </td>
+                    <td th:text="${problemStat.index + 1 + '번'}">1</td>
+                    <td class="titleAndButton">
+                        <span class="clamp" th:text="${problem.korean}"></span>
+                        <button class="moreBtn"><i class="fas fa-caret-down"></i>
+                        </button>
+                    </td>
+                    <td th:text="${problem.challengedCnt} + '명'">120</td>
+                    <td th:text="${problem.clearCnt} + '명'">67</td>
+                    <td th:text="${problem.challengedCnt} / 1+ '%'">99.0%</td>
                 </tr>
-                </tbody>
-            </table>
-        </div>
+            </tbody>
+        </table>
+    </main>
 
-
-    </div>
-
-</main>
-<footer th:replace="/footer :: footFragment"></footer>
+    <footer th:replace="/footer :: footFragment"></footer>
 </body>
 
 

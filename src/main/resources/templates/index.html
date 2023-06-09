@@ -9,29 +9,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700&family=Roboto:ital@0;1&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang&family=Nanum+Myeongjo:wght@400;700&family=Roboto:ital,wght@0,100;0,400;1,400&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" th:href="@{/css/style1.css}">
 </head>
 <body>
 
-  <header class="navigator">
-    <div class="logo">
-      <a href="/"><span class="title">Koko</span></a>
-    </div>
-    <ul class="menu">
-      <li class="login">
-          <a href="/"><span>홈화면</span></a>
-      </li>
-      <li class="login">
-        <a href="/login"><span>로그인</span></a>
-      </li>
-      <li class="myPage">
-        <a><span>내정보</span></a>
-      </li>
-      <li class="admin">
-        <a><span>관리자</span></a>
-      </li>
-    </ul>
-  </header>
+  <header th:replace="/nav :: navFragment"></header>
 
   <main>
       <div class="mainPhrasesAndGoStep" style="background-image: url('/image/main_img.jpg');">
@@ -53,24 +36,24 @@
       </div>
 
       <div class="steps">
-          <div class="step">
-              <span class="contentTitle">단계별 연습</span>
-              <span class="contentSub">난이도에 따라 다양한 발음에 도전해 보세요</span>
+          <div class="contentTitle">
+              <span class="contentMainTitle">단계별 연습</span>
+              <span class="contentSubTitle">난이도에 따라 다양한 발음에 도전해 보세요</span>
           </div>
           <div class="stepInfo">
-              <div style="background-image: url('/image/korea02.jpg')">
+              <div th:onclick="redirectToStep(1)" style="background-image: url('/image/korea01.jpg')">
                   <div class="level" style="background: cornflowerblue"><span>Lv.1</span></div>
                   <div class="stepTitle"><span style="background: cornflowerblue">단어</span></div>
               </div>
-              <div style="background-image: url('/image/korea01.jpg')">
+              <div th:onclick="redirectToStep(2)" style="background-image: url('/image/korea02.jpg')">
                   <div class="level" style="background: mediumseagreen"><span>Lv.2</span></div>
                   <div class="stepTitle"><span style="background: mediumseagreen">쉬운 문장</span></div>
               </div>
-              <div style="background-image: url('/image/korea03.jpg')">
+              <div th:onclick="redirectToStep(3)" style="background-image: url('/image/korea03.jpg')">
                   <div class="level" style="background: darkorange"><span>Lv.3</span></div>
                   <div class="stepTitle"><span style="background: darkorange">어려운 문장</span></div>
               </div>
-              <div style="background-image: url('/image/korea04.jpg')">
+              <div th:onclick="redirectToStep(4)" style="background-image: url('/image/korea04.jpeg')">
                   <div class="level" style="background: indianred"><span>Lv.4</span></div>
                   <div class="stepTitle"><span style="background: indianred">고난이도 문장</span></div>
               </div>
@@ -78,19 +61,7 @@
       </div>
   </main>
 
-  <footer>
-      <div class="univInfo">
-          <span>Changwon National Univ</span>
-          <span class="department">Department of Information and Communication Engineering</span>
-      </div>
-      <div class="teamInfo">
-          <span>Team : Koko</span>
-          <span>Team Member : 박광현, 박연진, 전상언</span>
-          <span>Tel : 010-7307-4546</span>
-      </div>
-  </footer>
-
-  <script th:src="@{/js/button.js}"></script>
+  <footer th:replace="/footer :: footFragment"></footer>
 </body>
 
 </html>

@@ -12,7 +12,6 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "step")
 public class Step extends BaseTimeEntity{
 
     @Id

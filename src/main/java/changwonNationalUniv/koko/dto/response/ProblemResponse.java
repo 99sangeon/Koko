@@ -23,7 +23,7 @@ public class ProblemResponse {
 
     private Integer clearCnt;
 
-    private Integer challengeCnt;
+    private Integer challengedCnt;
 
     private ClearState clearState;
 
@@ -33,11 +33,11 @@ public class ProblemResponse {
 
     private Float exp;
 
-    public ProblemResponse(Long id, String korean, Integer challengeCnt, Integer clearCnt, ClearState clearState) {
+    public ProblemResponse(Long id, String korean, Integer challengedCnt, Integer clearCnt, ClearState clearState) {
         this.id = id;
         this.korean = korean;
         this.clearCnt = clearCnt;
-        this.challengeCnt = challengeCnt;
+        this.challengedCnt = challengedCnt;
         this.clearState = clearState;
     }
 
@@ -50,7 +50,7 @@ public class ProblemResponse {
                 .korean(problem.getKorean())
                 .english(problem.getEnglish())
                 .clearCnt(problem.getClearCnt())
-                .challengeCnt(problem.getChallengeCnt())
+                .challengedCnt(problem.getChallengedCnt())
                 .koPronunciation(problem.getKoPronunciation())
                 .enPronunciation(problem.getEnPronunciation())
                 .exp(problem.getExp())

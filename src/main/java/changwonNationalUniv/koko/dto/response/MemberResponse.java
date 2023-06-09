@@ -23,7 +23,7 @@ public class MemberResponse {
 
     private String email;
 
-    private Integer challengeCnt;
+    private Integer challengedCnt;
 
     private Integer successCnt;
 
@@ -43,7 +43,7 @@ public class MemberResponse {
                 .password(member.getPassword())
                 .mobile(member.getMobile())
                 .email(member.getEmail())
-                .challengeCnt(member.getChallengeCnt())
+                .challengedCnt(member.getChallengedCnt())
                 .successCnt(member.getSuccessCnt())
                 .failureCnt(member.getFailureCnt())
                 .successProblemCnt(member.getSuccessProblemCnt())

@@ -11,7 +11,6 @@ import java.util.List;
 @Setter
 @Entity
 @NoArgsConstructor
-@Table(name = "member")
 public class Member extends BaseTimeEntity{
 
     @Id @GeneratedValue
@@ -36,7 +35,7 @@ public class Member extends BaseTimeEntity{
     @Column(nullable = false, length = 100)
     private String email;
 
-    private Integer challengeCnt;
+    private Integer challengedCnt;
 
     private Integer successCnt;
 
@@ -54,7 +53,7 @@ public class Member extends BaseTimeEntity{
 
     @Builder
     public Member(String name, String userId, String password, String mobile, String email) {
-        this.challengeCnt = 0;
+        this.challengedCnt = 0;
         this.successCnt = 0;
         this.failureCnt = 0;
         this.successProblemCnt = 0;
@@ -74,7 +73,7 @@ public class Member extends BaseTimeEntity{
     }
 
     public void increaseChallengeCnt() {
-        this.challengeCnt += 1;
+        this.challengedCnt += 1;
     }
 
     public void increaseSuccessCnt() {

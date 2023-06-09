@@ -53,7 +53,7 @@ public class ProblemServiceImpl implements ProblemService{
             problemRequest.setUploadFile(uploadFile);
         }
 
-        Step step = stepRepository.findOneByLevel(problemRequest.getLevel())
+        Step step = stepRepository.findByLevel(problemRequest.getLevel())
                 .orElseThrow(() -> new NoSuchElementException());
 
         Problem problem = problemRequest.toEntity();
@@ -103,13 +103,13 @@ public class ProblemServiceImpl implements ProblemService{
     }
 
     @Override
-    public List<ProblemResponse> findProblems(int level) {
+    public List<ProblemResponse> findProblemResponses(int level) {
 
         List<ProblemResponse> problemResponses = new ArrayList<>();
 
         if(securityService.isAuthenticated()) {
             Member member = memberService.getCurrentMember();
-            problemResponses = problemRepository.findWithCpByMemberAndLevel(member, level);
+            problemResponses = problemRepository.findProblemResponsesWithCpByMemberAndLevel(member, level);
         }
         else{
             List<Problem> problems = problemRepository.findByLevel(level);
@@ -163,7 +163,7 @@ public class ProblemServiceImpl implements ProblemService{
                     .korean(challengedProblemHistoryResponse.getKorean())
                     .build();
 
-            problem.increaseChallengeCnt();  //문제 도전 횟수를 1회증가 시키고 DB에 업데이트한다.
+            problem.increaseChallengedCnt();  //문제 도전 횟수를 1회증가 시키고 DB에 업데이트한다.
             member.increaseChallengeCnt();   //사용자 도전 횟수 1회증가 시키고 DB에 업데이트한다.
 
             //기존의 한글과 반환받은 한글이 일치하면 문제 정답 처리한다. 일치하지 않으면 정답 처리하지 않고 피드백을 반환한다.

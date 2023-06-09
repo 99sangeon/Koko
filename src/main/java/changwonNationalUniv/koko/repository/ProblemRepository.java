@@ -18,11 +18,11 @@ public interface ProblemRepository extends JpaRepository<Problem, Long> {
     Optional<String> findFilename(Long id);
 
     @Query("SELECT " +
-            "NEW changwonNationalUniv.koko.dto.response.ProblemResponse(p.id, p.korean, p.challengeCnt, p.clearCnt, cp.clearState) " +
+            "NEW changwonNationalUniv.koko.dto.response.ProblemResponse(p.id, p.korean, p.challengedCnt, p.clearCnt, cp.clearState) " +
             "FROM Problem p " +
             "left join fetch ChallengedProblem cp on p=cp.problem AND cp.member= :member " +
             "WHERE p.level= :level")
-    List<ProblemResponse> findWithCpByMemberAndLevel(Member member, int level);
+    List<ProblemResponse> findProblemResponsesWithCpByMemberAndLevel(Member member, int level);
 
 
 }

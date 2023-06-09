@@ -33,6 +33,12 @@ public class StepServiceImpl implements StepService{
     }
 
     @Override
+    public StepResponse findStep(int level) {
+        Step step = stepRepository.findByLevel(level).orElseThrow(() -> new NoSuchElementException());
+        return StepResponse.of(step);
+    }
+
+    @Override
     public void updateStep(Long id, StepRequest stepRequest) {
         Step step = stepRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
         step.setLevel(stepRequest.getLevel());

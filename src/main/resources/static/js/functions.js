@@ -9,3 +9,12 @@ scrollButton.addEventListener("click", function() {
         window.scrollBy(0, scrollStep); // 스크롤을 서서히 이동
     }, 1); // 각 단계별로 15밀리초 간격으로 애니메이션 실행
 });
+
+
+function redirectToStep(level) { // 특정 링크로 이동
+    window.location.href = "/content/step/" + level;
+}
+
+function redirectToProblem(problemId) { // 특정 링크로 이동
+    window.location.href = "/content/problem/" + problemId;
+}
