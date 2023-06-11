@@ -47,16 +47,17 @@
                 </div>
             </div>
             <div id="userAudioWithVisualizer" class="userAudioWithVisualizer">
-                <button class="play"><span class="material-symbols-outlined play">play_circle</span></button>
-                <audio style="display:none;"></audio>
-
+                <div>
+                    <button class="play"><span class="material-symbols-outlined play">play_circle</span></button>
+                    <audio style="display:none;"></audio>
+                    <canvas id="userAudioVisualizer"></canvas>
+                </div>
             </div>
         </div>
         <div class="recordAndSubmit">
             <button id="record"><span class="material-symbols-outlined record">Mic</span></button>
             <button id="problemSubmit" style="display: none"><span class="material-symbols-outlined problemSubmit">upload</span></button>
         </div>
-        <canvas id="visualizer"></canvas>
     </main>
 
     <footer th:replace="/footer :: footFragment"></footer>

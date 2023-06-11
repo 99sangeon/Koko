@@ -393,8 +393,11 @@ footer .teamInfo {
     font-size: 30px;
 }
 
+.problemBox .korean .play {
+    margin-top: 3px;
+}
+
 .play{
-    margin-top: 2px;
     margin-right: 3px;
     height: 35px;
     border: none;
@@ -452,7 +455,15 @@ footer .teamInfo {
 
 .problemBox .userAudioWithVisualizer {
     display: none;
+    margin-top: 30px;
 }
+
+.problemBox .userAudioWithVisualizer > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 
 
 

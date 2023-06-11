@@ -4,12 +4,11 @@ const $problemSubmit = $('#problemSubmit'); // 문제 제출 버튼
 const $playActualAudio = $('#playActualAudio'); // 실제 사운드 재생 버튼
 const $actualAudioEl = $('#actualAudioEl'); // 실제 사운드
 const $userAudioWithVisualizer = $('#userAudioWithVisualizer');
-const $playUserAudio = $userAudioWithVisualizer.find('button')
-const $userAudioEl = $userAudioWithVisualizer.find('audio')
-const $test = $('#visualizer');
+const $playUserAudio = $userAudioWithVisualizer.find('button');
+const $userAudioEl = $userAudioWithVisualizer.find('audio');
+const userAudioVisualizer = document.getElementById('userAudioVisualizer');
 
 let isRecording = false; //녹음상태
-let mediaStream = null;
 let mediaRecorder = null;
 const audioArray = [];   // 녹음 데이터(Blob) 조각 저장 배열
 
@@ -81,7 +80,7 @@ $(document).ready(function () {
 async function startRecord() {
 
     // 마이크 mediaStream 생성: Promise를 반환하므로 async/await 사용
-    mediaStream = await navigator.mediaDevices.getUserMedia({audio: true});
+    const mediaStream = await navigator.mediaDevices.getUserMedia({audio: true});
 
     // 기존 오디오 데이터들은 모두 비워 초기화한다.
     audioArray.splice(0);
@@ -92,7 +91,7 @@ async function startRecord() {
     // 데이터 사용 가능 이벤트 핸들러
     mediaRecorder.addEventListener('dataavailable', function(event) {
         audioArray.push(event.data);
-
+        drawWaveform(event.data)
     });
 
 
@@ -113,10 +112,59 @@ async function startRecord() {
     mediaRecorder.start();
 }
 
-function stopRecord() {
+function stopRecord(mediaStream) {
     mediaRecorder.stop();                     // 녹음 종료
-    mediaStream.getAudioTracks()[0].stop();   // 마이크 액세스 중지 및 트랙 해제
 }
+
+const audioContext = new AudioContext();
+const reader = new FileReader();
+reader.onload = () => {
+    const arrayBuffer = reader.result;
+    audioContext.decodeAudioData(arrayBuffer, buffer => {
+        const data = buffer.getChannelData(0);
+        canvasContext.clearRect(0, 0, canvasWidth, canvasHeight);
+        canvasContext.beginPath();
+        const sliceWidth = canvasWidth * 1.0 / data.length;
+        let x = 0;
+        for (let i = 0; i < data.length; i++) {
+            const v = data[i] * 0.5 + 0.5;
+            const y = v * canvasHeight;
+            if (i === 0) {
+                canvasContext.moveTo(x, y);
+            } else {
+                canvasContext.lineTo(x, y);
+            }
+            x += sliceWidth;
+        }
+        canvasContext.moveTo(0, canvasHeight / 2);
+        canvasContext.lineTo(canvasWidth, canvasHeight / 2);
+        canvasContext.stroke();
+    });
+};
+
+function drawWaveform(audioData) {
+    reader.readAsArrayBuffer(audioData);
+}
+
+let canvasContext;
+let canvasWidth;
+let canvasHeight;
+
+function setupVisualizer() {
+    canvasContext = userAudioVisualizer.getContext('2d');
+    canvasWidth = userAudioVisualizer.width;
+    canvasHeight = userAudioVisualizer.height;
+    canvasContext.clearRect(0, 0, canvasWidth, canvasHeight);
+    canvasContext.lineWidth = 0.5;
+    canvasContext.strokeStyle = 'rgb(255, 255, 255)';
+    canvasContext.beginPath();
+    canvasContext.moveTo(0, canvasHeight / 2);
+    canvasContext.lineTo(canvasWidth, canvasHeight / 2);
+    canvasContext.stroke();
+}
+
+setupVisualizer();
+
 
 
 
