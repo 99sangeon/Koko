@@ -393,7 +393,7 @@ footer .teamInfo {
     font-size: 30px;
 }
 
-.problemBox .korean button{
+.play{
     margin-top: 2px;
     margin-right: 3px;
     height: 35px;
@@ -402,11 +402,11 @@ footer .teamInfo {
     transition:800ms ease all;
 }
 
-.problemBox .korean button:hover{
-    transform: scale(1.2);
+.play:hover{
+    transform: scale(1.1);
 }
 
-.problemBox .korean .play {
+.play span{
     font-size: 35px;
 }
 
@@ -445,9 +445,13 @@ footer .teamInfo {
             'opsz' 48
 }
 
-.recordLoading {
+.problemBox .recordLoading {
     display: none;
     margin-top: 110px;
+}
+
+.problemBox .userAudioWithVisualizer {
+    display: none;
 }
 
 

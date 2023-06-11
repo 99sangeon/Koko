@@ -30,7 +30,7 @@
                 <audio id="actualAudioEl" style="display:none;">
                     <source th:src="@{/content/problemActualAudio/{problemId}(problemId=${problem.id})}" type="audio/wav">
                 </audio>
-                <button id="playActualAudio"><span class="material-symbols-outlined play">play_circle</span></button>
+                <button id="playActualAudio" class="play"><span class="material-symbols-outlined">play_circle</span></button>
                 <span th:text="${problem.korean}"></span>
             </div>
             <div class="english">
@@ -46,11 +46,17 @@
                     </div>
                 </div>
             </div>
+            <div id="userAudioWithVisualizer" class="userAudioWithVisualizer">
+                <button class="play"><span class="material-symbols-outlined play">play_circle</span></button>
+                <audio style="display:none;"></audio>
+
+            </div>
         </div>
         <div class="recordAndSubmit">
             <button id="record"><span class="material-symbols-outlined record">Mic</span></button>
             <button id="problemSubmit" style="display: none"><span class="material-symbols-outlined problemSubmit">upload</span></button>
         </div>
+        <canvas id="visualizer"></canvas>
     </main>
 
     <footer th:replace="/footer :: footFragment"></footer>
