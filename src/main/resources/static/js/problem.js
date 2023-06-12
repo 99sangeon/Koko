@@ -41,15 +41,21 @@ $(document).ready(function () {
 
     // 실제 사운드 재생 버튼 클릭 이벤트 처리
     $playActualAudio.click(function () {
-        let audio = $actualAudioEl[0];
-        if(audio.paused) {
-            $playActualAudio.find('span').text('stop_circle');
-            audio.play();
-        }
 
+        if(actualAudioElError) {
+            alert("해당 오디오 파일이 등록되지 않았습니다. 관리자에게 문의해 주세요.");
+        }
         else {
-            $playActualAudio.find('span').text('play_circle');
-            audio.pause();
+            let audio = $actualAudioEl[0];
+            if(audio.paused) {
+                $playActualAudio.find('span').text('stop_circle');
+                audio.play();
+            }
+
+            else {
+                $playActualAudio.find('span').text('play_circle');
+                audio.pause();
+            }
         }
     });
 
@@ -77,6 +83,12 @@ $(document).ready(function () {
 
 });
 
+let actualAudioElError = false;
+
+$actualAudioEl.on('error', function () {
+    console.log("dasdasdasdasd");
+    actualAudioElError = true;
+});
 
 //녹음 시작을 위한 처리 작업
 async function startRecord() {
@@ -144,7 +156,7 @@ function uploadUserAudio(problemId) {
         error: function(jqXHR, textStatus, errorThrown) {
             // 전송 중 에러가 발생했을 때의 콜백 함수
             console.log(textStatus, errorThrown);
-            alert(textStatus);
+            alert(jqXHR.responseText);
             $evaluationLoading.hide();
             $problemSubmit.show();
         }

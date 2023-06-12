@@ -13,18 +13,11 @@ import changwonNationalUniv.koko.repository.*;
 import changwonNationalUniv.koko.utils.file.FileStore;
 import changwonNationalUniv.koko.utils.file.FileTypeConverter;
 import lombok.RequiredArgsConstructor;
-import net.bramp.ffmpeg.FFmpeg;
-import net.bramp.ffmpeg.FFmpegExecutor;
-import net.bramp.ffmpeg.FFprobe;
-import net.bramp.ffmpeg.builder.FFmpegBuilder;
-import net.bramp.ffmpeg.probe.FFmpegProbeResult;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

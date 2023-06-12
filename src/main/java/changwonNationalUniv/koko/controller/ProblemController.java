@@ -3,6 +3,7 @@ package changwonNationalUniv.koko.controller;
 import changwonNationalUniv.koko.dto.response.ChallengedProblemHistoryResponse;
 import changwonNationalUniv.koko.dto.response.ProblemResponse;
 import changwonNationalUniv.koko.dto.response.StepResponse;
+import changwonNationalUniv.koko.exception.FileNotFoundException;
 import changwonNationalUniv.koko.exception.StepNotFoundException;
 import changwonNationalUniv.koko.service.ProblemService;
 import changwonNationalUniv.koko.service.StepService;
@@ -72,15 +73,20 @@ public class ProblemController {
 
     @ResponseBody
     @GetMapping("/problemActualAudio/{problemId}")
-    public Resource audio(@PathVariable Long problemId) throws MalformedURLException {
+    public Resource audio(@PathVariable Long problemId) {
+
         String filename = problemService.findFilename(problemId);
-        return new UrlResource("file:" + fileStore.getFullPath(filename));
+        try {
+            return new UrlResource("file:" + fileStore.getFullPath(filename));
+        } catch (Exception e) {
+            throw new FileNotFoundException("해당 파일을 찾을 수 없습니다.");
+        }
+
     }
 
     @ResponseBody
     @GetMapping("/noise")
     public Resource noiseImg() throws MalformedURLException {
-
         return new UrlResource("file:" + "C:\\Users\\User\\Desktop\\img\\Original.jpg");
     }
 
