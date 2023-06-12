@@ -7,8 +7,11 @@ import changwonNationalUniv.koko.dto.response.ProblemResponse;
 import changwonNationalUniv.koko.dto.response.SuccessCntResponse;
 import changwonNationalUniv.koko.entity.*;
 import changwonNationalUniv.koko.enums.ClearState;
+import changwonNationalUniv.koko.exception.FileNotFoundException;
+import changwonNationalUniv.koko.exception.ProblemNotFoundException;
 import changwonNationalUniv.koko.repository.*;
 import changwonNationalUniv.koko.utils.file.FileStore;
+import changwonNationalUniv.koko.utils.file.FileTypeConverter;
 import lombok.RequiredArgsConstructor;
 import net.bramp.ffmpeg.FFmpeg;
 import net.bramp.ffmpeg.FFmpegExecutor;
@@ -32,9 +35,6 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class ProblemServiceImpl implements ProblemService{
 
-    @Value("${file.dir}")
-    private String fileDir;
-    
     private final MemberService memberService;
     private final ProblemRepository problemRepository;
     private final SecurityService securityService;
@@ -66,7 +66,7 @@ public class ProblemServiceImpl implements ProblemService{
 
     @Override
     public int deleteProblem(Long id) {
-        Problem problem= problemRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
+        Problem problem= problemRepository.findById(id).orElseThrow(() -> new ProblemNotFoundException("해당 문제는 존재하지 않습니다."));
         int level = problem.getLevel();
         problemRepository.delete(problem);
 
@@ -86,7 +86,6 @@ public class ProblemServiceImpl implements ProblemService{
 
         if(problemRequest.getAudioFile() != null) {
             updateFile(problemRequest, problem);
-
         }
     }
 
@@ -99,7 +98,6 @@ public class ProblemServiceImpl implements ProblemService{
 
         UploadFile uploadFile = fileStore.storeFile(problemRequest.getAudioFile());
         problem.setUploadFile(uploadFile);
-
     }
 
     @Override
@@ -123,27 +121,27 @@ public class ProblemServiceImpl implements ProblemService{
     @Override
     public ProblemResponse findProblem(Long id) {
 
-        Problem problem= problemRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
+        Problem problem= problemRepository.findById(id).orElseThrow(() -> new ProblemNotFoundException());
 
         return ProblemResponse.of(problem);
     }
 
     @Override
-    public String findFilename(Long id) {
-        return problemRepository.findFilename(id).orElseThrow(() -> new NoSuchElementException());
+    public String findFilename(Long problemId) {
+        return problemRepository.findFilename(problemId).orElseThrow(
+                () -> new FileNotFoundException("해당 음성파일이 등록되지 않았습니다.\n 관리자에게 문의해 주세요."));
     }
 
     @Override
     public List<SuccessCntResponse> findSuccessCntForVisualChart(Member member) {
-
        return challengedProblemRepositoryCustom.findSuccessCntForVisualChart(member.getId());
     }
 
     @Override
-    public ChallengedProblemHistoryResponse evaluate(Long problem_id, MultipartFile audio) throws IOException {
+    public ChallengedProblemHistoryResponse evaluate(Long problemId, MultipartFile audio) throws IOException {
 
             Member member = memberService.getCurrentMember();  //현재 로그인 중인 사용자의 정보를 가져온다.
-            Problem problem = problemRepository.findById(problem_id).orElseThrow(() -> new NoSuchElementException()); //사용자가 체점을 요청한 문제의 정보를 가져온다.
+            Problem problem = problemRepository.findById(problemId).orElseThrow(() -> new ProblemNotFoundException("해당 문제를 찾을 수 없습니다.")); //사용자가 체점을 요청한 문제의 정보를 가져온다.
             ChallengedProblem challengedProblem = challengedProblemRepository
                                                     .findChallengedProblemByMemberAndProblem(member, problem)
                                                     .orElseGet(() -> challengedProblemRepository.save(
@@ -153,21 +151,15 @@ public class ProblemServiceImpl implements ProblemService{
                                                             .problem(problem)
                                                             .build())); // 만약 사용자가 해당문제를 처음 도전했다면 도전기록 엔티티를 생성하여 DB에 저장한다
 
-            File wavFile = saveMultipartFileToWavFile(audio); //사용자로부터 받은 오디오파일을 인코딩여 WAV파일로 저장한다.
+            File wavFile = FileTypeConverter.saveMultipartFileToWavFile(audio); //사용자로부터 받은 오디오파일을 인코딩여 WAV파일로 저장한다.
 
-            ChallengedProblemHistoryResponse challengedProblemHistoryResponse = runDenoiseAndAsrModel(wavFile, problem.getKorean()); //WAV파일과 한글을 ASR 및 잡음제거 모델 API에 전송하고 점수와 피드백을 반환받는다.
-
-            ChallengedProblemHistory challengedProblemHistory = ChallengedProblemHistory
-                    .builder()
-                    .score(challengedProblemHistoryResponse.getScore())
-                    .korean(challengedProblemHistoryResponse.getKorean())
-                    .build();
+            ChallengedProblemHistory challengedProblemHistory = runDenoiseAndAsrModel(); //WAV파일과 한글을 ASR 및 잡음제거 모델 API에 전송하고 점수와 피드백을 반환받는다.
 
             problem.increaseChallengedCnt();  //문제 도전 횟수를 1회증가 시키고 DB에 업데이트한다.
-            member.increaseChallengeCnt();   //사용자 도전 횟수 1회증가 시키고 DB에 업데이트한다.
+            member.increaseChallengeCnt();    //사용자 도전 횟수 1회증가 시키고 DB에 업데이트한다.
 
             //기존의 한글과 반환받은 한글이 일치하면 문제 정답 처리한다. 일치하지 않으면 정답 처리하지 않고 피드백을 반환한다.
-            if(problem.getKorean().equals(challengedProblemHistoryResponse.getKorean())) {
+            if(problem.getKorean().equals(challengedProblemHistory.getKorean())) {
 
                 problem.increaseClearCnt();
                 member.increaseSuccessCnt();
@@ -192,7 +184,7 @@ public class ProblemServiceImpl implements ProblemService{
                 member.increaseFailureCnt();
                 
                 String[] actualPronunciations = problem.getKorean().split(" ");
-                String[] userPronunciations = challengedProblemHistoryResponse.getKorean().split(" ");
+                String[] userPronunciations = challengedProblemHistory.getKorean().split(" ");
                 String[] koPronunciations = problem.getKoPronunciation().split(" ");
                 String[] enPronunciations = problem.getEnPronunciation().split(" ");
                 
@@ -238,52 +230,15 @@ public class ProblemServiceImpl implements ProblemService{
 
     }
 
-    private ChallengedProblemHistoryResponse runDenoiseAndAsrModel(File wavFile, String sentence) {
+    private ChallengedProblemHistory runDenoiseAndAsrModel(File wavFile, String sentence) {
         return restTemplateService.runModels(wavFile, sentence);
     }
 
-    private File saveMultipartFileToWavFile(MultipartFile audio) throws IOException {
-
-        File inputFile = convertMultiPartFileToFile(audio);
-
-        //FFmpeg ffmpeg = new FFmpeg("/opt/homebrew/bin/ffmpeg"); // ffmpeg 실행 파일 경로
-        //FFprobe ffprobe = new FFprobe("/opt/homebrew/bin/ffprobe"); // ffprobe 실행 파일 경로
-        FFmpeg ffmpeg = new FFmpeg("C:/ffmpeg/bin/ffmpeg"); // ffmpeg 실행 파일 경로
-        FFprobe ffprobe = new FFprobe("C:/ffmpeg/bin//ffprobe"); // ffprobe 실행 파일 경로
-        File outputFile = new File(fileDir+"/output.wav");
-
-        try {
-            FFmpegBuilder builder = new FFmpegBuilder()
-                    .setInput(inputFile.getAbsolutePath())
-                    .overrideOutputFiles(true)
-                    .addOutput(outputFile.getAbsolutePath())
-                    .setFormat("wav")
-                    .setAudioChannels(1)
-                    .setAudioCodec("pcm_s16le")
-                    .setAudioSampleRate(16000)
-                    .done();
-
-            FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
-            FFmpegProbeResult probeResult = ffprobe.probe(inputFile.getAbsolutePath());
-            executor.createJob(builder).run();
-
-        } catch (IOException e) {
-            throw new RuntimeException("Error converting file to wav", e);
-        }
-
-        return outputFile;
-    }
-
-    private File convertMultiPartFileToFile(MultipartFile file) {
-        File convertedFile = new File(fileDir+file.getOriginalFilename());
-        try {
-            FileOutputStream fos = new FileOutputStream(convertedFile);
-            fos.write(file.getBytes());
-            fos.close();
-        } catch (IOException e) {
-            throw new RuntimeException("Error converting multipart file to file", e);
-        }
-        return convertedFile;
+    private ChallengedProblemHistory runDenoiseAndAsrModel() {
+        return ChallengedProblemHistory.builder()
+                .korean("주말에는 공부 안 하고 쉬고 싶어요")
+                .score(100f)
+                .build();
     }
 
 

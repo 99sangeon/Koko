@@ -84,7 +84,7 @@
 
 .loading {
     border: 2px solid transparent;
-    border-color: transparent #E45635 transparent #E45635;
+    border-color: transparent white transparent white;
     -moz-animation: rotate-loading 1.5s linear 0s infinite normal;
     -moz-transform-origin: 50% 50%;
     -o-animation: rotate-loading 1.5s linear 0s infinite normal;
@@ -96,7 +96,7 @@
 }
 
 .loading-container:hover .loading {
-    border-color: transparent dodgerblue transparent dodgerblue;
+    border-color: transparent palevioletred transparent palevioletred;
 }
 .loading-container:hover .loading,
 .loading-container .loading {
@@ -112,9 +112,8 @@
     -o-animation: loading-text-opacity 2s linear 0s infinite normal;
     -webkit-animation: loading-text-opacity 2s linear 0s infinite normal;
     animation: loading-text-opacity 2s linear 0s infinite normal;
-    color: #E45635;
-    font-family: "Helvetica Neue, "Helvetica", ""arial";
-    font-size: 12px;
+    color: white;
+    font-size: 14px;
     font-weight: bold;
     margin-top: 45px;
     opacity: 0;

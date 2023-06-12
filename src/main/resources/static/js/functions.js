@@ -1,8 +1,8 @@
 const scrollButton = document.getElementById("scrollButton");
 
 scrollButton.addEventListener("click", function() {
-    var scrollStep = window.innerHeight / 200; // 한 번에 이동할 스크롤 거리를 계산 (전체 거리를 20 등분)
-    var scrollInterval = setInterval(function() {
+    let scrollStep = window.innerHeight / 200; // 한 번에 이동할 스크롤 거리를 계산 (전체 거리를 20 등분)
+    let scrollInterval = setInterval(function() {
         if (window.scrollY >= 800) {
             clearInterval(scrollInterval); // 목표 위치에 도달하면 애니메이션 종료
         }

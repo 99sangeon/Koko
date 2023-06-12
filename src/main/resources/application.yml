@@ -51,17 +51,17 @@ logging:
 
 
 ffmpeg:
-  #mpeg: /opt/homebrew/bin/ffmpeg
-  #probe: /opt/homebrew/bin/ffprobe
-  #savePath: /Users/jeonsang-eon/Desktop/audio_store/
+  mpeg: /opt/homebrew/bin/ffmpeg
+  probe: /opt/homebrew/bin/ffprobe
+  savePath: /Users/jeonsang-eon/Desktop/audio_store/
 
-  mpeg: C:\ffmpeg\bin\ffmpeg
-  probe: C:\ffmpeg\bin\ffprobe
-  savePath: C:\Users\User\Desktop\audio
+  #mpeg: C:\ffmpeg\bin\ffmpeg
+  #probe: C:\ffmpeg\bin\ffprobe
+  #savePath: C:\Users\User\Desktop\audio
 
 file:
-  #dir: C:\Users\User\Desktop\audio\
-  #dir: /Users/jeon-sangeon/Desktop/audio_store/
-  dir: C:\Users\tkd02\OneDrive\바탕 화면\audio\
+  #dir: C:\Users\User\Desktop\koko_store
+  dir: /Users/jeon-sangeon/Desktop/koko_store
+  #dir: C:\Users\tkd02\OneDrive\바탕 화면\koko_store
 
 

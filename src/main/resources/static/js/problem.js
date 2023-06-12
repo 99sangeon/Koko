@@ -1,5 +1,6 @@
 const $record = $('#record');               // 녹음 버튼
 const $recordLoading = $('#recordLoading'); // 녹음 로딩
+const $evaluationLoading = $('#evaluationLoading'); // 체점 로딩
 const $problemSubmit = $('#problemSubmit'); // 문제 제출 버튼
 const $playActualAudio = $('#playActualAudio'); // 실제 사운드 재생 버튼
 const $actualAudioEl = $('#actualAudioEl'); // 실제 사운드
@@ -15,7 +16,7 @@ const audioArray = [];   // 녹음 데이터(Blob) 조각 저장 배열
 $(document).ready(function () {
 
     // 녹음 시작/종료 버튼 클릭 이벤트 처리
-    $record .click (function () {
+    $record.click (function () {
 
         // 녹음 중이 아닌 경우에만 녹음 시작 처리
         if (!isRecording) {
@@ -73,6 +74,7 @@ $(document).ready(function () {
     $userAudioEl.on('ended', function() {
         $playUserAudio.find('span').text('play_circle');
     });
+
 });
 
 
@@ -114,6 +116,39 @@ async function startRecord() {
 
 function stopRecord(mediaStream) {
     mediaRecorder.stop();                     // 녹음 종료
+}
+
+// 문제 제출
+function uploadUserAudio(problemId) {
+    $problemSubmit.hide();
+    $evaluationLoading.show();
+
+    const formData = new FormData();
+    const blob = new Blob(audioArray, { type : 'audio/ogg codecs=opus' });
+    formData.append('audio', blob);
+
+    $.ajax({
+        type: 'post',
+        url : '/content/problem/' + problemId,
+        data: formData,
+
+        timeout: 60000,
+        processData: false, // 데이터 처리 방식 (파일 전송 시 false로 설정)
+        contentType: false, // 컨텐츠 타입 (파일 전송 시 false로 설정)
+
+        success: function(response) {
+            console.log(response);
+            $evaluationLoading.hide();
+
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            // 전송 중 에러가 발생했을 때의 콜백 함수
+            console.log(textStatus, errorThrown);
+            alert(textStatus);
+            $evaluationLoading.hide();
+            $problemSubmit.show();
+        }
+    });
 }
 
 const audioContext = new AudioContext();

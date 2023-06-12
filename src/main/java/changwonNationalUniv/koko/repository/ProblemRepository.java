@@ -14,8 +14,8 @@ public interface ProblemRepository extends JpaRepository<Problem, Long> {
 
     List<Problem> findByLevel(int level);
 
-    @Query("SELECT p.uploadFile.storeFileName FROM Problem p WHERE p.id = :id")
-    Optional<String> findFilename(Long id);
+    @Query("SELECT p.uploadFile.storeFileName FROM Problem p WHERE p.id = :problemId")
+    Optional<String> findFilename(Long problemId);
 
     @Query("SELECT " +
             "NEW changwonNationalUniv.koko.dto.response.ProblemResponse(p.id, p.korean, p.challengedCnt, p.clearCnt, cp.clearState) " +

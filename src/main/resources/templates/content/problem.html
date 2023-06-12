@@ -53,10 +53,14 @@
                     <canvas id="userAudioVisualizer"></canvas>
                 </div>
             </div>
+            <div id="evaluationLoading" class="loading-container" style="display: none; margin-top: 100px;">
+                <div class="loading"></div>
+                <div id="loading-text">채점중..</div>
+            </div>
         </div>
         <div class="recordAndSubmit">
             <button id="record"><span class="material-symbols-outlined record">Mic</span></button>
-            <button id="problemSubmit" style="display: none"><span class="material-symbols-outlined problemSubmit">upload</span></button>
+            <button id="problemSubmit" th:onclick="uploadUserAudio([[${problem.id}]]);" style="display: none"><span class="material-symbols-outlined problemSubmit">upload</span></button>
         </div>
     </main>
 

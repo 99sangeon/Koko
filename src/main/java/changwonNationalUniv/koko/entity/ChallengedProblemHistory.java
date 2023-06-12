@@ -22,13 +22,15 @@ public class ChallengedProblemHistory extends BaseTimeEntity{
     @JoinColumn(name = "challenged_problem_id")
     private ChallengedProblem challengedProblem;
 
-    @Enumerated(EnumType.STRING)
-    private ClearState clearState;
-
     private Float score;
 
     private String korean;
 
     @Column(length = 1000)
     private String feedback;
+
+    @Enumerated(EnumType.STRING)
+    private ClearState clearState;
+
+
 }

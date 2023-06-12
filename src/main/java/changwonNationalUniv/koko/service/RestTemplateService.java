@@ -1,6 +1,7 @@
 package changwonNationalUniv.koko.service;
 
 import changwonNationalUniv.koko.dto.response.ChallengedProblemHistoryResponse;
+import changwonNationalUniv.koko.entity.ChallengedProblemHistory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpEntity;
@@ -13,15 +14,13 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
-import java.nio.file.Files;
-
 
 @Service
 @RequiredArgsConstructor
 public class RestTemplateService {
 
     // http://localhost:9090/api/server/hello 로 요청해서 response를 받아오기
-    public ChallengedProblemHistoryResponse runModels(File wavFile, String sentence){
+    public ChallengedProblemHistory runModels(File wavFile, String sentence){
 
         RestTemplate restTemplate = new RestTemplate();
 
@@ -45,8 +44,8 @@ public class RestTemplateService {
 
         String serverUrl = "http://localhost:5000/runModels";
 
-        ResponseEntity<ChallengedProblemHistoryResponse> response = restTemplate
-                .postForEntity(serverUrl, requestEntity, ChallengedProblemHistoryResponse.class);
+        ResponseEntity<ChallengedProblemHistory> response = restTemplate
+                .postForEntity(serverUrl, requestEntity, ChallengedProblemHistory.class);
 
         return response.getBody();
     }

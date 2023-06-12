@@ -2,14 +2,13 @@ package changwonNationalUniv.koko.service;
 
 import changwonNationalUniv.koko.dto.request.MemberRequest;
 import changwonNationalUniv.koko.entity.Member;
+import changwonNationalUniv.koko.exception.MemberNotFoundException;
 import changwonNationalUniv.koko.exception.NotLoginException;
 import changwonNationalUniv.koko.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.NoSuchElementException;
 
 @Service
 @Transactional
@@ -32,10 +31,10 @@ public class MemberServiceImpl implements MemberService{
     public Member getCurrentMember() {
 
         if(!securityService.isAuthenticated()){
-            throw new NotLoginException(" getCurrentMember,  로그인을 해야합니다.");
+            throw new NotLoginException("로그인 후 이용해 주세요.");
         }
         return memberRepository.findByUserId(securityService.getName())
-                .orElseThrow(() -> new NoSuchElementException());
+                .orElseThrow(() -> new MemberNotFoundException());
     }
 
     @Override

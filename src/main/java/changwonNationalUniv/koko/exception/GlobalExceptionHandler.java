@@ -21,4 +21,10 @@ public class GlobalExceptionHandler {
         return "/login";
     }
 
+    @ExceptionHandler(FileNotFoundException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public String fileNotFound(FileNotFoundException e) {
+        return e.getMessage();
+    }
+
 }
