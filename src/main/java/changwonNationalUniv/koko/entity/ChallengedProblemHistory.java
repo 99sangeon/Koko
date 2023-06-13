@@ -1,5 +1,6 @@
 package changwonNationalUniv.koko.entity;
 
+import changwonNationalUniv.koko.dto.request.UploadFile;
 import changwonNationalUniv.koko.enums.ClearState;
 import lombok.*;
 
@@ -32,5 +33,7 @@ public class ChallengedProblemHistory extends BaseTimeEntity{
     @Enumerated(EnumType.STRING)
     private ClearState clearState;
 
+    @Embedded
+    private UploadFile uploadFile;
 
 }

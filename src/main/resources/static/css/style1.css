@@ -78,13 +78,13 @@ ul {
 }
 
 .navigator {
-    background-color: rgba(0, 0, 0, 0.075);
+    background-color: rgba(0, 0, 0, 0.05);
     position:fixed;
     top:0;
     display: flex;
     justify-content: space-between;
     width: 100%;
-    min-width: 600px;
+    min-width: 1100px;
     height: var(--header-height);
     align-items: center;
 }
@@ -140,8 +140,6 @@ ul {
 .mainPhrasesAndGoStep {
     min-width: 1000px;
     min-height: 100vh;
-    background-size: cover;
-    background-attachment: fixed;
 }
 
 .mainPhrases {
@@ -262,6 +260,10 @@ footer .teamInfo {
 
 .steps {
     height: 800px;
+    background: linear-gradient(45deg, rgba(73, 160, 157, 06), rgba(95, 44, 130, 0.8));
+    font-family: 'Roboto', sans-serif;
+    background-size: cover;
+    background-attachment: fixed;
 }
 
 .steps .contentTitle{
@@ -391,15 +393,14 @@ footer .teamInfo {
     justify-content: center;
     align-items: center;
     font-size: 30px;
-}
-
-.problemBox .korean .play {
-    margin-top: 3px;
+    max-width: 800px;
+    margin: auto;
 }
 
 .play{
+    display: flex;
+    align-items: center;
     margin-right: 3px;
-    height: 35px;
     border: none;
     background-color: transparent;
     transition:800ms ease all;
@@ -419,7 +420,16 @@ footer .teamInfo {
 }
 
 .recordAndSubmit {
+    padding-bottom: calc(var(--title-top-margin) - var(--header-height) + var(--footer_heigth));
     text-align: center;
+    position: relative;
+    width: 1100px;
+    margin: auto;
+}
+
+.deNoiseModeBox {
+    position: absolute;
+    transform: translate(0, 7%); /* 이동한 요소를 다시 50% 만큼 왼쪽과 위로 이동하여 중앙 정렬합니다 */
 }
 
 .recordAndSubmit button{
@@ -464,6 +474,49 @@ footer .teamInfo {
     justify-content: center;
 }
 
+.response {
+    display: none;
+}
+
+.response > div{
+    display: inline-block;
+    text-align: left;
+    margin-top: 30px;
+}
+
+.response > div > div{
+    margin-top: 16px;
+    font-size: 20px;
+    font-weight: var(--subTitle-font-weigth);
+}
+
+.spectrogram {
+    display: flex;
+    align-items: center;
+    font-weight: var(--subTitle-font-weigth);
+    font-size: 14px;
+    background-color: transparent;
+    border: 1px solid var(--white-color);
+    padding-left: 7px;
+    margin-left: 20px;
+    border-radius: 30px;
+    transition:800ms ease all;
+}
+
+.spectrogram:hover {
+    transform:scale(1.075);
+}
+
+.spectrogramImg {
+    margin-top: 30px;
+    display: none;
+}
+
+.spectrogramImg img{
+    margin: 0 30px;
+    width: 350px;
+    height: 300px;
+}
 
 
 

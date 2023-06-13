@@ -5,12 +5,18 @@ const $problemSubmit = $('#problemSubmit'); // 문제 제출 버튼
 const $playActualAudio = $('#playActualAudio'); // 실제 사운드 재생 버튼
 const $actualAudioEl = $('#actualAudioEl'); // 실제 사운드
 const $userAudioWithVisualizer = $('#userAudioWithVisualizer');
-const $playUserAudio = $userAudioWithVisualizer.find('button');
+const $playUserAudio = $('#playUserAudio')
+const $viewSpectrogram = $('#viewSpectrogram');
+const $spectrogramImg = $('#spectrogramImg');
 const $userAudioEl = $userAudioWithVisualizer.find('audio');
+const $response = $('#response');
+const $deNoiseModeToggle= $('#deNoiseModeToggle');
 const userAudioVisualizer = document.getElementById('userAudioVisualizer');
 
 let isRecording = false; //녹음상태
 let mediaRecorder = null;
+let spectrogramState = false; //스펙트로그램 이미지 시각화 상태
+let deNoiseModeState = false; //잡음제거 모드 설정 상태
 const audioArray = [];   // 녹음 데이터(Blob) 조각 저장 배열
 
 $(document).ready(function () {
@@ -26,6 +32,11 @@ $(document).ready(function () {
             $recordLoading.show();                     // 녹음 로딩 GUI 활성화
             $problemSubmit.hide();                     // 문제 제출 버튼 비활성화
             $userAudioWithVisualizer.hide();
+            $response.hide();
+            $viewSpectrogram.hide();
+            $viewSpectrogram.find('#spectrogramIcon').text('expand_more');  //스펙토그램 숨기기
+            $spectrogramImg.hide();
+            spectrogramState = false;
         }
 
         // 녹음 중인 경우 녹음 종료
@@ -79,6 +90,25 @@ $(document).ready(function () {
 
     $userAudioEl.on('ended', function() {
         $playUserAudio.find('span').text('play_circle');
+    });
+
+    $viewSpectrogram.click(function (){
+        if(spectrogramState) {
+            $viewSpectrogram.find('#spectrogramIcon').text('expand_more');
+            $spectrogramImg.hide();
+            spectrogramState = !spectrogramState;
+        } else {
+            $viewSpectrogram.find('#spectrogramIcon').text('expand_less');
+            $spectrogramImg.show();
+            spectrogramState = !spectrogramState;
+        }
+
+    });
+
+    $deNoiseModeToggle.click(function () {
+        $deNoiseModeToggle.toggleClass('active');
+        $('#toggleText').toggleClass('active');
+        deNoiseModeState = !deNoiseModeState;
     });
 
 });
@@ -135,13 +165,26 @@ function uploadUserAudio(problemId) {
     $problemSubmit.hide();
     $evaluationLoading.show();
 
+    $viewSpectrogram.find('#spectrogramIcon').text('expand_more');  //스펙토그램 숨기기
+    $spectrogramImg.hide();
+    spectrogramState = false;
+
     const formData = new FormData();
     const blob = new Blob(audioArray, { type : 'audio/ogg codecs=opus' });
     formData.append('audio', blob);
 
+    let url = '/content/problem/' + problemId;
+    let deNoiseMode = false;
+
+    if(deNoiseModeState) {
+        url =  '/content/problem/' + problemId;
+        deNoiseMode = true;
+    }
+
     $.ajax({
+
         type: 'post',
-        url : '/content/problem/' + problemId,
+        url : url,
         data: formData,
 
         timeout: 60000,
@@ -151,12 +194,22 @@ function uploadUserAudio(problemId) {
         success: function(response) {
             console.log(response);
             $evaluationLoading.hide();
-
+            if(deNoiseMode){
+                $viewSpectrogram.show();
+            }
+            $response.find('#score').text(response['score']);
+            $response.find('#korean').text(response['korean']);
+            $response.find('#feedback').text(response['feedback']);
+            $response.show();
         },
         error: function(jqXHR, textStatus, errorThrown) {
             // 전송 중 에러가 발생했을 때의 콜백 함수
             console.log(textStatus, errorThrown);
-            alert(jqXHR.responseText);
+            if(jqXHR.status === 401){
+                alert(jqXHR.responseText);
+                window.location.href = '/login';
+            }
+
             $evaluationLoading.hide();
             $problemSubmit.show();
         }

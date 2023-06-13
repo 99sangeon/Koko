@@ -13,11 +13,18 @@ import changwonNationalUniv.koko.repository.*;
 import changwonNationalUniv.koko.utils.file.FileStore;
 import changwonNationalUniv.koko.utils.file.FileTypeConverter;
 import lombok.RequiredArgsConstructor;
+import net.bramp.ffmpeg.FFmpeg;
+import net.bramp.ffmpeg.FFmpegExecutor;
+import net.bramp.ffmpeg.FFprobe;
+import net.bramp.ffmpeg.builder.FFmpegBuilder;
+import net.bramp.ffmpeg.probe.FFmpegProbeResult;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +44,7 @@ public class ProblemServiceImpl implements ProblemService{
     private final FileStore fileStore;
     private final RestTemplateService restTemplateService;
     private final ChallengedProblemRepositoryCustom challengedProblemRepositoryCustom;
+    private final FileTypeConverter fileTypeConverter;
 
     @Override
     public Long saveProblem(ProblemRequest problemRequest) throws IOException {
@@ -133,27 +141,27 @@ public class ProblemServiceImpl implements ProblemService{
     @Override
     public ChallengedProblemHistoryResponse evaluate(Long problemId, MultipartFile audio) throws IOException {
 
-            Member member = memberService.getCurrentMember();  //현재 로그인 중인 사용자의 정보를 가져온다.
-            Problem problem = problemRepository.findById(problemId).orElseThrow(() -> new ProblemNotFoundException("해당 문제를 찾을 수 없습니다.")); //사용자가 체점을 요청한 문제의 정보를 가져온다.
-            ChallengedProblem challengedProblem = challengedProblemRepository
-                                                    .findChallengedProblemByMemberAndProblem(member, problem)
-                                                    .orElseGet(() -> challengedProblemRepository.save(
-                                                            ChallengedProblem
-                                                            .builder()
-                                                            .member(member)
-                                                            .problem(problem)
-                                                            .build())); // 만약 사용자가 해당문제를 처음 도전했다면 도전기록 엔티티를 생성하여 DB에 저장한다
+        Member member = memberService.getCurrentMember();  //현재 로그인 중인 사용자의 정보를 가져온다.
+        Problem problem = problemRepository.findById(problemId).orElseThrow(() -> new ProblemNotFoundException("해당 문제를 찾을 수 없습니다.")); //사용자가 체점을 요청한 문제의 정보를 가져온다.
+        ChallengedProblem challengedProblem = challengedProblemRepository
+                .findChallengedProblemByMemberAndProblem(member, problem)
+                .orElseGet(() -> challengedProblemRepository.save(
+                        ChallengedProblem
+                                .builder()
+                                .member(member)
+                                .problem(problem)
+                                .build())); // 만약 사용자가 해당문제를 처음 도전했다면 도전기록 엔티티를 생성하여 DB에 저장한다
 
-            File wavFile = FileTypeConverter.saveMultipartFileToWavFile(audio); //사용자로부터 받은 오디오파일을 인코딩여 WAV파일로 저장한다.
+        UploadFile uploadFile = fileTypeConverter.saveMultipartFileToWavFile(audio);
 
-            ChallengedProblemHistory challengedProblemHistory = runDenoiseAndAsrModel(); //WAV파일과 한글을 ASR 및 잡음제거 모델 API에 전송하고 점수와 피드백을 반환받는다.
+        ChallengedProblemHistory challengedProblemHistory = runDenoiseAndAsrModel(); //WAV파일과 한글을 ASR 및 잡음제거 모델 API에 전송하고 점수와 피드백을 반환받는다.
+        challengedProblemHistory.setUploadFile(uploadFile);
 
-            problem.increaseChallengedCnt();  //문제 도전 횟수를 1회증가 시키고 DB에 업데이트한다.
-            member.increaseChallengeCnt();    //사용자 도전 횟수 1회증가 시키고 DB에 업데이트한다.
+        problem.increaseChallengedCnt();  //문제 도전 횟수를 1회증가 시키고 DB에 업데이트한다.
+        member.increaseChallengeCnt();    //사용자 도전 횟수 1회증가 시키고 DB에 업데이트한다.
 
-            //기존의 한글과 반환받은 한글이 일치하면 문제 정답 처리한다. 일치하지 않으면 정답 처리하지 않고 피드백을 반환한다.
-            if(problem.getKorean().equals(challengedProblemHistory.getKorean())) {
-
+        //기존의 한글과 반환받은 한글이 일치하면 문제 정답 처리한다. 일치하지 않으면 정답 처리하지 않고 피드백을 반환한다.
+        if(problem.getKorean().equals(challengedProblemHistory.getKorean())) {
                 problem.increaseClearCnt();
                 member.increaseSuccessCnt();
                 challengedProblemHistory.setFeedback("잘하셨어요!");
@@ -172,54 +180,51 @@ public class ProblemServiceImpl implements ProblemService{
                 }
             }
 
-            else {
+        else {
 
-                member.increaseFailureCnt();
+            member.increaseFailureCnt();
                 
-                String[] actualPronunciations = problem.getKorean().split(" ");
-                String[] userPronunciations = challengedProblemHistory.getKorean().split(" ");
-                String[] koPronunciations = problem.getKoPronunciation().split(" ");
-                String[] enPronunciations = problem.getEnPronunciation().split(" ");
-                
-                String feedBack = "";
+            String[] actualPronunciations = problem.getKorean().split(" ");
+            String[] userPronunciations = challengedProblemHistory.getKorean().split(" ");
+            String[] koPronunciations = problem.getKoPronunciation().split(" ");
+            String[] enPronunciations = problem.getEnPronunciation().split(" ");
 
-                if(actualPronunciations.length != userPronunciations.length) {
+            String feedBack = "";
 
-                    for(int i = 0; i < actualPronunciations.length; i++) {
+            if(actualPronunciations.length != userPronunciations.length) {
 
-                        feedBack +="\"" + actualPronunciations[i] + "\"" + "를(을) " +
-                                    "\"" + koPronunciations[i] +  "(" + enPronunciations[i] + ")" + "\"" + "(으)로 발음해보세요.\n";
-                    }
+                for(int i = 0; i < actualPronunciations.length; i++) {
+                    feedBack +="\"" + actualPronunciations[i] + "\"" + "->" +
+                            "\"" + koPronunciations[i] +  "(" + enPronunciations[i] + ")" + "\"\n";
                 }
-
-                else {
-                    for(int i = 0; i < actualPronunciations.length; i++) {
-
-                        if(i >= userPronunciations.length) break;
-
-                        if(!actualPronunciations[i].equals(userPronunciations[i])){
-                            feedBack +="\"" + userPronunciations[i] + "\"" + "를(을) " +
-                                    "\"" + koPronunciations[i] +  "(" + enPronunciations[i] + ")" + "\"" + "(으)로 발음해보세요.\n";
-                        }
-                    }
-                }
-
-
-                challengedProblemHistory.setFeedback(feedBack);
-                challengedProblemHistory.setClearState(ClearState.N);
-
-                //최초 실패
-                if(challengedProblem.getClearState() == null) {
-                    member.increaseFailureProblemCnt();
-                    challengedProblem.setClearState(ClearState.N);
-                }
-
             }
 
-            challengedProblem.addChallengedProblemHistory(challengedProblemHistory);
+            else {
+                for(int i = 0; i < actualPronunciations.length; i++) {
+                    if(i >= userPronunciations.length) break;
 
-            return ChallengedProblemHistoryResponse
-                    .of(challengedProblemHistoryRepository.save(challengedProblemHistory));
+                    if(!actualPronunciations[i].equals(userPronunciations[i])){
+                        feedBack +="\"" + userPronunciations[i] + "\"" + "를(을) " +
+                                "\"" + koPronunciations[i] +  "(" + enPronunciations[i] + ")" + "\"" + "(으)로 발음해보세요.\n";
+                    }
+                }
+            }
+
+
+            challengedProblemHistory.setFeedback(feedBack);
+            challengedProblemHistory.setClearState(ClearState.N);
+
+            //최초 실패
+            if(challengedProblem.getClearState() == null) {
+                member.increaseFailureProblemCnt();
+                challengedProblem.setClearState(ClearState.N);
+            }
+        }
+
+        challengedProblem.addChallengedProblemHistory(challengedProblemHistory);
+
+        return ChallengedProblemHistoryResponse
+                .of(challengedProblemHistoryRepository.save(challengedProblemHistory));
 
     }
 

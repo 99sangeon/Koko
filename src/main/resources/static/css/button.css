@@ -74,6 +74,52 @@
   transition:800ms ease all;
 }
 
+.toggleSwitch {
+  width: 60px;
+  height: 30px;
+  display: block;
+  position: relative;
+  border-radius: 18px;
+  background-color: rgba(255,255,255, 0.3);
+  cursor: pointer;
+}
+
+.toggleSwitch .toggleButton {
+  width: 23px;
+  height: 23px;
+  position: absolute;
+  top: 50%;
+  left: 3px;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background: rgba(65, 105, 225, 0.8);
+}
+
+.toggleSwitch.active {
+  background: rgba(65, 105, 225, 0.8);
+}
+
+.toggleSwitch.active .toggleButton {
+  left: calc(100% - 29px);
+  background: rgba(255,255,255, 0.9); !important;
+}
+
+.toggleSwitch, .toggleButton {
+  transition: all 0.2s ease-in;
+}
+
+.toggleText {
+  color: rgba(255,255,255,0.5);
+  font-size: 13px;
+  transition: all 0.2s ease-in;
+  font-weight: 400;
+}
+
+.toggleText.active {
+  color: rgba(255,255,255,1);
+}
+
+
 
 
 

@@ -9,6 +9,7 @@ import changwonNationalUniv.koko.service.ProblemService;
 import changwonNationalUniv.koko.service.StepService;
 import changwonNationalUniv.koko.utils.file.FileStore;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,9 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/content")
 public class ProblemController {
+
+    @Value("${file.dir}")
+    private String fileDir;
 
     private final FileStore fileStore;
     private final ProblemService problemService;
@@ -87,14 +91,14 @@ public class ProblemController {
     @ResponseBody
     @GetMapping("/noise")
     public Resource noiseImg() throws MalformedURLException {
-        return new UrlResource("file:" + "C:\\Users\\User\\Desktop\\img\\Original.jpg");
+        return new UrlResource("file:" + fileDir + "noise.png");
     }
 
     @ResponseBody
     @GetMapping("/deNoise")
     public Resource deNoiseImg() throws MalformedURLException {
 
-        return new UrlResource("file:" + "C:\\Users\\User\\Desktop\\img\\Denoised.jpg");
+        return new UrlResource("file:" + fileDir + "deNoise.png");
     }
 
 }

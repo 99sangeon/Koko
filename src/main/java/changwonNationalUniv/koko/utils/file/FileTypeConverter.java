@@ -1,5 +1,7 @@
 package changwonNationalUniv.koko.utils.file;
 
+import changwonNationalUniv.koko.dto.request.UploadFile;
+import lombok.RequiredArgsConstructor;
 import net.bramp.ffmpeg.FFmpeg;
 import net.bramp.ffmpeg.FFmpegExecutor;
 import net.bramp.ffmpeg.FFprobe;
@@ -10,28 +12,33 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.UUID;
 
+@RequiredArgsConstructor
 @Component
 public class FileTypeConverter {
 
     @Value("${file.dir}")
-    private static String fileDir;
+    private String fileDir;
 
-    @Value("${ffmpeg/ffmpeg}")
-    private static String mpeg;
+    @Value("${ffmpeg.mpeg}")
+    private String mpeg;
 
-    @Value("${ffmpeg/probe}")
-    private static String probe;
+    @Value("${ffmpeg.probe}")
+    private String probe;
 
-    public static File saveMultipartFileToWavFile(MultipartFile audio) throws IOException {
+    private final FileStore fileStore;
+
+    public UploadFile saveMultipartFileToWavFile(MultipartFile audio) throws IOException {
 
         File inputFile = convertMultiPartFileToFile(audio);
 
         FFmpeg ffmpeg = new FFmpeg(mpeg); // ffmpeg 실행 파일 경로
         FFprobe ffprobe = new FFprobe(probe); // ffprobe 실행 파일 경로
-        File outputFile = new File(fileDir+"/output.wav");
+
+        UploadFile uploadFile = new UploadFile("output.wav", UUID.randomUUID().toString() +".wav");
+        File outputFile = new File(fileDir+uploadFile.getStoreFileName());
 
         try {
             FFmpegBuilder builder = new FFmpegBuilder()
@@ -50,20 +57,15 @@ public class FileTypeConverter {
 
         } catch (IOException e) {
             throw new RuntimeException("Error converting file to wav", e);
+        } finally {
+            inputFile.delete();
         }
 
-        return outputFile;
+        return uploadFile;
     }
 
-    private static File convertMultiPartFileToFile(MultipartFile file) {
-        File convertedFile = new File(fileDir+file.getOriginalFilename());
-        try {
-            FileOutputStream fos = new FileOutputStream(convertedFile);
-            fos.write(file.getBytes());
-            fos.close();
-        } catch (IOException e) {
-            throw new RuntimeException("Error converting multipart file to file", e);
-        }
-        return convertedFile;
+    private File convertMultiPartFileToFile(MultipartFile file) throws IOException {
+        UploadFile uploadFile = fileStore.storeFile(file);
+        return new File(fileStore.getFullPath(uploadFile.getStoreFileName()));
     }
 }
