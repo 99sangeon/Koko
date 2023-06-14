@@ -617,6 +617,90 @@ footer .teamInfo {
     width: 400px;
 }
 
+.memberTextInfo {
+    margin: var(--title-top-margin) auto;
+    width: 800px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.memberTextInfo .history{
+    width: 200px;
+
+}
+
+.memberTextInfo .history{
+    border-top: 1px solid rgba(255,255,255,0.3);
+}
+
+.memberTextInfo .history > div{
+    display: flex;
+    justify-content: space-between;
+    padding:10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+    color: white;
+    font-size: 15px;
+}
+
+.memberTextInfo .history > div > span{
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+    font-weight: var(--title-font-weigth);
+}
+
+.memberTextInfo .history > div > a{
+    margin-right: 20px;
+    font-weight: var(--subTitle-font-weigth);
+}
+
+.memberTextInfo .basic{
+    position: relative;
+    width: 500px;
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 5px;
+}
+
+.memberTextInfo .basic > div{
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+    color: white;
+    font-size: 18px;
+}
+
+.memberTextInfo .basic > div > span:first-child{
+    margin-left: 20px;
+    font-weight: var(--title-font-weigth);
+}
+
+.memberTextInfo .basic > div > span:nth-child(2){
+    margin-right: 20px;
+    font-weight: var(--subTitle-font-weigth);
+}
+
+.memberTextInfo .basic button {
+    border-radius: 3px;
+    position: absolute;
+    left: 87.8%;
+    margin-top: 10px;
+    border: none;
+    background-color: rgba(255,255,255,0.2);
+    padding: 8px 15px;
+    font-weight: var(--title-font-weigth);
+    font-size: 15px;
+    color: white;
+}
+
+.memberGraphInfo {
+    display: flex;
+    align-content: center;
+}
+
+
+
+
 
 
 

@@ -625,29 +625,23 @@ nav {
     padding-left: 1rem;
 }
 
-.myInfo_table2 {
-    border: 0.05rem solid silver;
+.myInfoTable {
+    border: 1px solid var(--white-color);
     border-collapse: separate;
     border-spacing: 0;
     border-radius: 0.5rem;
 
 }
 
-.myInfo_table2 tr {
+.myInfoTable tr {
     height: 4rem;
 
 }
 
-.myInfo_table2 th {
-    border-bottom: 0.05rem solid silver;
+.myInfoTable th {
+    border-bottom: 0.05rem solid  var(--white-color);
     width: 8rem;
     text-align: left;
-    padding-left: 1rem;
-}
-
-.myInfo_table2 td {
-    border-bottom: 0.05rem solid silver;
-    width: 35rem;
     padding-left: 1rem;
 }
 

@@ -25,7 +25,7 @@
       <a href="/login"><span>로그인</span></a>
     </li>
     <li th:unless="${#authentication.getName() == 'anonymousUser'}" class="myPage">
-      <a href="/member/myPage"><span th:text="${#authentication.getName()} + '님 어서오세요'">마이페이지</span></a>
+      <a href="/member/myPage"><span th:text="${#authentication.getName()} + '님'">마이페이지</span></a>
     </li>
     <li sec:authorize="hasRole('ROLE_ADMIN')" class="admin">
       <a href="/admin/adminPage"><span>관리자</span></a>
