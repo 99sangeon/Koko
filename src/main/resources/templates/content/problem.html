@@ -61,9 +61,13 @@
                         <span>발음 : </span>
                         <span id="korean"></span>
                     </div>
-                    <div>
-                        <span>교정 :</span>
-                        <span id="feedback"></span>
+                    <div style="display: flex">
+                        <div>
+                            <span>피드백 :</span>
+                        </div>
+                        <div>
+                            <span id="feedback"></span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -83,14 +87,14 @@
             </div>
         </div>
         <div class="recordAndSubmit">
-            <div class="deNoiseModeBox" >
+            <div class="deNoiseModeBox">
                 <label id="deNoiseModeToggle" class="toggleSwitch">
                     <span class="toggleButton"></span>
                 </label>
                 <div style="margin: 3px auto;"><span id="toggleText" class="toggleText">잡음제거</span></div>
             </div>
             <button id="record"><span class="material-symbols-outlined record">Mic</span></button>
-            <button id="problemSubmit" th:onclick="uploadUserAudio([[${problem.id}]]);" style="display: none"><span class="material-symbols-outlined problemSubmit">upload</span></button>
+            <button id="problemSubmit" th:onclick="uploadUserAudio([[${problem.id}]]);" style="display: none"><span class="material-symbols-outlined problemSubmit">send</span></button>
         </div>
     </main>
     <footer th:replace="/footer :: footFragment"></footer>

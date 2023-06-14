@@ -11,6 +11,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" th:href="@{/css/style1.css}">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
 </head>
 <body>
 
@@ -32,8 +35,8 @@
                     <th style="width: 3%;"></th>
                     <th style="width: 10%;">번호</th>
                     <th>발음</th>
-                    <th style="width: 10%;">정답</th>
                     <th style="width: 10%;">도전</th>
+                    <th style="width: 10%;">정ㅂ</th>
                     <th style="width: 12%;">성공률</th>
                     <th sec:authorize="hasRole('ROLE_ADMIN')" style="width: 15%;">문제설정</th>
                 </tr>
@@ -43,8 +46,8 @@
                     <td th:if="${problem.clearState == null}">
                     </td>
                     <td th:unless="${problem.clearState == null}">
-                        <span th:if="${problem.clearState.getName() == '성공'}" style="color: white; background: #1AAB8A; padding: 0.1rem 0.1rem;">성공</span>
-                        <span th:if="${problem.clearState.getName() == '실패'}" style="color: white; background: #f05650; padding: 0.1rem 0.1rem;">실패</span>
+                        <span th:if="${problem.clearState.getName() == '성공'}" class="material-symbols-outlined clearState success">done</span>
+                        <span th:if="${problem.clearState.getName() == '실패'}" class="material-symbols-outlined clearState fail">close</span>
                     </td>
                     <td th:text="${problemStat.index + 1 + '번'}">1</td>
                     <td>
@@ -52,7 +55,8 @@
                     </td>
                     <td th:text="${problem.challengedCnt} + '명'">120</td>
                     <td th:text="${problem.clearCnt} + '명'">67</td>
-                    <td th:text="${problem.challengedCnt} / 1+ '%'">99.0%</td>
+                    <td th:if="${problem.challengedCnt} != 0" th:text="(${problem.clearCnt} / ${problem.challengedCnt})*100 + '%'">99.0%</td>
+                    <td th:unless="${problem.challengedCnt} != 0">0%</td>
                     <th sec:authorize="hasRole('ROLE_ADMIN')">
                         <span><a th:href="@{/admin/updateProblem/{problemId}(problemId=${problem.id})}" style="font-weight: 200; font-size: 16px;">수정</a></span>
                         <span style="font-weight: 200; font-size: 16px;"> / </span>

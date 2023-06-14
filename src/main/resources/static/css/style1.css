@@ -400,7 +400,7 @@ footer .teamInfo {
 .play{
     display: flex;
     align-items: center;
-    margin-right: 3px;
+    margin-right: 6px;
     border: none;
     background-color: transparent;
     transition:800ms ease all;
@@ -516,6 +516,105 @@ footer .teamInfo {
     margin: 0 30px;
     width: 350px;
     height: 300px;
+}
+
+.clearState {
+    font-weight: 600;
+}
+
+.clearState.success {
+    color: white;
+}
+
+.clearState.fail {
+    color: white;
+}
+
+.contentTable .material-symbols-outlined {
+    font-variation-settings:
+            'FILL' 0,
+            'wght' 600,
+            'GRAD' 0,
+            'opsz' 48
+}
+
+.formLogin, .snsLogin {
+    width: 400px;
+    margin: 10px auto;
+    padding-top: 20px;
+    border-top: 1px solid var(--white-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.formLogin input, .formLogin button{
+    width: 400px;
+    height: 60px;
+    margin-bottom: 10px;
+    color: white;
+    font-weight: var(--subTitle-font-weigth);
+    font-size: var(--subTitle-font-size);
+}
+
+.formLogin input{
+    padding-left: 20px;
+    background-color: rgba(255,255,255, 0.3);
+    border: 1px solid rgba(255,255,255, 0.5);
+}
+
+.formLogin input:focus{
+    border: 1px solid white;
+}
+
+.formLogin input::placeholder {
+    color: white;
+    font-weight: var(--subTitle-font-weigth);
+    font-size: var(--subTitle-font-size);
+}
+
+.formLogin button{
+    background-color: rgba(0,0,0,0.7);
+    border: 1px solid rgba(0,0,0, 0.7);
+    font-weight: var(--title-font-weigth);
+}
+
+.formLogin > div {
+    margin-top: 5px;
+    width: 400px;
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+}
+
+.formLogin a {
+    font-size: 16px;
+    font-weight: var(--title-font-weigth);
+    color: white;
+}
+
+.sns {
+    padding-bottom: calc(var(--title-top-margin) - var(--header-height) + var(--footer_heigth));
+}
+
+.sns .snsLogin a {
+    margin-bottom: 8px;
+}
+
+.sns .snsLogin img{
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.sns .snsLogin .google{
+    height: 60px;
+    width: 400px;
+}
+
+.sns .snsLogin .kakao{
+    height: 60px;
+    width: 400px;
 }
 
 

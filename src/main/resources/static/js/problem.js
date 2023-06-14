@@ -199,7 +199,7 @@ function uploadUserAudio(problemId) {
             }
             $response.find('#score').text(response['score']);
             $response.find('#korean').text(response['korean']);
-            $response.find('#feedback').text(response['feedback']);
+            $response.find('#feedback').html(response['feedback']);
             $response.show();
         },
         error: function(jqXHR, textStatus, errorThrown) {
