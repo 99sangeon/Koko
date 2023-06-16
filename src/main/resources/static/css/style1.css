@@ -703,6 +703,16 @@ footer .teamInfo {
     padding-bottom: calc(var(--title-top-margin) - var(--header-height) + var(--footer_heigth));
 }
 
+.userProAndFeedback {
+    display: flex;
+    align-content: center;
+    margin-bottom: 5px;
+}
+
+.userProAndFeedback:hover {
+    font-weight: 700;
+}
+
 
 
 

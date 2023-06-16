@@ -30,6 +30,9 @@ public class ProblemController {
     @Value("${file.dir}")
     private String fileDir;
 
+    @Value("${file.feedbackDir}")
+    private String feedbackDir;
+
     private final FileStore fileStore;
     private final ProblemService problemService;
     private final StepService stepService;
@@ -82,6 +85,18 @@ public class ProblemController {
         String filename = problemService.findFilename(problemId);
         try {
             return new UrlResource("file:" + fileStore.getFullPath(filename));
+        } catch (Exception e) {
+            throw new FileNotFoundException("해당 파일을 찾을 수 없습니다.");
+        }
+
+    }
+
+    @ResponseBody
+    @GetMapping("/feedBackAudio/{korean}")
+    public Resource feedBackAudio(@PathVariable String korean) {
+
+        try {
+            return new UrlResource("file:" + feedbackDir + korean + ".mp3");
         } catch (Exception e) {
             throw new FileNotFoundException("해당 파일을 찾을 수 없습니다.");
         }

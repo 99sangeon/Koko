@@ -194,8 +194,8 @@ public class ProblemServiceImpl implements ProblemService{
             if(actualPronunciations.length != userPronunciations.length) {
 
                 for(int i = 0; i < actualPronunciations.length; i++) {
-                    feedBack += " " + actualPronunciations[i] +  " -> "
-                            + koPronunciations[i] +  "(" + enPronunciations[i] + ")<br>";
+                    feedBack += actualPronunciations[i] +  ","
+                            + koPronunciations[i] +  "(" + enPronunciations[i] + ")\\";
                 }
             }
 
@@ -204,8 +204,8 @@ public class ProblemServiceImpl implements ProblemService{
                     if(i >= userPronunciations.length) break;
 
                     if(!actualPronunciations[i].equals(userPronunciations[i])){
-                        feedBack += " " + actualPronunciations[i] +  " -> "
-                                + koPronunciations[i] +  "(" + enPronunciations[i] + ")<br>";
+                        feedBack += actualPronunciations[i] +  ","
+                                + koPronunciations[i] +  "(" + enPronunciations[i] + ")\\";
                     }
                 }
             }
@@ -234,7 +234,7 @@ public class ProblemServiceImpl implements ProblemService{
 
     private ChallengedProblemHistory runDenoiseAndAsrModel() {
         return ChallengedProblemHistory.builder()
-                .korean("이모 순대 한 개랑 떡볶이 하나 포장해 주세요")
+                .korean("주말에 곰부 안 쉬고 싶어요")
                 .score(100f)
                 .build();
     }

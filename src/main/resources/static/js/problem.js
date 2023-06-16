@@ -11,6 +11,7 @@ const $spectrogramImg = $('#spectrogramImg');
 const $userAudioEl = $userAudioWithVisualizer.find('audio');
 const $response = $('#response');
 const $deNoiseModeToggle= $('#deNoiseModeToggle');
+const $feedbackAudioEl= $('#feedbackAudioEl')[0];
 const userAudioVisualizer = document.getElementById('userAudioVisualizer');
 
 let isRecording = false; //녹음상태
@@ -199,7 +200,21 @@ function uploadUserAudio(problemId) {
             }
             $response.find('#score').text(response['score']);
             $response.find('#korean').text(response['korean']);
-            $response.find('#feedback').html(response['feedback']);
+
+            //$response.find('#feedback').html(response['feedback']);
+            let feedback = response['feedback'].split("\\");
+            for (let i = 0; i < feedback.length - 1; i++) {
+
+                let userProAndFeedback = feedback[i].split(",");
+                $response.find('#feedback').html($response.find('#feedback').html()
+                    + '<a class=\"userProAndFeedback\" onclick=\"playFeedback(\'' + userProAndFeedback[0] + '\')\">'
+                    + '<span>&nbsp' + userProAndFeedback[0] + '&nbsp</span>'
+                    + '<span class=\"material-symbols-outlined\">' + 'arrow_right_alt' + '</span>'
+                    + '<span>&nbsp' + userProAndFeedback[1] + '</span>'
+                    + '</a>');
+            }
+
+
             $response.show();
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -264,6 +279,11 @@ function setupVisualizer() {
 }
 
 setupVisualizer();
+
+function playFeedback(korean) {
+    $feedbackAudioEl.src = "/content/feedBackAudio/" + korean;
+    $feedbackAudioEl.play();
+}
 
 
 
