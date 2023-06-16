@@ -53,26 +53,12 @@ public class MemberController {
         Member member = memberService.getCurrentMember();
         MemberResponse memberResponse = MemberResponse.of(member);
         memberResponse.setRank(memberService.getMyRank(member.getUserId()));
-
-        model.addAttribute("memberResponse", memberResponse);
-        
-        return "/member/myPage";
-
-    }
-
-    @GetMapping("/member/visualization")
-    public String visualization(Model model) {
-
-        Member member = memberService.getCurrentMember();
-        MemberResponse memberResponse = MemberResponse.of(member);
-        memberResponse.setRank(memberService.getMyRank(member.getUserId()));
-
         List<SuccessCntResponse> successCnt= problemService.findSuccessCntForVisualChart(member);
 
         model.addAttribute("memberResponse", memberResponse);
         model.addAttribute("successCnt", successCnt);
 
-        return "/member/visualization";
+        return "/member/myPage";
     }
 
     private static void checkingPassword(MemberRequest form, BindingResult bindingResult) {

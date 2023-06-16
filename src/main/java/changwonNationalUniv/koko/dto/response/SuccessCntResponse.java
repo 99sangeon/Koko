@@ -12,11 +12,11 @@ import java.util.Date;
 @NoArgsConstructor
 public class SuccessCntResponse {
 
-    private Date dat;
+    private Date date;
     private int cnt;
 
     public SuccessCntResponse(Date date, int cnt) {
-        this.dat = date;
+        this.date = date;
         this.cnt = cnt;
     }
 }

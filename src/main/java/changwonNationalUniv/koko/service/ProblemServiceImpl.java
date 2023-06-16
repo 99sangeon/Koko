@@ -234,7 +234,7 @@ public class ProblemServiceImpl implements ProblemService{
 
     private ChallengedProblemHistory runDenoiseAndAsrModel() {
         return ChallengedProblemHistory.builder()
-                .korean("주말에는 가족과 함께 시간을 보내는 것을 좋아해요")
+                .korean("이모 순대 한 개랑 떡볶이 하나 포장해 주세요")
                 .score(100f)
                 .build();
     }

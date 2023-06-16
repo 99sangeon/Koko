@@ -29,22 +29,11 @@
 
     function drawProblemChart() {
 
-      var data = null;
-
-      if(chartData.successProblemCnt == 0 && chartData.failureProblemCnt == 0) {
-        data = google.visualization.arrayToDataTable([
-          ['Whether', 'cnt'],
-          ['성공한 문제', 0]
-        ]);
-      }
-
-      else {
-        data = google.visualization.arrayToDataTable([
-          ['Whether', 'cnt'],
-          ['성공한 문제', chartData.successProblemCnt],
-          ['실패한 문제', chartData.failureProblemCnt]
-        ]);
-      }
+      var data = google.visualization.arrayToDataTable([
+        ['Whether', 'cnt'],
+        ['성공한 문제', chartData.successProblemCnt],
+        ['실패한 문제', chartData.failureProblemCnt]
+      ]);
 
       var options = {
         title: '성공문제',
@@ -62,21 +51,106 @@
       data.addColumn('string', '시간');
       data.addColumn('number', '성공 문제');
 
+      if(successChartData.length != 7) {
+        for(let i = 0; i < 7; i++) {
+
+        }
+      }
+
+      var dates = getPastWeekDates();
 
       var options = {
-        title : '최근 일주일 성공한 문제',
-        vAxis: {title: '성공한 문제'},
-        hAxis: {title: '날짜'},
+
+        title:'최근 일주일 기록',
+        hAxis: {
+          title: '날짜',
+          textStyle: {
+            color: 'white', // 폰트 색상을 초록(#00ff00)으로 설정
+          },
+          titleTextStyle: {
+            color: 'white', // 타이틀 폰트 색상을 파랑(#0000ff)으로 설정
+          },
+          color: 'white',
+        },
+
         seriesType: 'bars',
-        series: {5: {type: 'line'}}
+
+        series: {
+          5: {type: 'line',
+          },
+          0: { color: 'royalblue',},
+
+        },
+
+        vAxis: {
+          title: '성공한 문제',
+          ticks: [0, 1, 2, 3, 4, 5],
+          viewWindow: {
+            min: 0,
+          },
+          textStyle: {
+            color: 'white', // 폰트 색상을 초록(#00ff00)으로 설정
+          },
+          titleTextStyle: {
+            color: 'white', // 타이틀 폰트 색상을 파랑(#0000ff)으로 설정
+          },
+        },
+
+        width: 700,
+        height: 350,
+        chartArea: {
+          backgroundColor: {
+            fill: 'rgba(0, 0, 0, 0.5)',
+          },
+        },
+        backgroundColor: {
+          fill: '',
+        },
+        titleTextStyle: {
+          color: 'white', // 타이틀 폰트 색상을 파랑(#0000ff)으로 설정
+        },
+        legend: {
+          textStyle: {
+            color: 'white', // 범례 폰트 색상을 자홍색(#ff00ff)으로 설정
+          },
+        },
       };
 
-      for (var i = 0; i < successChartData.length; i++) {
-        data.addRow([successChartData[i].dat, successChartData[i].cnt]);
+      for (var i = 0; i < dates.length; i++) {
+
+        var successChartDataIndex = successChartData.findIndex(function (data) {
+          return data.date == dates[i];
+        });
+
+        if(successChartDataIndex == -1) {
+          data.addRow([dates[i].slice(-5) , 0]);
+        }
+        else {
+          data.addRow([dates[i].slice(-5), successChartData[successChartDataIndex].cnt]);
+        }
       }
 
       var chart = new google.visualization.ComboChart(document.getElementById('successChart'));
       chart.draw(data, options);
+    }
+
+    function getPastWeekDates() {
+      var dates = [];
+      var today = new Date();
+
+      for (var i = 0; i < 7; i++) {
+        var date = new Date(today);
+        date.setDate(today.getDate() - i);
+
+        var year = date.getFullYear();
+        var month = ("0" + (1 + date.getMonth())).slice(-2);
+        var day = ("0" + date.getDate()).slice(-2);
+
+        var formattedDate = year + "-" + month + "-" + day;
+        dates.push(formattedDate);
+      }
+
+      return dates.reverse();
     }
   </script>
 </head>
@@ -84,7 +158,6 @@
 <header th:replace="/nav :: navFragment"></header>
 
 <main style="width: 1100px; margin: auto;">
-
   <div class="memberTextInfo">
     <div class="history">
       <div>
@@ -157,13 +230,9 @@
   </div>
 
   <div class="memberGraphInfo">
-    <div>
-      <div id="piechart"></div>
-    </div>
-    <div>
-      <div></div>
-    </div>
+    <div id="successChart"></div>
   </div>
+
 </main>
 <footer th:replace="/footer :: footFragment"></footer>
 </body>
