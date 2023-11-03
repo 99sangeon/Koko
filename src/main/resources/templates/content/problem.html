@@ -38,17 +38,17 @@
             </div>
             <div id="userAudioWithVisualizer" class="userAudioWithVisualizer">
                 <div>
-                    <button id="playUserAudio" class="play"><span class="material-symbols-outlined">play_circle</span></button>
+                    <button id="playUserAudio" class="play"><span id="playUserAudioBtn" class="material-symbols-outlined">play_circle</span></button>
                     <audio style="display:none;"></audio>
                     <canvas id="userAudioVisualizer"></canvas>
                     <div id="viewSpectrogram" style="display: none;">
-                        <button class="spectrogram"><span style="color: white;">스펙토그램</span><span id="spectrogramIcon" class="material-symbols-outlined">expand_more</span></button>
+                        <button class="spectrogram"><span style="color: white;">스펙트로그램</span><span id="spectrogramIcon" class="material-symbols-outlined">expand_more</span></button>
                     </div>
                 </div>
             </div>
             <div id="spectrogramImg" class="spectrogramImg">
-                <img th:src="@{/content/noise}"></img>
-                <img th:src="@{/content/deNoise}"></img>
+                <img id="noise"></img>
+                <img id="deNoise"></img>
             </div>
             <div id="response" class="response">
                 <div>

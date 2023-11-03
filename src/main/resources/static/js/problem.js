@@ -79,18 +79,18 @@ $(document).ready(function () {
     $playUserAudio.click(function () {
         let audio = $userAudioEl[0];
         if(audio.paused) {
-            $userAudioWithVisualizer.find('span').text('stop_circle');
+            $('#playUserAudioBtn').text('stop_circle');
             audio.play();
         }
 
         else {
-            $userAudioWithVisualizer.find('span').text('play_circle');
+            $('#playUserAudioBtn').text('play_circle');
             audio.pause();
         }
     });
 
     $userAudioEl.on('ended', function() {
-        $playUserAudio.find('span').text('play_circle');
+        $('#playUserAudioBtn').text('play_circle');
     });
 
     $viewSpectrogram.click(function (){
@@ -178,7 +178,7 @@ function uploadUserAudio(problemId) {
     let deNoiseMode = false;
 
     if(deNoiseModeState) {
-        url =  '/content/problem/' + problemId;
+        url =  '/content/problem/' + problemId + '/deNoiseMode';
         deNoiseMode = true;
     }
 
@@ -196,13 +196,21 @@ function uploadUserAudio(problemId) {
             console.log(response);
             $evaluationLoading.hide();
             if(deNoiseMode){
+                $('#noise').attr('src', '/content/noise');
+                $('#deNoise').attr('src', '/content/deNoise');
                 $viewSpectrogram.show();
             }
             $response.find('#score').text(response['score']);
             $response.find('#korean').text(response['korean']);
 
-            //$response.find('#feedback').html(response['feedback']);
             let feedback = response['feedback'].split("\\");
+
+            $response.find('#feedback').html('');
+
+            if (response['score'] == 100) {
+                $response.find('#feedback').html('잘 하셨어요. 다른 문제에 도전해보세요!');
+            }
+
             for (let i = 0; i < feedback.length - 1; i++) {
 
                 let userProAndFeedback = feedback[i].split(",");

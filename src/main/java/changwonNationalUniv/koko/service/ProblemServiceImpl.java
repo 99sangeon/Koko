@@ -13,6 +13,7 @@ import changwonNationalUniv.koko.repository.*;
 import changwonNationalUniv.koko.utils.file.FileStore;
 import changwonNationalUniv.koko.utils.file.FileTypeConverter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.bramp.ffmpeg.FFmpeg;
 import net.bramp.ffmpeg.FFmpegExecutor;
 import net.bramp.ffmpeg.FFprobe;
@@ -33,6 +34,7 @@ import java.util.NoSuchElementException;
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Slf4j
 public class ProblemServiceImpl implements ProblemService{
 
     private final MemberService memberService;
@@ -139,7 +141,7 @@ public class ProblemServiceImpl implements ProblemService{
     }
 
     @Override
-    public ChallengedProblemHistoryResponse evaluate(Long problemId, MultipartFile audio) throws IOException {
+    public ChallengedProblemHistoryResponse evaluate(Long problemId, MultipartFile audio, boolean denosieModeState) throws IOException {
 
         Member member = memberService.getCurrentMember();  //현재 로그인 중인 사용자의 정보를 가져온다.
         Problem problem = problemRepository.findById(problemId).orElseThrow(() -> new ProblemNotFoundException("해당 문제를 찾을 수 없습니다.")); //사용자가 체점을 요청한 문제의 정보를 가져온다.
@@ -154,7 +156,9 @@ public class ProblemServiceImpl implements ProblemService{
 
         UploadFile uploadFile = fileTypeConverter.saveMultipartFileToWavFile(audio);
 
-        ChallengedProblemHistory challengedProblemHistory = runDenoiseAndAsrModel(); //WAV파일과 한글을 ASR 및 잡음제거 모델 API에 전송하고 점수와 피드백을 반환받는다.
+        File wavFile = new File(fileStore.getFullPath(uploadFile.getStoreFileName()));
+
+        ChallengedProblemHistory challengedProblemHistory = runDenoiseAndAsrModel(wavFile, problem.getKorean(), denosieModeState); //WAV파일과 한글을 ASR 및 잡음제거 모델 API에 전송하고 점수와 피드백을 반환받는다.
         challengedProblemHistory.setUploadFile(uploadFile);
 
         problem.increaseChallengedCnt();  //문제 도전 횟수를 1회증가 시키고 DB에 업데이트한다.
@@ -228,8 +232,8 @@ public class ProblemServiceImpl implements ProblemService{
 
     }
 
-    private ChallengedProblemHistory runDenoiseAndAsrModel(File wavFile, String sentence) {
-        return restTemplateService.runModels(wavFile, sentence);
+    private ChallengedProblemHistory runDenoiseAndAsrModel(File wavFile, String sentence, boolean denosieModeState) {
+        return restTemplateService.runModels(wavFile, sentence, denosieModeState);
     }
 
     private ChallengedProblemHistory runDenoiseAndAsrModel() {

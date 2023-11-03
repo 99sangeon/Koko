@@ -55,18 +55,21 @@ ffmpeg:
   #probe: /opt/homebrew/bin/ffprobe
   #savePath: /Users/jeon-sangeon/Desktop/koko_store/
 
-  #mpeg: C:\ffmpeg\bin\ffmpeg
-  #probe: C:\ffmpeg\bin\ffprobe
-  #savePath: C:\Users\User\Desktop\audio\
-
-  mpeg: C:\Users\tkd02\Downloads\ffmpeg-6.0-essentials_build\ffmpeg-6.0-essentials_build\bin\ffmpeg.exe
-  probe: C:\Users\tkd02\Downloads\ffmpeg-6.0-essentials_build\ffmpeg-6.0-essentials_build\bin\ffprobe.exe
+  mpeg: C:\ffmpeg\bin\ffmpeg
+  probe: C:\ffmpeg\bin\ffprobe
   savePath: C:\Users\User\Desktop\audio\
 
+  #mpeg: C:\Users\tkd02\Downloads\ffmpeg-6.0-essentials_build\ffmpeg-6.0-essentials_build\bin\ffmpeg.exe
+  #probe: C:\Users\tkd02\Downloads\ffmpeg-6.0-essentials_build\ffmpeg-6.0-essentials_build\bin\ffprobe.exe
+  #savePath: C:\Users\User\Desktop\audio\
+
 file:
-  #dir: C:\Users\User\Desktop\koko_store\
-  #dir: /Users/jeon-sangeon/Desktop/koko_store/
-  dir: C:\Users\tkd02\OneDrive\바탕 화면\koko_store\
-  feedbackDir: C:\Users\tkd02\OneDrive\바탕 화면\koko_store\feedback_audio\
+  dir: C:\Users\User\Desktop\koko_store\
+  feedbackDir: C:\Users\User\Desktop\koko_store\feedback_audio\
+  spectroDir : C:\Users\User\Desktop\koko_store\spectro\
+  #dir: /Users/jeon-sangeon/Desktop/koko_store/feedback_audio
+  #dir: C:\Users\tkd02\OneDrive\바탕 화면\koko_store\
+  #feedbackDir: C:\Users\tkd02\OneDrive\바탕 화면\koko_store\feedback_audio\
+
 
 

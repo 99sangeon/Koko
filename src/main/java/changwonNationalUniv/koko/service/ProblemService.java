@@ -18,7 +18,7 @@ public interface ProblemService {
 
     void updateProblem(Long id, ProblemRequest problemRequest) throws IOException;
 
-    ChallengedProblemHistoryResponse evaluate(Long problem_id, MultipartFile audio) throws IOException;
+    ChallengedProblemHistoryResponse evaluate(Long problem_id, MultipartFile audio, boolean denoiseModeState) throws IOException;
 
     List<ProblemResponse> findProblemResponses(int level);
 

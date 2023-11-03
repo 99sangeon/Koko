@@ -33,6 +33,9 @@ public class ProblemController {
     @Value("${file.feedbackDir}")
     private String feedbackDir;
 
+    @Value("${file.spectroDir}")
+    private String spectroDir;
+
     private final FileStore fileStore;
     private final ProblemService problemService;
     private final StepService stepService;
@@ -53,7 +56,19 @@ public class ProblemController {
              @RequestParam("audio") MultipartFile audio) throws IOException {
 
         //사용자에게 받은 문제 아이디와 음성데이터를 채점API로 넘겨주고 점수와 피드백을 반환받는다.
-        ChallengedProblemHistoryResponse evaluateResult = problemService.evaluate(problemId, audio);
+        ChallengedProblemHistoryResponse evaluateResult = problemService.evaluate(problemId, audio, false);
+
+        //사용자에게 점수와 피드백을 전송한다.
+        return ResponseEntity.ok(evaluateResult);
+    }
+
+    @PostMapping("/problem/{problemId}/deNoiseMode")
+    public ResponseEntity<ChallengedProblemHistoryResponse> problemEvaluationDeNoiseMode
+            (@PathVariable Long problemId,
+             @RequestParam("audio") MultipartFile audio) throws IOException {
+
+        //사용자에게 받은 문제 아이디와 음성데이터를 채점API로 넘겨주고 점수와 피드백을 반환받는다.
+        ChallengedProblemHistoryResponse evaluateResult = problemService.evaluate(problemId, audio, true);
 
         //사용자에게 점수와 피드백을 전송한다.
         return ResponseEntity.ok(evaluateResult);
@@ -62,8 +77,6 @@ public class ProblemController {
 
     @GetMapping("/step/{level}")
     public String problemList(@PathVariable int level ,Model model) {
-
-
 
         try {
             StepResponse stepResponse = stepService.findStep(level);
@@ -106,14 +119,14 @@ public class ProblemController {
     @ResponseBody
     @GetMapping("/noise")
     public Resource noiseImg() throws MalformedURLException {
-        return new UrlResource("file:" + fileDir + "noise.png");
+        return new UrlResource("file:" + spectroDir + "Original.png");
     }
 
     @ResponseBody
     @GetMapping("/deNoise")
     public Resource deNoiseImg() throws MalformedURLException {
 
-        return new UrlResource("file:" + fileDir + "deNoise.png");
+        return new UrlResource("file:" + spectroDir + "Denoised.png");
     }
 
 }
